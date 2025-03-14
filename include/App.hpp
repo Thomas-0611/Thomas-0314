@@ -2,6 +2,10 @@
 #define APP_HPP
 
 #include "pch.hpp" // IWYU pragma: export
+#include "AnimatedCharacter.hpp"
+#include "BackgroundImage.hpp"
+#include "Util/Renderer.hpp"
+
 
 class App {
 public:
@@ -24,6 +28,12 @@ private:
 
 private:
     State m_CurrentState = State::START;
+
+    Util::Renderer m_Root;
+
+    std::shared_ptr<AnimatedCharacter> nor_zombie;
+
+    std::shared_ptr<BackgroundImage> m_Background;
 };
 
 #endif

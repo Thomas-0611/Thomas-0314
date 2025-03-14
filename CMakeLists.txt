@@ -35,6 +35,10 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
+        include/AnimatedCharacter.hpp
+        src/AnimatedCharacter.cpp
+        src/AnimatedCharacter.cpp
+        include/BackgroundImage.hpp
 )
 
 if(MSVC)
