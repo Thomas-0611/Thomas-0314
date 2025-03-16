@@ -30,7 +30,7 @@ public:
         temp->Play();
     }
     void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
-
+    [[nodiscard]] const glm::vec2& GetPosition() const { return m_Transform.translation; }
     [[nodiscard]] bool IfAnimationEnds() const;
 
 };

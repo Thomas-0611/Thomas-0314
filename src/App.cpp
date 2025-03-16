@@ -17,7 +17,7 @@ void App::Start() {
 
     nor_zombie = std::make_shared<AnimatedCharacter>(zombieImages);
     nor_zombie->SetZIndex(2);
-    nor_zombie->SetPosition({-300,0});
+    nor_zombie->SetPosition({620,15});
     nor_zombie->SetVisible(true);
     m_Root.AddChild(nor_zombie);
 
@@ -33,6 +33,8 @@ void App::Update() {
     //TODO: do your things here and delete this line <3
     nor_zombie->SetLooping(true);
     nor_zombie->SetPlaying(true);
+    auto cur_pos = nor_zombie->GetPosition();
+    nor_zombie->SetPosition({cur_pos[0]-0.15, cur_pos[1]});
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
