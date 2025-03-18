@@ -9,7 +9,8 @@
 
 
 class AnimatedCharacter : public Util::GameObject {
-
+private:
+    bool nor_zombie_dead = false;
 public:
     explicit AnimatedCharacter(const std::vector<std::string>& AnimationPaths);
 
@@ -27,9 +28,21 @@ public:
     }
     void SetPlaying(bool playing) {
         auto temp = std::dynamic_pointer_cast<Util::Animation>(m_Drawable);
-        temp->Play();
+        if (playing) {
+            temp->Play();
+        }
     }
     void SetPosition(const glm::vec2& Position) { m_Transform.translation = Position; }
+
+    void SetAnimation(const std::vector<std::string>& newAnimationPaths) {
+        m_Drawable = std::make_shared<Util::Animation>(newAnimationPaths, false, 150, false, 0);
+    }
+    void Setdead() {
+        nor_zombie_dead = true;
+    }
+    bool Getzombiedead() {
+        return nor_zombie_dead;
+    }
     [[nodiscard]] const glm::vec2& GetPosition() const { return m_Transform.translation; }
     [[nodiscard]] bool IfAnimationEnds() const;
 

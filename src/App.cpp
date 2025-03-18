@@ -31,10 +31,36 @@ void App::Start() {
 void App::Update() {
     
     //TODO: do your things here and delete this line <3
-    nor_zombie->SetLooping(true);
-    nor_zombie->SetPlaying(true);
+    if (!nor_zombie->Getzombiedead()) {
+        nor_zombie->SetLooping(true);
+        nor_zombie->SetPlaying(true);
+    }
     auto cur_pos = nor_zombie->GetPosition();
-    nor_zombie->SetPosition({cur_pos[0]-0.15, cur_pos[1]});
+    if (!nor_zombie->Getzombiedead()) {
+        nor_zombie->SetPosition({cur_pos[0]-0.15, cur_pos[1]});
+    }
+
+
+    // testing dead
+    if (cur_pos[0] <= 600 && !nor_zombie->Getzombiedead()) {
+        nor_zombie->Setdead();
+        std::vector<std::string> zombiedeadImages;
+        zombiedeadImages.reserve(2);
+        for (int i = 0; i < 10; ++i) {
+            zombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/Zombie(dead)/frame_" + std::to_string(i) + "_delay-0.1s.png");
+        }
+        // 切換動畫
+        nor_zombie->SetAnimation(zombiedeadImages);
+        nor_zombie->SetLooping(false);  // 只播放一次
+        nor_zombie->SetPlaying(true);
+    }
+
+    if (nor_zombie->Getzombiedead() && nor_zombie->IfAnimationEnds()){
+        nor_zombie->SetPlaying(false);
+        m_Root.RemoveChild(nor_zombie);
+    }
+
+
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
