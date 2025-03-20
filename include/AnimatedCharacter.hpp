@@ -10,7 +10,10 @@
 
 class AnimatedCharacter : public Util::GameObject {
 private:
-    bool nor_zombie_dead = false;
+    bool dead = false;
+    int life = 1000;
+    int attack_freq = 3;
+    int attack_value = 2000;
 public:
     explicit AnimatedCharacter(const std::vector<std::string>& AnimationPaths);
 
@@ -38,10 +41,28 @@ public:
         m_Drawable = std::make_shared<Util::Animation>(newAnimationPaths, false, 150, false, 0);
     }
     void Setdead() {
-        nor_zombie_dead = true;
+        dead = true;
     }
-    bool Getzombiedead() {
-        return nor_zombie_dead;
+    bool Getdead() {
+        return dead;
+    }
+    void SetAttackvalue(int value) {
+        attack_value = value;
+    }
+    int GetAttackvalue() {
+        return attack_value;
+    }
+    void SetAttackfreq(int value) {
+        attack_freq = value;
+    }
+    int GetAttackfreq() {
+        return attack_freq;
+    }
+    void Setlife(int value) {
+        life = value;
+    }
+    int Getlife() {
+        return life;
     }
     [[nodiscard]] const glm::vec2& GetPosition() const { return m_Transform.translation; }
     [[nodiscard]] bool IfAnimationEnds() const;

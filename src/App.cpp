@@ -8,18 +8,14 @@
 void App::Start() {
     LOG_TRACE("Start");
 
-
-    std::vector<std::string> zombieImages;
-    zombieImages.reserve(2);
-    for (int i = 0; i < 18; ++i) {
-        zombieImages.emplace_back(RESOURCE_DIR"/Day/Zombie/Zombie(walk)/frame_" + std::to_string(i) + "_delay-0.2s.png");
+    // 生成多個殭屍
+    int zombieCount = 5; // 可以調整生成數量
+    for (int i = 0; i < zombieCount; ++i) {
+        auto zombie = std::make_shared<Zombie>();
+        zombie->SetPosition({620 + i * 50, 15});  // 每隻殭屍的位置稍微錯開
+        zombies.push_back(zombie);
+        m_Root.AddChild(zombie);
     }
-
-    nor_zombie = std::make_shared<AnimatedCharacter>(zombieImages);
-    nor_zombie->SetZIndex(2);
-    nor_zombie->SetPosition({620,15});
-    nor_zombie->SetVisible(true);
-    m_Root.AddChild(nor_zombie);
 
     m_Background = std::make_shared<BackgroundImage>();
     m_Root.AddChild(m_Background);
@@ -31,35 +27,28 @@ void App::Start() {
 void App::Update() {
     
     //TODO: do your things here and delete this line <3
-    if (!nor_zombie->Getzombiedead()) {
-        nor_zombie->SetLooping(true);
-        nor_zombie->SetPlaying(true);
-    }
-    auto cur_pos = nor_zombie->GetPosition();
-    if (!nor_zombie->Getzombiedead()) {
-        nor_zombie->SetPosition({cur_pos[0]-0.15, cur_pos[1]});
-    }
 
+    // if (nor_zombie) {
+    //     nor_zombie->Update();
+    //     if (nor_zombie->GetDead() && nor_zombie->IfAnimationEnds()) {
+    //         nor_zombie->SetPlaying(false);
+    //         m_Root.RemoveChild(nor_zombie);
+    //         nor_zombie = nullptr;
+    //     }
+    // }
 
-    // testing dead
-    if (cur_pos[0] <= 600 && !nor_zombie->Getzombiedead()) {
-        nor_zombie->Setdead();
-        std::vector<std::string> zombiedeadImages;
-        zombiedeadImages.reserve(2);
-        for (int i = 0; i < 10; ++i) {
-            zombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/Zombie(dead)/frame_" + std::to_string(i) + "_delay-0.1s.png");
+    for (auto it = zombies.begin(); it != zombies.end();) {
+        auto zombie = *it;
+        zombie->Update();
+
+        if (zombie->GetDead() && zombie->IfAnimationEnds()) {
+            zombie->SetPlaying(false);
+            m_Root.RemoveChild(zombie);
+            it = zombies.erase(it);  // 移除死亡的殭屍
+        } else {
+            ++it;
         }
-        // 切換動畫
-        nor_zombie->SetAnimation(zombiedeadImages);
-        nor_zombie->SetLooping(false);  // 只播放一次
-        nor_zombie->SetPlaying(true);
     }
-
-    if (nor_zombie->Getzombiedead() && nor_zombie->IfAnimationEnds()){
-        nor_zombie->SetPlaying(false);
-        m_Root.RemoveChild(nor_zombie);
-    }
-
 
     /*
      * Do not touch the code below as they serve the purpose for

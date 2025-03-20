@@ -3,6 +3,7 @@
 
 #include "pch.hpp" // IWYU pragma: export
 #include "AnimatedCharacter.hpp"
+#include "Zombie.hpp"
 #include "BackgroundImage.hpp"
 #include "Util/Renderer.hpp"
 
@@ -31,7 +32,7 @@ private:
 
     Util::Renderer m_Root;
 
-    std::shared_ptr<AnimatedCharacter> nor_zombie;
+    std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
 
     std::shared_ptr<BackgroundImage> m_Background;
 };
