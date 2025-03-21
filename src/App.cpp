@@ -5,6 +5,8 @@
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
 #include "BackgroundImage.hpp"
+#include "plant/Peashooter.hpp"
+
 void App::Start() {
     LOG_TRACE("Start");
 
@@ -17,6 +19,8 @@ void App::Start() {
         m_Root.AddChild(zombie);
     }
 
+    m_peashooter = std::make_shared<Peashooter>();
+    m_Root.AddChild(m_peashooter);
     m_Background = std::make_shared<BackgroundImage>();
     m_Root.AddChild(m_Background);
 
@@ -27,15 +31,6 @@ void App::Start() {
 void App::Update() {
     
     //TODO: do your things here and delete this line <3
-
-    // if (nor_zombie) {
-    //     nor_zombie->Update();
-    //     if (nor_zombie->GetDead() && nor_zombie->IfAnimationEnds()) {
-    //         nor_zombie->SetPlaying(false);
-    //         m_Root.RemoveChild(nor_zombie);
-    //         nor_zombie = nullptr;
-    //     }
-    // }
 
     for (auto it = zombies.begin(); it != zombies.end();) {
         auto zombie = *it;
@@ -49,6 +44,8 @@ void App::Update() {
             ++it;
         }
     }
+    m_Root = m_peashooter->Update(m_Root);
+
 
     /*
      * Do not touch the code below as they serve the purpose for

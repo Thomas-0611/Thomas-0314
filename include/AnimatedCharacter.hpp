@@ -12,7 +12,7 @@ class AnimatedCharacter : public Util::GameObject {
 private:
     bool dead = false;
     int life = 1000;
-    int attack_freq = 3;
+    int attack_freq = 180; // 3秒
     int attack_value = 2000;
 public:
     explicit AnimatedCharacter(const std::vector<std::string>& AnimationPaths);
@@ -40,12 +40,7 @@ public:
     void SetAnimation(const std::vector<std::string>& newAnimationPaths) {
         m_Drawable = std::make_shared<Util::Animation>(newAnimationPaths, false, 150, false, 0);
     }
-    void Setdead() {
-        dead = true;
-    }
-    bool Getdead() {
-        return dead;
-    }
+    
     void SetAttackvalue(int value) {
         attack_value = value;
     }

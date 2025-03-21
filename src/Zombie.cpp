@@ -1,7 +1,7 @@
 //
 // Created by Thomas on 2025/3/20.
 //
-#include "Zombie.hpp"
+#include "zombie/Zombie.hpp"
 
 Zombie::Zombie()
     : AnimatedCharacter(std::vector<std::string>()) { // 初始化父類

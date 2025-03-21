@@ -39,8 +39,12 @@ add_executable(${PROJECT_NAME}
         src/AnimatedCharacter.cpp
         src/AnimatedCharacter.cpp
         include/BackgroundImage.hpp
-        include/Zombie.hpp
+        include/zombie/Zombie.hpp
         src/Zombie.cpp
+        include/plant/Peashooter.hpp
+        src/Peashooter.cpp
+        include/plant/Pea.hpp
+        src/Pea.cpp
 )
 
 if(MSVC)
