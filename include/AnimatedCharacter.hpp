@@ -40,7 +40,7 @@ public:
     void SetAnimation(const std::vector<std::string>& newAnimationPaths) {
         m_Drawable = std::make_shared<Util::Animation>(newAnimationPaths, false, 150, false, 0);
     }
-    
+
     void SetAttackvalue(int value) {
         attack_value = value;
     }
@@ -58,6 +58,7 @@ public:
     }
     int Getlife() {
         return life;
+        // test
     }
     [[nodiscard]] const glm::vec2& GetPosition() const { return m_Transform.translation; }
     [[nodiscard]] bool IfAnimationEnds() const;
