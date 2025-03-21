@@ -32,7 +32,6 @@ Util::Renderer Peashooter::Update(Util::Renderer m_Root) {
             auto pea = std::make_shared<Pea>(peaImages, GetPosition()[0], GetPosition()[1]);
             peas.push_back(pea);
             m_Root.AddChild(pea);
-            printf("shoot\n");
             Setcurfreq(0);
         }
         else {
