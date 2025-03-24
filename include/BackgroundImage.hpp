@@ -11,14 +11,14 @@ public:
             std::make_unique<Util::Image>(RESOURCE_DIR"/Background/one.jpg"), -10) {
     }
 
-    void NextPhase(const int phase) {
+    void SetBackgroundImage(std::string path) {
         auto temp = std::dynamic_pointer_cast<Util::Image>(m_Drawable);
-        temp->SetImage(ImagePath(phase));
+        temp->SetImage(ImagePath(path));
     }
 
 private:
-    inline std::string ImagePath(const int phase) {
-        return RESOURCE_DIR"/Image/Background/phase" + std::to_string(phase) + ".png";
+    inline std::string ImagePath(std::string path) {
+        return RESOURCE_DIR"/Background/" + path + ".png";
     }
 };
 

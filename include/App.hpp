@@ -36,6 +36,8 @@ private:
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
     std::shared_ptr<Peashooter> m_peashooter;
     std::shared_ptr<BackgroundImage> m_Background;
+    std::shared_ptr<BackgroundImage> m_store;
+    std::vector<std::shared_ptr<BackgroundImage>> storeplants;
 };
 
 #endif

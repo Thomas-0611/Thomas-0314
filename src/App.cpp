@@ -23,7 +23,21 @@ void App::Start() {
     m_Root.AddChild(m_peashooter);
     m_Background = std::make_shared<BackgroundImage>();
     m_Root.AddChild(m_Background);
-
+    m_store = std::make_shared<BackgroundImage>();
+    m_store->SetBackgroundImage("store");
+    m_store->SetPivot({475,-256});
+    m_store->SetZIndex(-9);
+    m_Root.AddChild(m_store);
+    // 放入各種植物在商店
+    int storeplantCount = 2; // 可以調整生成數量
+    for (int i = 0; i < storeplantCount; ++i) {
+        auto storeplant = std::make_shared<BackgroundImage>();
+        storeplant->SetPivot({460 + i * 70, -256});  // 每隻殭屍的位置稍微錯開
+        storeplant->SetZIndex(-8);
+        storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
+        storeplants.push_back(storeplant);
+        m_Root.AddChild(storeplant);
+    }
 
     m_CurrentState = State::UPDATE;
 }
