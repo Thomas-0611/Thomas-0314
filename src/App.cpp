@@ -19,8 +19,6 @@ void App::Start() {
         m_Root.AddChild(zombie);
     }
 
-    // m_peashooter = std::make_shared<Peashooter>();
-    // m_Root.AddChild(m_peashooter);
     m_Background = std::make_shared<BackgroundImage>();
     m_Root.AddChild(m_Background);
     m_store = std::make_shared<BackgroundImage>();
@@ -29,13 +27,11 @@ void App::Start() {
     m_store->SetZIndex(-9);
     m_Root.AddChild(m_store);
 
-
-
     // 放入各種植物在商店
     int storeplantCount = 2; // 可以調整生成數量
     for (int i = 0; i < storeplantCount; ++i) {
         auto storeplant = std::make_shared<BackgroundImage>();
-        storeplant->SetPivot({525 - i * 75, -256});  // 每隻殭屍的位置稍微錯開
+        storeplant->SetPivot({525 - i * 75, -256});
         storeplant->SetZIndex(-8);
         storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
         storeplants.push_back(storeplant);
@@ -59,8 +55,9 @@ void App::Update() {
     }
 
     for (auto& shooter : peashooters) {
-        m_Root = shooter->Update(m_Root);
+        m_Root = shooter->Update(m_Root,zombies);
     }
+
     for (auto it = zombies.begin(); it != zombies.end();) {
         auto zombie = *it;
         zombie->Update();
@@ -73,8 +70,6 @@ void App::Update() {
             ++it;
         }
     }
-    // m_Root = m_peashooter->Update(m_Root);
-
 
     /*
      * Do not touch the code below as they serve the purpose for
