@@ -2,6 +2,7 @@
 // Created by Thomas on 2025/3/21.
 //
 #include "plant/Peashooter.hpp"
+#include "zombie/Zombie.hpp"
 
 Peashooter::Peashooter()
     : AnimatedCharacter(std::vector<std::string>()) { // 初始化父類
@@ -18,7 +19,7 @@ Peashooter::Peashooter()
     SetAttackvalue(200);
 }
 
-Util::Renderer Peashooter::Update(Util::Renderer m_Root) {
+Util::Renderer Peashooter::Update(Util::Renderer m_Root,std::vector<std::shared_ptr<Zombie>>& zombies) {
     if (!m_dead) {
         SetLooping(true);
         SetPlaying(true);
@@ -43,7 +44,19 @@ Util::Renderer Peashooter::Update(Util::Renderer m_Root) {
         for (auto it = peas.begin(); it != peas.end();) {
             auto pea = *it;
             pea->Update();
-            if (pea->IsOutOfBounds()) {
+            bool hitZombie = false;
+            for (auto& zombie : zombies) {
+                if (!zombie->GetDead() && pea->CheckCollision(zombie)) {
+                    // 扣血
+                    zombie->Setlife(zombie->Getlife() - GetAttackvalue());
+                    if (zombie->Getlife() <= 0) {
+                        zombie->SetDead();
+                    }
+                    hitZombie = true;
+                    break;
+                }
+            }
+            if (pea->IsOutOfBounds() || hitZombie) {
                 pea->SetLooping(false);
                 pea->SetPlaying(false);
                 m_Root.RemoveChild(pea);  // 移除超出範圍的豌豆

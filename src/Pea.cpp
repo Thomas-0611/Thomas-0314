@@ -18,5 +18,5 @@ void Pea::Update() {
 
 bool Pea::IsOutOfBounds() const {
     auto position = GetPosition();
-    return position[0] > 500;  // 假設 800 是視窗的右邊界
+    return position[0] > 600;  // 假設 800 是視窗的右邊界
 }
