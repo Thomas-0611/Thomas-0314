@@ -13,7 +13,7 @@ public:
     void Update();
     bool GetDead() const { return m_dead; }
     void SetDead();
-
+    std::array<float, 2> GetSize() const override { return {110.0f, 144.0f}; }
 private:
     bool m_dead = false;
 };

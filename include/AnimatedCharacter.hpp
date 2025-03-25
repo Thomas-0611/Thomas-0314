@@ -40,7 +40,7 @@ public:
     void SetAnimation(const std::vector<std::string>& newAnimationPaths) {
         m_Drawable = std::make_shared<Util::Animation>(newAnimationPaths, false, 150, false, 0);
     }
-    
+
     void SetAttackvalue(int value) {
         attack_value = value;
     }
@@ -58,6 +58,19 @@ public:
     }
     int Getlife() {
         return life;
+    }
+    // test
+    virtual std::array<float, 2> GetSize() const { return {50.0f, 50.0f}; } // 預設寬高
+    bool CheckCollision(const std::shared_ptr<AnimatedCharacter>& other) const {
+        auto pos1 = GetPosition();
+        auto size1 = GetSize();
+        auto pos2 = other->GetPosition();
+        auto size2 = other->GetSize();
+
+        return (pos1[0] < pos2[0] + size2[0] &&
+                pos1[0] + size1[0] > pos2[0] &&
+                pos1[1] < pos2[1] + size2[1] &&
+                pos1[1] + size1[1] > pos2[1]);
     }
     [[nodiscard]] const glm::vec2& GetPosition() const { return m_Transform.translation; }
     [[nodiscard]] bool IfAnimationEnds() const;

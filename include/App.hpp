@@ -34,8 +34,14 @@ private:
     Util::Renderer m_Root;
 
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
-    std::shared_ptr<Peashooter> m_peashooter;
+    // std::shared_ptr<Peashooter> m_peashooter;
     std::shared_ptr<BackgroundImage> m_Background;
+    std::shared_ptr<BackgroundImage> m_store;
+    std::vector<std::shared_ptr<BackgroundImage>> storeplants;
+
+    //嘗試多個豌豆射手
+    std::vector<std::shared_ptr<Peashooter>> peashooters;  // 所有生成的 Peashooter
+    int nextPeashooterX = -200; // 初始位置
 };
 
 #endif

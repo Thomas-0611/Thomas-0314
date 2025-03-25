@@ -25,7 +25,7 @@ void Zombie::Update() {
         auto cur_pos = GetPosition();
         SetPosition({cur_pos[0] - 0.15, cur_pos[1]});
 
-        if (cur_pos[0] <= 500) {
+        if (Getlife() <= 0 ) {
             SetDead();
         }
     }
