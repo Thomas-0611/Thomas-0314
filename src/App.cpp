@@ -11,8 +11,12 @@ void App::Start() {
     LOG_TRACE("Start");
 
     // 開始畫面
-    m_Background = std::make_shared<BackgroundImage>();
-    m_Root.AddChild(m_Background);
+    if (startonce) {
+        m_Background = std::make_shared<BackgroundImage>();
+        m_Root.AddChild(m_Background);
+        Setstartonce();
+    }
+    
     // 如果點在範圍內(開始遊戲的按鈕)
     if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
         auto mouse_pos = Util::Input::GetCursorPosition();

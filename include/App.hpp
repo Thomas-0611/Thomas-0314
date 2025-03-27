@@ -18,6 +18,9 @@ public:
     };
 
     State GetCurrentState() const { return m_CurrentState; }
+    void Setstartonce() {
+        startonce = false;
+    }
 
     void Start();
 
@@ -32,7 +35,7 @@ private:
     State m_CurrentState = State::START;
 
     Util::Renderer m_Root;
-
+    bool startonce = true;
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
     std::shared_ptr<BackgroundImage> m_Background;
     std::shared_ptr<BackgroundImage> m_store;
