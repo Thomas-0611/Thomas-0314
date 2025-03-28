@@ -7,6 +7,7 @@
 #include "BackgroundImage.hpp"
 #include "plant/Peashooter.hpp"
 
+
 void App::Start() {
     LOG_TRACE("Start");
 
@@ -53,11 +54,25 @@ void App::Start() {
         }
     }
     m_Root.Update();
+
 }
 
 void App::Update() {
     
     //TODO: do your things here and delete this line <3
+    //printf("x:%.2f,y:%.2f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    // 按下F1，生成一隻豌豆射手
+    if (m_peashooters_button.MouseClickDetect()) {
+        auto m_peashooter = std::make_shared<Peashooter>();
+        m_peashooter->SetPosition({nextPeashooterX, 0});
+        nextPeashooterX += 75;
+        peashooters.push_back(m_peashooter);
+        m_Root.AddChild(m_peashooter);
+    }
+
+    for (auto& shooter : peashooters) {
+        m_Root = shooter->Update(m_Root,zombies);
+    }
 
     // 按下F1，生成一隻豌豆射手
     if (GetClick()) {
