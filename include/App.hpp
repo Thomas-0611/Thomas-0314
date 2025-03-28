@@ -38,7 +38,6 @@ public:
 private:
     void ValidTask();
 
-private:
     State m_CurrentState = State::START;
 
     Util::Renderer m_Root;
@@ -52,7 +51,9 @@ private:
 
     //嘗試多個豌豆射手
     std::vector<std::shared_ptr<Peashooter>> peashooters;  // 所有生成的 Peashooter
-    Button m_peashooters_button = Button(-564,-490,221,293);;
+    Button m_peashooters_button = Button(-564,-490,221,293);
+    Button m_start_button = Button(28,340,79,155);
+    Button m_placeable_button = Button(-435,285,-270,225);
     bool pick = false;
 };
 
