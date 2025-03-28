@@ -7,6 +7,7 @@
 #include "BackgroundImage.hpp"
 #include "plant/Peashooter.hpp"
 #include "Util/Renderer.hpp"
+#include "Button.hpp"
 
 
 class App {
@@ -42,6 +43,9 @@ private:
     //嘗試多個豌豆射手
     std::vector<std::shared_ptr<Peashooter>> peashooters;  // 所有生成的 Peashooter
     int nextPeashooterX = -200; // 初始位置
+
+    //按鈕
+    Button m_peashooters_button = Button(-564,-490,221,293);;
 };
 
 #endif

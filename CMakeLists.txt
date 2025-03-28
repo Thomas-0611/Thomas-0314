@@ -45,6 +45,7 @@ add_executable(${PROJECT_NAME}
         src/Peashooter.cpp
         include/plant/Pea.hpp
         src/Pea.cpp
+        include/Button.hpp
 )
 
 if(MSVC)
