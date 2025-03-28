@@ -21,6 +21,12 @@ public:
     void Setstartonce() {
         startonce = false;
     }
+    void SetClick() {
+        pick = !pick;
+    }
+    bool GetClick() {
+        return pick;
+    }
 
     void Start();
 
@@ -44,7 +50,7 @@ private:
 
     //嘗試多個豌豆射手
     std::vector<std::shared_ptr<Peashooter>> peashooters;  // 所有生成的 Peashooter
-    int nextPeashooterX = -200; // 初始位置
+    bool pick = false;
 };
 
 #endif

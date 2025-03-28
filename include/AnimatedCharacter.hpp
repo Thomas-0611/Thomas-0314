@@ -66,11 +66,10 @@ public:
         auto size1 = GetSize();
         auto pos2 = other->GetPosition();
         auto size2 = other->GetSize();
-
-        return (pos1[0] < pos2[0] + size2[0] &&
-                pos1[0] + size1[0] > pos2[0] &&
-                pos1[1] < pos2[1] + size2[1] &&
-                pos1[1] + size1[1] > pos2[1]);
+        return (pos1[0]  < pos2[0] + (0.2 * size2[0]) &&
+                pos1[0]  > pos2[0] - (0.2 * size2[0]) &&
+                pos1[1] + (0.5 * size1[1]) < pos2[1] + (0.5 * size2[1]) &&
+                pos1[1] - (0.5 * size1[1]) > pos2[1] - (0.5 * size2[1]));
     }
     [[nodiscard]] const glm::vec2& GetPosition() const { return m_Transform.translation; }
     [[nodiscard]] bool IfAnimationEnds() const;

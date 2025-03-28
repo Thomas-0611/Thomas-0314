@@ -16,7 +16,7 @@ void App::Start() {
         m_Root.AddChild(m_Background);
         Setstartonce();
     }
-    
+
     // 如果點在範圍內(開始遊戲的按鈕)
     if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
         auto mouse_pos = Util::Input::GetCursorPosition();
@@ -60,12 +60,21 @@ void App::Update() {
     //TODO: do your things here and delete this line <3
 
     // 按下F1，生成一隻豌豆射手
-    if (Util::Input::IsKeyUp(Util::Keycode::F1)) {
-        auto m_peashooter = std::make_shared<Peashooter>();
-        m_peashooter->SetPosition({nextPeashooterX, 0});
-        nextPeashooterX += 75;
-        peashooters.push_back(m_peashooter);
-        m_Root.AddChild(m_peashooter);
+    if (GetClick()) {
+        if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+            auto place_pos = Util::Input::GetCursorPosition();
+            if (place_pos.x >= -435 && place_pos.x <= 285 && place_pos.y >= -270 && place_pos.y <= 225) {
+                auto m_peashooter = std::make_shared<Peashooter>();
+                m_peashooter->SetPosition(place_pos);
+                peashooters.push_back(m_peashooter);
+                m_Root.AddChild(m_peashooter);
+            }
+        }
+    }
+
+    auto mouse_pos = Util::Input::GetCursorPosition();
+    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && mouse_pos.x >= -565 && mouse_pos.x <= -488 && mouse_pos.y >= 222 && mouse_pos.y <= 292) {
+        SetClick();
     }
 
     for (auto& shooter : peashooters) {
@@ -84,11 +93,6 @@ void App::Update() {
             ++it;
         }
     }
-
-    // if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-    //     auto pos = Util::Input::GetCursorPosition();
-    //     printf("Mouse Position: x = %.2f, y = %.2f\n", pos.x, pos.y);
-    // }
 
     /*
      * Do not touch the code below as they serve the purpose for
