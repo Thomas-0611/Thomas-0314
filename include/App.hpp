@@ -19,6 +19,15 @@ public:
     };
 
     State GetCurrentState() const { return m_CurrentState; }
+    void Setstartonce() {
+        startonce = false;
+    }
+    void SetClick() {
+        pick = !pick;
+    }
+    bool GetClick() {
+        return pick;
+    }
 
     void Start();
 
@@ -33,19 +42,18 @@ private:
     State m_CurrentState = State::START;
 
     Util::Renderer m_Root;
-
+    bool startonce = true;
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
-    // std::shared_ptr<Peashooter> m_peashooter;
     std::shared_ptr<BackgroundImage> m_Background;
     std::shared_ptr<BackgroundImage> m_store;
+    std::shared_ptr<BackgroundImage> m_stage1;
+
     std::vector<std::shared_ptr<BackgroundImage>> storeplants;
 
     //嘗試多個豌豆射手
     std::vector<std::shared_ptr<Peashooter>> peashooters;  // 所有生成的 Peashooter
-    int nextPeashooterX = -200; // 初始位置
-
-    //按鈕
     Button m_peashooters_button = Button(-564,-490,221,293);;
+    bool pick = false;
 };
 
 #endif
