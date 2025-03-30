@@ -57,16 +57,40 @@ void App::Start() {
 void App::Update() {
     
     //TODO: do your things here and delete this line <3
-    //printf("x:%.2f,y:%.2f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+
+    if (Getworldfreq()>540) {
+        //生成太陽
+        auto m_Sun = std::make_shared<Sun>();
+        suns.push_back(m_Sun);
+        m_Root.AddChild(m_Sun);
+        Setworldfreq(0);
+    }
+    else {
+        Setworldfreq(Getworldfreq()+1);
+    }
+
+    for (auto it = suns.begin(); it != suns.end();) {
+        auto sun = *it;
+        sun->Update();
+        if (sun->GetPick()) {
+            m_Root.RemoveChild(sun);
+            it = suns.erase(it);
+            Setsunnum(1);
+        }
+        else {
+            ++it;
+        }
+    }
 
     // 按下F1，生成一隻豌豆射手
-    if (GetClick()) {
+    if (GetClick() && Getsunnum()>1) {
         if (m_placeable_button.MouseClickDetect()) {
             auto m_peashooter = std::make_shared<Peashooter>();
             auto place_pos = Util::Input::GetCursorPosition();
             m_peashooter->SetPosition(place_pos);
             peashooters.push_back(m_peashooter);
             m_Root.AddChild(m_peashooter);
+            Setsunnum(-1);
         }
     }
 
