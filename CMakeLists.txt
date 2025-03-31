@@ -46,6 +46,8 @@ add_executable(${PROJECT_NAME}
         include/plant/Pea.hpp
         src/Pea.cpp
         include/Button.hpp
+        include/plant/Sun.hpp
+        src/Sun.cpp
 )
 
 if(MSVC)
