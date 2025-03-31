@@ -13,9 +13,14 @@ public:
     void Update();
     bool GetPick() const { return m_pick; }
     void SetPick();
+    void Setstop_y(int value) {
+        stop_y = value;
+    }
+    int Getstop_y() const { return stop_y; }
     std::array<float, 2> GetSize() const override { return {79.0f, 79.0f}; }
 private:
     bool m_pick = false;
+    int stop_y = 0;
 };
 
 #endif //SUN_HPP

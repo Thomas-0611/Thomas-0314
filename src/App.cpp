@@ -69,19 +69,6 @@ void App::Update() {
         Setworldfreq(Getworldfreq()+1);
     }
 
-    for (auto it = suns.begin(); it != suns.end();) {
-        auto sun = *it;
-        sun->Update();
-        if (sun->GetPick()) {
-            m_Root.RemoveChild(sun);
-            it = suns.erase(it);
-            Setsunnum(1);
-        }
-        else {
-            ++it;
-        }
-    }
-
     // 按下F1，生成一隻豌豆射手
     if (GetClick() && Getsunnum()>1) {
         if (m_placeable_button.MouseClickDetect()) {
@@ -91,6 +78,7 @@ void App::Update() {
             peashooters.push_back(m_peashooter);
             m_Root.AddChild(m_peashooter);
             Setsunnum(-1);
+            SetClick();
         }
     }
 
@@ -101,7 +89,7 @@ void App::Update() {
     for (auto& shooter : peashooters) {
         m_Root = shooter->Update(m_Root,zombies);
     }
-
+    // 更新殭屍
     for (auto it = zombies.begin(); it != zombies.end();) {
         auto zombie = *it;
         zombie->Update();
@@ -111,6 +99,20 @@ void App::Update() {
             m_Root.RemoveChild(zombie);
             it = zombies.erase(it);  // 移除死亡的殭屍
         } else {
+            ++it;
+        }
+    }
+
+    // 更新太陽
+    for (auto it = suns.begin(); it != suns.end();) {
+        auto sun = *it;
+        sun->Update();
+        if (sun->GetPick()) {
+            m_Root.RemoveChild(sun);
+            it = suns.erase(it);
+            Setsunnum(1);
+        }
+        else {
             ++it;
         }
     }

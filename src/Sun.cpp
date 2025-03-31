@@ -14,6 +14,10 @@ Sun::Sun(): AnimatedCharacter(std::vector<std::string>()) {
     std::mt19937 rng(std::random_device{}());
     std::uniform_int_distribution<int> dist(-435, 285);
     int x_pos = dist(rng);
+    std::mt19937 rng2(std::random_device{}());
+    std::uniform_int_distribution<int> dist2(-270, 225);
+    int stop_y = dist2(rng2);
+    Setstop_y(stop_y);
     printf("%d\n",x_pos);
     SetPosition({x_pos, 250});
     SetVisible(true);
@@ -31,7 +35,7 @@ void Sun::Update() {
         if (sun.MouseClickDetect()) {
             SetPick();
         }
-        if (cur_pos[1] > 0) {
+        if (cur_pos[1] > Getstop_y()) {
             SetPosition({cur_pos[0], cur_pos[1] - 0.15});
         }
     }
