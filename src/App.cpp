@@ -33,6 +33,12 @@ void App::Start() {
         m_store->SetPivot({475,-256});
         m_store->SetZIndex(-8);
         m_Root.AddChild(m_store);
+        m_store_sun = std::make_shared<BackgroundImage>();
+        // 太陽花的數量
+        m_store_sun->SetBackgroundImage("Sun_num/num_0");
+        m_store_sun->SetPivot({603,-227});
+        m_store_sun->SetZIndex(-7);
+        m_Root.AddChild(m_store_sun);
 
         // 放入各種植物在商店
         int storeplantCount = 2; // 可以調整生成數量
@@ -70,14 +76,14 @@ void App::Update() {
     }
 
     // 按下F1，生成一隻豌豆射手
-    if (GetClick() && Getsunnum()>1) {
+    if (GetClick() && Getsunnum()>=100) {
         if (m_placeable_button.MouseClickDetect()) {
             auto m_peashooter = std::make_shared<Peashooter>();
             auto place_pos = Util::Input::GetCursorPosition();
             m_peashooter->SetPosition(place_pos);
             peashooters.push_back(m_peashooter);
             m_Root.AddChild(m_peashooter);
-            Setsunnum(-1);
+            Setsunnum(-100);
             SetClick();
         }
     }
@@ -110,12 +116,15 @@ void App::Update() {
         if (sun->GetPick()) {
             m_Root.RemoveChild(sun);
             it = suns.erase(it);
-            Setsunnum(1);
+            Setsunnum(25);
         }
         else {
             ++it;
         }
     }
+
+    // 更新太陽數量的顯示
+    m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
 
     /*
      * Do not touch the code below as they serve the purpose for

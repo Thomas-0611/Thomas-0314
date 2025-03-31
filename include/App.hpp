@@ -59,6 +59,7 @@ private:
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
     std::shared_ptr<BackgroundImage> m_Background;
     std::shared_ptr<BackgroundImage> m_store;
+    std::shared_ptr<BackgroundImage> m_store_sun;
     std::shared_ptr<BackgroundImage> m_stage1;
     std::vector<std::shared_ptr<Sun>> suns;
     std::vector<std::shared_ptr<BackgroundImage>> storeplants;
