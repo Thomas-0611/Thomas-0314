@@ -5,7 +5,7 @@
 #include "zombie/Zombie.hpp"
 
 Peashooter::Peashooter()
-    : AnimatedCharacter(std::vector<std::string>()) { // 初始化父類
+    : Plant(std::vector<std::string>()) { // 初始化父類
     std::vector<std::string> peashooterImages;
     for (int i = 0; i < 13; ++i) {
         peashooterImages.emplace_back(RESOURCE_DIR"/Day/Plant/Peashooter/frame_" + std::to_string(i) + "_delay-0.09s.png");
@@ -15,12 +15,12 @@ Peashooter::Peashooter()
     SetPosition({-120, 0});
     SetVisible(true);
     Setlife(1500);
-    SetAttackfreq(180);
+    SetAttackfreq(360);
     SetAttackvalue(200);
 }
 
-Util::Renderer Peashooter::Update(Util::Renderer m_Root,std::vector<std::shared_ptr<Zombie>>& zombies) {
-    if (!m_dead) {
+void Peashooter::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Zombie>>& zombies) {
+    if (Getlife() >= 0) {
         SetLooping(true);
         SetPlaying(true);
 
@@ -46,7 +46,7 @@ Util::Renderer Peashooter::Update(Util::Renderer m_Root,std::vector<std::shared_
             pea->Update();
             bool hitZombie = false;
             for (auto& zombie : zombies) {
-                if (!zombie->GetDead() && pea->CheckCollision(zombie)) {
+                if (!zombie->GetDead() && pea->CheckCollisionPea(zombie)) {
                     // 扣血
                     zombie->Setlife(zombie->Getlife() - GetAttackvalue());
                     if (zombie->Getlife() <= 0) {
@@ -67,18 +67,7 @@ Util::Renderer Peashooter::Update(Util::Renderer m_Root,std::vector<std::shared_
         }
 
     }
-    return m_Root;
-}
-
-void Peashooter::SetDead() {
-    if (!m_dead) {
-        m_dead = true;
-        std::vector<std::string> zombiedeadImages;
-        for (int i = 0; i < 10; ++i) {
-            zombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/Zombie(dead)/frame_" + std::to_string(i) + "_delay-0.1s.png");
-        }
-        SetAnimation(zombiedeadImages);
-        SetLooping(false);
-        SetPlaying(true);
+    else {
+        SetDead();
     }
 }

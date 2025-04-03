@@ -24,7 +24,7 @@ void App::Start() {
         int zombieCount = 5; // 可以調整生成數量
         for (int i = 0; i < zombieCount; ++i) {
             auto zombie = std::make_shared<Zombie>();
-            zombie->SetPosition({620 + i * 50, 15});  // 每隻殭屍的位置稍微錯開
+            zombie->SetPosition({620 + i * 100, 15});  // 每隻殭屍的位置稍微錯開
             zombies.push_back(zombie);
             m_Root.AddChild(zombie);
         }
@@ -34,7 +34,7 @@ void App::Start() {
         m_store->SetZIndex(-8);
         m_Root.AddChild(m_store);
         m_store_sun = std::make_shared<BackgroundImage>();
-        // 太陽花的數量
+        // 太陽花的數量顯示
         m_store_sun->SetBackgroundImage("Sun_num/num_0");
         m_store_sun->SetPivot({603,-227});
         m_store_sun->SetZIndex(-7);
@@ -81,24 +81,34 @@ void App::Update() {
             auto m_peashooter = std::make_shared<Peashooter>();
             auto place_pos = Util::Input::GetCursorPosition();
             m_peashooter->SetPosition(place_pos);
-            peashooters.push_back(m_peashooter);
+            plants.push_back(m_peashooter);
             m_Root.AddChild(m_peashooter);
             Setsunnum(-100);
             SetClick();
         }
     }
 
-    if (m_peashooters_button.MouseClickDetect()) {
+    if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
         SetClick();
     }
 
-    for (auto& shooter : peashooters) {
-        m_Root = shooter->Update(m_Root,zombies);
+    // 這邊有一個小小bug，豌豆射手，他在死前剛好射出一個豌豆，但因為豌豆射手被erase掉了，所以那個豌豆無法被更新，會一直卡在畫面中
+    // 更新所有植物
+    for (auto it = plants.begin(); it != plants.end();) {
+        auto plant = *it;
+        plant->Update(m_Root,zombies);
+
+        if (plant->GetDead()) {
+            m_Root.RemoveChild(plant);
+            it = plants.erase(it);  // 移除死亡的植物
+        } else {
+            ++it;
+        }
     }
     // 更新殭屍
     for (auto it = zombies.begin(); it != zombies.end();) {
         auto zombie = *it;
-        zombie->Update();
+        zombie->Update(plants);
 
         if (zombie->GetDead() && zombie->IfAnimationEnds()) {
             zombie->SetPlaying(false);

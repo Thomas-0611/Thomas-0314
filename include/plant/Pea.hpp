@@ -16,7 +16,7 @@ public:
     bool IsOutOfBounds() const; // 檢查豌豆是否超出視窗
 
 private:
-    float m_speed = 5.0f;  // 豌豆移動的速度
+    float m_speed = 2.5f;  // 豌豆移動的速度
 
 };
 

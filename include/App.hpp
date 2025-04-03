@@ -9,6 +9,7 @@
 #include "Util/Renderer.hpp"
 #include "Button.hpp"
 #include "plant/Sun.hpp"
+#include "plant/Plant.hpp"
 
 
 class App {
@@ -66,6 +67,7 @@ private:
     int world_freq = 0;
     //嘗試多個豌豆射手
     std::vector<std::shared_ptr<Peashooter>> peashooters;  // 所有生成的 Peashooter
+    std::vector<std::shared_ptr<Plant>> plants;
     Button m_peashooters_button = Button(-564,-490,221,293);
     Button m_start_button = Button(28,340,79,155);
     Button m_placeable_button = Button(-435,285,-270,225);
