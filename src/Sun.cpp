@@ -18,7 +18,6 @@ Sun::Sun(): AnimatedCharacter(std::vector<std::string>()) {
     std::uniform_int_distribution<int> dist2(-270, 225);
     int stop_y = dist2(rng2);
     Setstop_y(stop_y);
-    printf("%d\n",x_pos);
     SetPosition({x_pos, 250});
     SetVisible(true);
     Setlife(1);

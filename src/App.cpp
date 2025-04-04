@@ -98,7 +98,7 @@ void App::Update() {
             plants.push_back(m_sunflower);
             m_Root.AddChild(m_sunflower);
             Setsunnum(-50);
-            SetClick();
+            SetSunflowerClick();
         }
     }
 
