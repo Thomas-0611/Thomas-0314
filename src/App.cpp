@@ -92,23 +92,10 @@ void App::Update() {
         SetClick();
     }
 
-    // 這邊有一個小小bug，豌豆射手，他在死前剛好射出一個豌豆，但因為豌豆射手被erase掉了，所以那個豌豆無法被更新，會一直卡在畫面中
-    // 更新所有植物
-    for (auto it = plants.begin(); it != plants.end();) {
-        auto plant = *it;
-        plant->Update(m_Root,zombies);
-
-        if (plant->GetDead()) {
-            m_Root.RemoveChild(plant);
-            it = plants.erase(it);  // 移除死亡的植物
-        } else {
-            ++it;
-        }
-    }
     // 更新殭屍
     for (auto it = zombies.begin(); it != zombies.end();) {
         auto zombie = *it;
-        zombie->Update(plants);
+        zombie->Update(m_Root,plants);
 
         if (zombie->GetDead() && zombie->IfAnimationEnds()) {
             zombie->SetPlaying(false);
@@ -117,6 +104,14 @@ void App::Update() {
         } else {
             ++it;
         }
+    }
+
+    // 這邊有一個小小bug，豌豆射手，他在死前剛好射出一個豌豆，但因為豌豆射手被erase掉了，所以那個豌豆無法被更新，會一直卡在畫面中
+    // 更新所有植物
+    for (auto it = plants.begin(); it != plants.end();) {
+        auto plant = *it;
+        plant->Update(m_Root,zombies);
+        ++it;
     }
 
     // 更新太陽

@@ -19,44 +19,28 @@ Zombie::Zombie()
     SetAttackvalue(200);
 }
 
-void Zombie::Update(std::vector<std::shared_ptr<Plant>>& plants) {
+void Zombie::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>>& plants) {
     if (!m_dead) {
         SetLooping(true);
         SetPlaying(true);
         auto cur_pos = GetPosition();
-        if (!GetEating()) {
+        if (!m_targetPlant) {
             SetPosition({cur_pos[0] - 0.15, cur_pos[1]});
         }
 
-        // my version
-
-        // if (Getlife() <= 0 ) {
-        //     SetDead();
-        // }
-        // else {
-        //     // 現在有一個bug，當有2個植物在時，且有殭屍正在吃其中一隻植物，殭屍會因為通過第三個判斷條件，導致動畫卡住
-        //     for (auto& plant: plants) {
-        //         if (CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(plant)) && !GetEating()) {
-        //             SetEat();
-        //         }
-        //         else if (CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(plant)) && GetEating()) {
-        //             if (cur_freq >= GetAttackfreq()) {
-        //                 plant->Setlife(plant->Getlife() - GetAttackvalue());
-        //                 cur_freq = 0;
-        //             }
-        //             else {
-        //                 Setcurfreq(cur_freq+1);
-        //             }
-        //         }
-        //         else if (!CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(plant)) && GetEating()) {
-        //             Setbacktomove();
-        //         }
-        //         printf("left:: %d\n",plant->Getlife());
-        //     }
-
         // test GPT Version
-        // 還是會有bug，當有兩個植物以上，當下的目標死掉後，還是會卡住，但是變成在原地一直吃
-        if (!m_targetPlant || m_targetPlant->Getlife() <= 0) {
+        // 我自己加的，如果target植物死了，直接erase掉
+        if (m_targetPlant && m_targetPlant->Getlife()<=0) {
+            auto it = std::find(plants.begin(), plants.end(), m_targetPlant);
+            if (it != plants.end()) {
+                plants.erase(it);
+            }
+            m_Root.RemoveChild(m_targetPlant);
+            m_targetPlant = nullptr;
+            Setbacktomove();
+        }
+        // 如果沒有目標植物，就去找
+        if (!m_targetPlant) {
             // 找新的碰撞目標
             for (auto& plant : plants) {
                 if (CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(plant))) {
@@ -76,13 +60,11 @@ void Zombie::Update(std::vector<std::shared_ptr<Plant>>& plants) {
                 } else {
                     Setcurfreq(cur_freq + 1);
                 }
-            } else {
-                // 與目標植物已分開
-                Setbacktomove();
             }
         }
     }
 }
+
 void Zombie::SetEat() {
     if (!m_dead) {
         std::vector<std::string> zombieeatImages;
@@ -93,6 +75,7 @@ void Zombie::SetEat() {
         Seteatvalue(true);
     }
 }
+
 void Zombie::Setbacktomove() {
     std::vector<std::string> zombieImages;
     for (int i = 0; i < 18; ++i) {

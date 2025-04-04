@@ -15,7 +15,7 @@ Peashooter::Peashooter()
     SetPosition({-120, 0});
     SetVisible(true);
     Setlife(1500);
-    SetAttackfreq(360);
+    SetAttackfreq(180);
     SetAttackvalue(200);
 }
 

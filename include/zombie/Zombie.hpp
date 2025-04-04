@@ -9,12 +9,14 @@
 #include <memory>
 #include <vector>
 
+#include "Util/Renderer.hpp"
+
 class Plant; // 👈 Forward declaration
 
 class Zombie : public AnimatedCharacter {
 public:
     Zombie();
-    void Update(std::vector<std::shared_ptr<Plant>> &plants);
+    void Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>> &plants);
     bool GetDead() const { return m_dead; }
     void SetDead();
     void Seteatvalue(bool value) {
