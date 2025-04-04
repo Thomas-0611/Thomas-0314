@@ -6,7 +6,8 @@
 #include "Util/Logger.hpp"
 #include "BackgroundImage.hpp"
 #include "plant/Peashooter.hpp"
-
+#include "GameContext.hpp"
+#include "plant/Sunflower.hpp"
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -88,8 +89,30 @@ void App::Update() {
         }
     }
 
+    // 生成太陽花
+    if (GetSunflowerClick() && Getsunnum()>=50) {
+        if (m_placeable_button.MouseClickDetect()) {
+            auto m_sunflower = std::make_shared<Sunflower>();
+            auto place_pos = Util::Input::GetCursorPosition();
+            m_sunflower->SetPosition(place_pos);
+            plants.push_back(m_sunflower);
+            m_Root.AddChild(m_sunflower);
+            Setsunnum(-50);
+            SetClick();
+        }
+    }
+
     if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
+        if (GetSunflowerClick()) {
+            SetSunflowerClick();
+        }
         SetClick();
+    }
+    if (m_sunflower_button.MouseClickDetect() && Getsunnum()>=50) {
+        if (GetClick()) {
+            SetClick();
+        }
+        SetSunflowerClick();
     }
 
     // 更新殭屍
@@ -106,12 +129,41 @@ void App::Update() {
         }
     }
 
+    GameContext ctx{ m_Root, zombies, suns, peas };
+
     // 這邊有一個小小bug，豌豆射手，他在死前剛好射出一個豌豆，但因為豌豆射手被erase掉了，所以那個豌豆無法被更新，會一直卡在畫面中
     // 更新所有植物
     for (auto it = plants.begin(); it != plants.end();) {
         auto plant = *it;
-        plant->Update(m_Root,zombies);
+        plant->Update(ctx);
         ++it;
+    }
+
+    // 豌豆更新
+    for (auto it = peas.begin(); it != peas.end();) {
+        auto pea = *it;
+        pea->Update();
+
+        bool hit = false;
+        for (auto& zombie : zombies) {
+            if (!zombie->GetDead() && pea->CheckCollisionPea(zombie)) {
+                zombie->Setlife(zombie->Getlife() - 200);
+                if (zombie->Getlife() <= 0) {
+                    zombie->SetDead();
+                }
+                hit = true;
+                break;
+            }
+        }
+
+        if (pea->IsOutOfBounds() || hit) {
+            pea->SetLooping(false);
+            pea->SetPlaying(false);
+            m_Root.RemoveChild(pea);
+            it = peas.erase(it);
+        } else {
+            ++it;
+        }
     }
 
     // 更新太陽

@@ -18,9 +18,9 @@ Peashooter::Peashooter()
     SetAttackfreq(180);
     SetAttackvalue(200);
 }
-
-void Peashooter::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Zombie>>& zombies) {
-    if (Getlife() >= 0) {
+// void Peashooter::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Zombie>>& zombies)
+void Peashooter::Update(GameContext& ctx) {
+    if (Getlife() > 0) {
         SetLooping(true);
         SetPlaying(true);
 
@@ -31,41 +31,14 @@ void Peashooter::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Zombi
             peaImages.emplace_back(RESOURCE_DIR"/Day/Plant/pea/pea.png");
 
             auto pea = std::make_shared<Pea>(peaImages, GetPosition()[0], GetPosition()[1]);
-            peas.push_back(pea);
-            m_Root.AddChild(pea);
+            ctx.peas.push_back(pea);
+            ctx.m_Root.AddChild(pea);
             // printf("shoot\n");
             Setcurfreq(0);
         }
         else {
             Setcurfreq(cur_freq+1);
         }
-
-        // 檢查並移除超出範圍的豌豆
-        for (auto it = peas.begin(); it != peas.end();) {
-            auto pea = *it;
-            pea->Update();
-            bool hitZombie = false;
-            for (auto& zombie : zombies) {
-                if (!zombie->GetDead() && pea->CheckCollisionPea(zombie)) {
-                    // 扣血
-                    zombie->Setlife(zombie->Getlife() - GetAttackvalue());
-                    if (zombie->Getlife() <= 0) {
-                        zombie->SetDead();
-                    }
-                    hitZombie = true;
-                    break;
-                }
-            }
-            if (pea->IsOutOfBounds() || hitZombie) {
-                pea->SetLooping(false);
-                pea->SetPlaying(false);
-                m_Root.RemoveChild(pea);  // 移除超出範圍的豌豆
-                it = peas.erase(it);
-            } else {
-                ++it;
-            }
-        }
-
     }
     else {
         SetDead();
