@@ -8,6 +8,7 @@
 #include "plant/Peashooter.hpp"
 #include "GameContext.hpp"
 #include "plant/Sunflower.hpp"
+#include "plant/Wallnut.hpp"
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -42,7 +43,7 @@ void App::Start() {
         m_Root.AddChild(m_store_sun);
 
         // 放入各種植物在商店
-        int storeplantCount = 2; // 可以調整生成數量
+        int storeplantCount = 3; // 可以調整生成數量
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
             storeplant->SetPivot({525 - i * 75, -256});
@@ -102,9 +103,25 @@ void App::Update() {
         }
     }
 
+    // 生成堅果牆
+    if (GetWallnutClick() && Getsunnum()>=50) {
+        if (m_placeable_button.MouseClickDetect()) {
+            auto m_wallnut = std::make_shared<Wallnut>();
+            auto place_pos = Util::Input::GetCursorPosition();
+            m_wallnut->SetPosition(place_pos);
+            plants.push_back(m_wallnut);
+            m_Root.AddChild(m_wallnut);
+            Setsunnum(-50);
+            SetWallnutClick();
+        }
+    }
+
     if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
         if (GetSunflowerClick()) {
             SetSunflowerClick();
+        }
+        if (GetWallnutClick()) {
+            SetWallnutClick();
         }
         SetClick();
     }
@@ -112,7 +129,19 @@ void App::Update() {
         if (GetClick()) {
             SetClick();
         }
+        if (GetWallnutClick()) {
+            SetWallnutClick();
+        }
         SetSunflowerClick();
+    }
+    if (m_wallnut_button.MouseClickDetect() && Getsunnum()>=50) {
+        if (GetClick()) {
+            SetClick();
+        }
+        if (GetSunflowerClick()) {
+            SetSunflowerClick();
+        }
+        SetWallnutClick();
     }
 
     // 更新殭屍

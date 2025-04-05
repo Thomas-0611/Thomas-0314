@@ -27,7 +27,7 @@ void Sunflower::Update(GameContext& ctx) {
         if (cur_freq >= freq) {
             auto m_sun = std::make_shared<Sun>();
             m_sun->Setstop_y(GetPosition().y-5);
-            m_sun->SetPosition({GetPosition().x+15,GetPosition().y+5});
+            m_sun->SetPosition({GetPosition().x+50,GetPosition().y+5});
             ctx.suns.push_back(m_sun);
             ctx.m_Root.AddChild(m_sun);
             Setcurfreq(0);

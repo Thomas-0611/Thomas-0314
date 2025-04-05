@@ -7,10 +7,6 @@
 
 #include "AnimatedCharacter.hpp"
 #include "plant/Plant.hpp"
-#include "plant/Pea.hpp"
-#include <vector>
-// #include "Util/Renderer.hpp"
-
 
 class Sunflower : public Plant {
 public:

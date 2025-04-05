@@ -52,6 +52,8 @@ add_executable(${PROJECT_NAME}
         include/plant/Sunflower.hpp
         src/Sunflower.cpp
         include/GameContext.hpp
+        include/plant/Wallnut.hpp
+        src/Wallnut.cpp
 )
 
 if(MSVC)
