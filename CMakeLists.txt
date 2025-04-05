@@ -54,6 +54,8 @@ add_executable(${PROJECT_NAME}
         include/GameContext.hpp
         include/plant/Wallnut.hpp
         src/Wallnut.cpp
+        include/plant/Repeater.hpp
+        src/Repeater.cpp
 )
 
 if(MSVC)

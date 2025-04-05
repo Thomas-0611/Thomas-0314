@@ -1,24 +1,24 @@
 //
-// Created by Thomas on 2025/3/21.
+// Created by Thomas on 2025/4/5.
 //
-#include "plant/Peashooter.hpp"
+#include "plant/Repeater.hpp"
 
-Peashooter::Peashooter()
+Repeater::Repeater()
     : Plant(std::vector<std::string>()) { // 初始化父類
-    std::vector<std::string> peashooterImages;
-    for (int i = 0; i < 13; ++i) {
-        peashooterImages.emplace_back(RESOURCE_DIR"/Day/Plant/Peashooter/frame_" + std::to_string(i) + "_delay-0.09s.png");
+    std::vector<std::string> repeaterImages;
+    for (int i = 0; i < 15; ++i) {
+        repeaterImages.emplace_back(RESOURCE_DIR"/Day/Plant/Repeater/frame_" + std::to_string(i) + "_delay-0.09s.png");
     }
-    SetAnimation(peashooterImages);
+    SetAnimation(repeaterImages);
     SetZIndex(2);
     SetPosition({-120, 0});
     SetVisible(true);
-    Setlife(1500);
+    Setlife(1800);
     SetAttackfreq(180);
     SetAttackvalue(200);
 }
 
-void Peashooter::Update(GameContext& ctx) {
+void Repeater::Update(GameContext& ctx) {
     if (Getlife() > 0) {
         SetLooping(true);
         SetPlaying(true);
@@ -32,8 +32,13 @@ void Peashooter::Update(GameContext& ctx) {
             auto pea = std::make_shared<Pea>(peaImages, GetPosition()[0], GetPosition()[1]);
             ctx.peas.push_back(pea);
             ctx.m_Root.AddChild(pea);
-            // printf("shoot\n");
-            Setcurfreq(0);
+            Addnum();
+            if (Getnum() == 1) {
+                Setcurfreq(cur_freq-10);
+            }
+            else {
+                Setcurfreq(0);
+            }
         }
         else {
             Setcurfreq(cur_freq+1);

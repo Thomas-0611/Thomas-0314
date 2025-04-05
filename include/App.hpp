@@ -42,6 +42,12 @@ public:
     bool GetWallnutClick() {
         return wallnut_pick;
     }
+    void SetRepeaterClick() {
+        repeater_pick = !repeater_pick;
+    }
+    bool GetRepeaterClick() {
+        return repeater_pick;
+    }
 
     void Setworldfreq(int value) {
         world_freq = value;
@@ -84,11 +90,13 @@ private:
     Button m_peashooters_button = Button(-564,-490,221,293);
     Button m_sunflower_button = Button(-489,-415,221,293);
     Button m_wallnut_button = Button(-414,-340,221,293);
+    Button m_repeater_button = Button(-339,-265,221,293);
     Button m_start_button = Button(28,340,79,155);
     Button m_placeable_button = Button(-435,285,-270,225);
     bool pick = false;
     bool sunflower_pick = false;
     bool wallnut_pick = false;
+    bool repeater_pick = false;
     int sun_num = 0;
 };
 

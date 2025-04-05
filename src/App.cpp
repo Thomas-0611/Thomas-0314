@@ -7,6 +7,7 @@
 #include "BackgroundImage.hpp"
 #include "plant/Peashooter.hpp"
 #include "GameContext.hpp"
+#include "plant/Repeater.hpp"
 #include "plant/Sunflower.hpp"
 #include "plant/Wallnut.hpp"
 
@@ -43,7 +44,7 @@ void App::Start() {
         m_Root.AddChild(m_store_sun);
 
         // 放入各種植物在商店
-        int storeplantCount = 3; // 可以調整生成數量
+        int storeplantCount = 4; // 可以調整生成數量
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
             storeplant->SetPivot({525 - i * 75, -256});
@@ -116,12 +117,28 @@ void App::Update() {
         }
     }
 
+    // 連發豌豆
+    if (GetRepeaterClick() && Getsunnum()>=150) {
+        if (m_placeable_button.MouseClickDetect()) {
+            auto m_repeater = std::make_shared<Repeater>();
+            auto place_pos = Util::Input::GetCursorPosition();
+            m_repeater->SetPosition(place_pos);
+            plants.push_back(m_repeater);
+            m_Root.AddChild(m_repeater);
+            Setsunnum(-150);
+            SetRepeaterClick();
+        }
+    }
+
     if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
         if (GetSunflowerClick()) {
             SetSunflowerClick();
         }
         if (GetWallnutClick()) {
             SetWallnutClick();
+        }
+        if (GetRepeaterClick()) {
+            SetRepeaterClick();
         }
         SetClick();
     }
@@ -132,6 +149,9 @@ void App::Update() {
         if (GetWallnutClick()) {
             SetWallnutClick();
         }
+        if (GetRepeaterClick()) {
+            SetRepeaterClick();
+        }
         SetSunflowerClick();
     }
     if (m_wallnut_button.MouseClickDetect() && Getsunnum()>=50) {
@@ -141,7 +161,22 @@ void App::Update() {
         if (GetSunflowerClick()) {
             SetSunflowerClick();
         }
+        if (GetRepeaterClick()) {
+            SetRepeaterClick();
+        }
         SetWallnutClick();
+    }
+    if (m_repeater_button.MouseClickDetect() && Getsunnum()>=150) {
+        if (GetClick()) {
+            SetClick();
+        }
+        if (GetSunflowerClick()) {
+            SetSunflowerClick();
+        }
+        if (GetWallnutClick()) {
+            SetWallnutClick();
+        }
+        SetRepeaterClick();
     }
 
     // 更新殭屍
@@ -159,8 +194,6 @@ void App::Update() {
     }
 
     GameContext ctx{ m_Root, zombies, suns, peas };
-
-    // 這邊有一個小小bug，豌豆射手，他在死前剛好射出一個豌豆，但因為豌豆射手被erase掉了，所以那個豌豆無法被更新，會一直卡在畫面中
     // 更新所有植物
     for (auto it = plants.begin(); it != plants.end();) {
         auto plant = *it;
