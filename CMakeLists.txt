@@ -58,6 +58,8 @@ add_executable(${PROJECT_NAME}
         src/Repeater.cpp
         include/zombie/Coneheadzombie.hpp
         src/Coneheadzombie.cpp
+        include/zombie/Bucketheadzombie.hpp
+        src/Bucketheadzombie.cpp
 )
 
 if(MSVC)

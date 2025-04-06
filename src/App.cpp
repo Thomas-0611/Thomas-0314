@@ -11,6 +11,7 @@
 #include "plant/Sunflower.hpp"
 #include "plant/Wallnut.hpp"
 #include "zombie/Coneheadzombie.hpp"
+#include "zombie/Bucketheadzombie.hpp"
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -32,11 +33,18 @@ void App::Start() {
             zombies.push_back(zombie);
             m_Root.AddChild(zombie);
         }
+
         // 測試交通錐殭屍
         auto coneheadzombie = std::make_shared<Coneheadzombie>();
         coneheadzombie->SetPosition({1120, 15});  // 每隻殭屍的位置稍微錯開
         zombies.push_back(coneheadzombie);
         m_Root.AddChild(coneheadzombie);
+
+        // 測試鐵桶殭屍
+        auto bucketheadzombie = std::make_shared<Bucketheadzombie>();
+        bucketheadzombie->SetPosition({1220, 15});  // 每隻殭屍的位置稍微錯開
+        zombies.push_back(bucketheadzombie);
+        m_Root.AddChild(bucketheadzombie);
 
         m_store = std::make_shared<BackgroundImage>();
         m_store->SetBackgroundImage("store");
