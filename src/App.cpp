@@ -10,6 +10,7 @@
 #include "plant/Repeater.hpp"
 #include "plant/Sunflower.hpp"
 #include "plant/Wallnut.hpp"
+#include "zombie/Coneheadzombie.hpp"
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -31,6 +32,12 @@ void App::Start() {
             zombies.push_back(zombie);
             m_Root.AddChild(zombie);
         }
+        // 測試交通錐殭屍
+        auto coneheadzombie = std::make_shared<Coneheadzombie>();
+        coneheadzombie->SetPosition({1120, 15});  // 每隻殭屍的位置稍微錯開
+        zombies.push_back(coneheadzombie);
+        m_Root.AddChild(coneheadzombie);
+
         m_store = std::make_shared<BackgroundImage>();
         m_store->SetBackgroundImage("store");
         m_store->SetPivot({475,-256});
@@ -117,7 +124,7 @@ void App::Update() {
         }
     }
 
-    // 連發豌豆
+    // 生成連發豌豆
     if (GetRepeaterClick() && Getsunnum()>=150) {
         if (m_placeable_button.MouseClickDetect()) {
             auto m_repeater = std::make_shared<Repeater>();

@@ -18,7 +18,7 @@ public:
     Zombie();
     void Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>> &plants);
     bool GetDead() const { return m_dead; }
-    void SetDead();
+    virtual void SetDead();
     void Seteatvalue(bool value) {
         eating = value;
     }
@@ -28,8 +28,14 @@ public:
     void Setcurfreq(int value) {
         cur_freq = value;
     }
-    void SetEat();
-    void Setbacktomove();
+    void Set_m_targetnull() {
+        m_targetPlant = nullptr;
+    }
+    void Set_m_dead(bool value) {
+        m_dead = value;
+    }
+    virtual  void SetEat();
+    virtual void Setbacktomove();
     std::array<float, 2> GetSize() const override { return {110.0f, 144.0f}; }
 private:
     std::shared_ptr<Plant> m_targetPlant = nullptr;

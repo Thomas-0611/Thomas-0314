@@ -56,6 +56,8 @@ add_executable(${PROJECT_NAME}
         src/Wallnut.cpp
         include/plant/Repeater.hpp
         src/Repeater.cpp
+        include/zombie/Coneheadzombie.hpp
+        src/Coneheadzombie.cpp
 )
 
 if(MSVC)
