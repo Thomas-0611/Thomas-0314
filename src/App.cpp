@@ -12,6 +12,7 @@
 #include "plant/Wallnut.hpp"
 #include "zombie/Coneheadzombie.hpp"
 #include "zombie/Bucketheadzombie.hpp"
+#include "zombie/Flagzombie.hpp"
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -45,6 +46,12 @@ void App::Start() {
         bucketheadzombie->SetPosition({1220, 15});  // 每隻殭屍的位置稍微錯開
         zombies.push_back(bucketheadzombie);
         m_Root.AddChild(bucketheadzombie);
+
+        // 測試旗子殭屍
+        auto flagzombie = std::make_shared<Flagzombie>();
+        flagzombie->SetPosition({1320, 15});  // 每隻殭屍的位置稍微錯開
+        zombies.push_back(flagzombie);
+        m_Root.AddChild(flagzombie);
 
         m_store = std::make_shared<BackgroundImage>();
         m_store->SetBackgroundImage("store");

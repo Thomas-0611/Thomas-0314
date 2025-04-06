@@ -29,8 +29,8 @@ void Coneheadzombie::SetEat(){
 
 void Coneheadzombie::Setbacktomove(){
     std::vector<std::string> coneheadzombieImages;
-    for (int i = 0; i < 18; ++i) {
-        coneheadzombieImages.emplace_back(RESOURCE_DIR"/Day/Zombie/ConeheadZombie(walk)/frame_" + std::to_string(i) + "_delay-0.2s.png");
+    for (int i = 0; i < 21; ++i) {
+        coneheadzombieImages.emplace_back(RESOURCE_DIR"/Day/Zombie/ConeheadZombie(walk)/frame_" + std::to_string(i) + "_delay-0.18s.png");
     }
     SetAnimation(coneheadzombieImages);
     Seteatvalue(false);

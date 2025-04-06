@@ -29,8 +29,8 @@ void Bucketheadzombie::SetEat(){
 
 void Bucketheadzombie::Setbacktomove(){
     std::vector<std::string> bucketheadzombieImages;
-    for (int i = 0; i < 18; ++i) {
-        bucketheadzombieImages.emplace_back(RESOURCE_DIR"/Day/Zombie/BucketheadZombie(walk)/frame_" + std::to_string(i) + "_delay-0.2s.png");
+    for (int i = 0; i < 15; ++i) {
+        bucketheadzombieImages.emplace_back(RESOURCE_DIR"/Day/Zombie/BucketheadZombie(walk)/frame_" + std::to_string(i) + "_delay-0.18s.png");
     }
     SetAnimation(bucketheadzombieImages);
     Seteatvalue(false);
