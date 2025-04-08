@@ -13,6 +13,7 @@
 #include "zombie/Coneheadzombie.hpp"
 #include "zombie/Bucketheadzombie.hpp"
 #include "zombie/Flagzombie.hpp"
+#include "zombie/Polevaultingzombie.hpp"
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -26,6 +27,13 @@ void App::Start() {
 
     // 如果點在範圍內(開始遊戲的按鈕)
     if (m_start_button.MouseClickDetect()) {
+        // 測試撐竿跳殭屍
+        auto polevaultingzombie = std::make_shared<Polevaultingzombie>();
+        polevaultingzombie->SetPosition({520, 15});  // 每隻殭屍的位置稍微錯開
+        zombies.push_back(polevaultingzombie);
+        m_Root.AddChild(polevaultingzombie);
+
+
         // 生成多個殭屍
         int zombieCount = 5; // 可以調整生成數量
         for (int i = 0; i < zombieCount; ++i) {
