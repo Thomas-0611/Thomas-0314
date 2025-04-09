@@ -104,7 +104,7 @@ void App::Start() {
 }
 
 void App::Update() {
-    printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    // printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
     //TODO: do your things here and delete this line <3
     if (Getworldfreq()>540) {
         //生成太陽
@@ -118,28 +118,28 @@ void App::Update() {
     }
 
     // 按下F1，生成一隻豌豆射手
-    if (GetClick() && Getsunnum()>=100) {
-        if (m_placeable_button.MouseClickDetect()) {
-            auto m_peashooter = std::make_shared<Peashooter>();
-            auto place_pos = Util::Input::GetCursorPosition();
-            m_peashooter->SetPosition(place_pos);
-            plants.push_back(m_peashooter);
-            m_Root.AddChild(m_peashooter);
-            Setsunnum(-100);
-            SetClick();
-        }
-    }
-    */
+    // if (GetClick() && Getsunnum()>=100) {
+    //     if (m_placeable_button.MouseClickDetect()) {
+    //         auto m_peashooter = std::make_shared<Peashooter>();
+    //         auto place_pos = Util::Input::GetCursorPosition();
+    //         m_peashooter->SetPosition(place_pos);
+    //         plants.push_back(m_peashooter);
+    //         m_Root.AddChild(m_peashooter);
+    //         Setsunnum(-100);
+    //         SetClick();
+    //     }
+    // }
+
 
     for (int i = 0;i < 9;i++) {
         for(int j = 0;j < 5;j++) {
-            if(grid_buttons[9*j+i]->MouseClickDetect() && grid_buttons[9*j+i]->m_has_plant == false && Getsunnum()>1) {
+            if(grid_buttons[9*j+i]->MouseClickDetect() && grid_buttons[9*j+i]->m_has_plant == false && Getsunnum()>100) {
                 auto m_peashooter = std::make_shared<Peashooter>();
                 auto place_pos = grid_buttons[9*j+i]->GetButtonPosition();
                 m_peashooter->SetPosition(place_pos);
-                peashooters.push_back(m_peashooter);
+                plants.push_back(m_peashooter);
                 m_Root.AddChild(m_peashooter);
-                Setsunnum(-1);
+                Setsunnum(-100);
                 SetClick();
                 grid_buttons[9*j+i]->m_has_plant = true;
             }
