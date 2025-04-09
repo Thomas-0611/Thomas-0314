@@ -17,7 +17,17 @@
 
 void App::Start() {
     LOG_TRACE("Start");
-
+    int grid_xmin = -461;
+    int grid_xmax = 285;
+    int grid_ymin = -267;
+    int grid_ymax = 220;
+    float grid_x = (grid_xmax - grid_xmin)/9;
+    float grid_y = (grid_ymax - grid_ymin)/5;
+    for(int row = 0;row < 5;row++) {
+        for(int column = 0;column < 9;column++) {
+            grid_buttons.push_back(std::make_shared<Button>(round(grid_xmin+grid_x*column), round(grid_xmin+grid_x*(column+1)), round(grid_ymin+grid_y*row), round(grid_ymin+grid_y*(row+1))));
+        }
+    }
     // 開始畫面
     if (startonce) {
         m_Background = std::make_shared<BackgroundImage>();
@@ -84,7 +94,7 @@ void App::Start() {
             m_Root.AddChild(storeplant);
         }
         m_stage1 = std::make_shared<BackgroundImage>();
-        m_stage1->SetBackgroundImage("one");
+        m_stage1->SetBackgroundImage("five");
         m_stage1->SetZIndex(-9);
         m_Root.AddChild(m_stage1);
         m_CurrentState = State::UPDATE;
@@ -94,9 +104,8 @@ void App::Start() {
 }
 
 void App::Update() {
-    
+    printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
     //TODO: do your things here and delete this line <3
-
     if (Getworldfreq()>540) {
         //生成太陽
         auto m_Sun = std::make_shared<Sun>();
@@ -118,6 +127,22 @@ void App::Update() {
             m_Root.AddChild(m_peashooter);
             Setsunnum(-100);
             SetClick();
+        }
+    }
+    */
+
+    for (int i = 0;i < 9;i++) {
+        for(int j = 0;j < 5;j++) {
+            if(grid_buttons[9*j+i]->MouseClickDetect() && grid_buttons[9*j+i]->m_has_plant == false && Getsunnum()>1) {
+                auto m_peashooter = std::make_shared<Peashooter>();
+                auto place_pos = grid_buttons[9*j+i]->GetButtonPosition();
+                m_peashooter->SetPosition(place_pos);
+                peashooters.push_back(m_peashooter);
+                m_Root.AddChild(m_peashooter);
+                Setsunnum(-1);
+                SetClick();
+                grid_buttons[9*j+i]->m_has_plant = true;
+            }
         }
     }
 
