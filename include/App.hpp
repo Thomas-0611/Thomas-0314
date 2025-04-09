@@ -57,6 +57,7 @@ private:
     Util::Renderer m_Root;
     bool startonce = true;
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
+    std::vector<std::shared_ptr<Button>> grid_buttons;
     std::shared_ptr<BackgroundImage> m_Background;
     std::shared_ptr<BackgroundImage> m_store;
     std::shared_ptr<BackgroundImage> m_stage1;
