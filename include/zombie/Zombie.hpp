@@ -6,16 +6,51 @@
 #define ZOMBIE_HPP
 
 #include "AnimatedCharacter.hpp"
+#include <memory>
+#include <vector>
+
+#include "Util/Renderer.hpp"
+
+class Plant; // 👈 Forward declaration
 
 class Zombie : public AnimatedCharacter {
 public:
     Zombie();
-    void Update();
+    virtual void Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>> &plants);
     bool GetDead() const { return m_dead; }
-    void SetDead();
+    virtual void SetDead();
+    void Seteatvalue(bool value) {
+        eating = value;
+    }
+    bool GetEating() const {
+        return eating;
+    }
+    void Setcurfreq(int value) {
+        cur_freq = value;
+    }
+    int Getcurfreq() const {
+        return cur_freq;
+    }
+    void Set_m_targetnull() {
+        m_targetPlant = nullptr;
+    }
+    void Set_targetplant(std::shared_ptr<Plant> plant) {
+        m_targetPlant = plant;
+    }
+    std::shared_ptr<Plant> GetTargetPlant() const {
+        return m_targetPlant;
+    }
+    void Set_m_dead(bool value) {
+        m_dead = value;
+    }
+    virtual  void SetEat();
+    virtual void Setbacktomove();
     std::array<float, 2> GetSize() const override { return {110.0f, 144.0f}; }
 private:
+    std::shared_ptr<Plant> m_targetPlant = nullptr;
+    int cur_freq = 0;
     bool m_dead = false;
+    bool eating = false;
 };
 
 #endif //ZOMBIE_HPP

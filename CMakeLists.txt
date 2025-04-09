@@ -48,6 +48,22 @@ add_executable(${PROJECT_NAME}
         include/Button.hpp
         include/plant/Sun.hpp
         src/Sun.cpp
+        include/plant/Plant.hpp
+        include/plant/Sunflower.hpp
+        src/Sunflower.cpp
+        include/GameContext.hpp
+        include/plant/Wallnut.hpp
+        src/Wallnut.cpp
+        include/plant/Repeater.hpp
+        src/Repeater.cpp
+        include/zombie/Coneheadzombie.hpp
+        src/Coneheadzombie.cpp
+        include/zombie/Bucketheadzombie.hpp
+        src/Bucketheadzombie.cpp
+        include/zombie/Flagzombie.hpp
+        src/Flagzombie.cpp
+        include/zombie/Polevaultingzombie.hpp
+        src/Polevaultingzombie.cpp
 )
 
 if(MSVC)
