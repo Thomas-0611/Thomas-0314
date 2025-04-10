@@ -14,11 +14,14 @@
 #include <vector>
 #include <memory>
 
+#include "plant/Snowpea.hpp"
+
 struct GameContext {
     Util::Renderer& m_Root;
     std::vector<std::shared_ptr<Zombie>>& zombies;
     std::vector<std::shared_ptr<Sun>>& suns;
     std::vector<std::shared_ptr<Pea>>& peas;
+    std::vector<std::shared_ptr<Snowpea>>& snowpeas;
 };
 
 #endif //GAMECONTEXT_HPP

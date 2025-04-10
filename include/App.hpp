@@ -10,6 +10,7 @@
 #include "Button.hpp"
 #include "plant/Sun.hpp"
 #include "plant/Plant.hpp"
+#include "plant/Snowpea.hpp"
 
 
 class App {
@@ -47,6 +48,12 @@ public:
     }
     bool GetRepeaterClick() {
         return repeater_pick;
+    }
+    void SetSnowpeashooterClick() {
+        snowpeashooter_pick = !snowpeashooter_pick;
+    }
+    bool GetSnowpeashooterClick() {
+        return snowpeashooter_pick;
     }
 
     void Setworldfreq(int value) {
@@ -87,17 +94,20 @@ private:
     //嘗試多個豌豆射手
     std::vector<std::shared_ptr<Peashooter>> peashooters;  // 所有生成的 Peashooter
     std::vector<std::shared_ptr<Pea>> peas;
+    std::vector<std::shared_ptr<Snowpea>> snowpeas;
     std::vector<std::shared_ptr<Plant>> plants;
     Button m_peashooters_button = Button(-564,-490,221,293);
     Button m_sunflower_button = Button(-489,-415,221,293);
     Button m_wallnut_button = Button(-414,-340,221,293);
     Button m_repeater_button = Button(-339,-265,221,293);
+    Button m_snowpeashooter_button = Button(-264,-190,221,293);
     Button m_start_button = Button(28,340,79,155);
     Button m_placeable_button = Button(-435,285,-270,225);
     bool pick = false;
     bool sunflower_pick = false;
     bool wallnut_pick = false;
     bool repeater_pick = false;
+    bool snowpeashooter_pick = false;
     int sun_num = 0;
 };
 
