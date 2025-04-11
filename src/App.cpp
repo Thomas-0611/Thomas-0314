@@ -8,6 +8,7 @@
 #include "plant/Peashooter.hpp"
 #include "GameContext.hpp"
 #include "plant/Repeater.hpp"
+#include "plant/Snowpeashooter.hpp"
 #include "plant/Sunflower.hpp"
 #include "plant/Wallnut.hpp"
 #include "zombie/Coneheadzombie.hpp"
@@ -72,8 +73,10 @@ void App::Start() {
         m_Root.AddChild(flagzombie);
 
         m_store = std::make_shared<BackgroundImage>();
-        m_store->SetBackgroundImage("store");
-        m_store->SetPivot({475,-256});
+        // m_store->SetBackgroundImage("store");
+        // m_store->SetPivot({475,-256});
+        m_store->SetBackgroundImage("store_long");
+        m_store->SetPivot({350,-256});
         m_store->SetZIndex(-8);
         m_Root.AddChild(m_store);
         m_store_sun = std::make_shared<BackgroundImage>();
@@ -84,10 +87,10 @@ void App::Start() {
         m_Root.AddChild(m_store_sun);
 
         // 放入各種植物在商店
-        int storeplantCount = 4; // 可以調整生成數量
+        int storeplantCount = 8; // 可以調整生成數量
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
-            storeplant->SetPivot({525 - i * 75, -256});
+            storeplant->SetPivot({537 - i * 57, -256});
             storeplant->SetZIndex(-7);
             storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
             storeplants.push_back(storeplant);
@@ -104,7 +107,10 @@ void App::Start() {
 }
 
 void App::Update() {
-    printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+        printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    }
+    //
     //TODO: do your things here and delete this line <3
     if (Getworldfreq()>540) {
         //生成太陽
@@ -116,6 +122,7 @@ void App::Update() {
     else {
         Setworldfreq(Getworldfreq()+1);
     }
+
 
     //放置植物
     switch (choose) {
@@ -130,6 +137,9 @@ void App::Update() {
             break;
         case ChoosePlant::REPEATER:
             PlacePlant<Repeater>(150);
+            break;
+        case ChoosePlant::SNOWPEASHOOTER:
+            PlacePlant<Snowpeashooter>(150);
             break;
     }
 
@@ -146,6 +156,9 @@ void App::Update() {
     if (m_repeater_button.MouseClickDetect() && Getsunnum()>=150) {
         choose = ChoosePlant::REPEATER;
     }
+    if (m_snowpeashooter_button.MouseClickDetect() && Getsunnum()>=150) {
+        choose = ChoosePlant::SNOWPEASHOOTER;
+    }
 
     // 更新殭屍
     for (auto it = zombies.begin(); it != zombies.end();) {
@@ -161,7 +174,7 @@ void App::Update() {
         }
     }
 
-    GameContext ctx{ m_Root, zombies, suns, peas };
+    GameContext ctx{ m_Root, zombies, suns, peas, snowpeas };
     // 更新所有植物
     for (auto it = plants.begin(); it != plants.end();) {
         auto plant = *it;
@@ -191,6 +204,37 @@ void App::Update() {
             pea->SetPlaying(false);
             m_Root.RemoveChild(pea);
             it = peas.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    // 雪豆更新
+    for (auto it = snowpeas.begin(); it != snowpeas.end();) {
+        auto snowpea = *it;
+        snowpea->Update();
+
+        bool hit = false;
+        for (auto& zombie : zombies) {
+            if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie)) {
+                zombie->Setlife(zombie->Getlife() - 200);
+                if (!zombie->Getstartcount()) {
+                    zombie->Setstartcount(true);
+                }
+                zombie->Set_snowpea_shooted(zombie->Get_snowpea_shooted()+1);
+                if (zombie->Getlife() <= 0) {
+                    zombie->SetDead();
+                }
+                hit = true;
+                break;
+            }
+        }
+
+        if (snowpea->IsOutOfBounds() || hit) {
+            snowpea->SetLooping(false);
+            snowpea->SetPlaying(false);
+            m_Root.RemoveChild(snowpea);
+            it = snowpeas.erase(it);
         } else {
             ++it;
         }

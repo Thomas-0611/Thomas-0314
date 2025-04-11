@@ -19,70 +19,88 @@ Polevaultingzombie::Polevaultingzombie() : Zombie(){
     SetAttackvalue(200);
 }
 void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>>& plants) {
-    if (!GetDead()) {
-        SetLooping(true);
-        SetPlaying(true);
-        auto cur_pos = GetPosition();
-        if (!GetTargetPlant()) {
-            SetPosition({cur_pos[0] - 0.15, cur_pos[1]});
-        }
-        else if(!firsttouch) {
-            SetPosition({cur_pos[0] - 0.25, cur_pos[1]});
-        }
-        // 當正在跳躍的時候，要去檢查是不是跳躍畫面的最後一幀了
-        if (jumping) {
-            // TODO 檢查是不是最後一幀
-            if (IfAnimationEnds()) {
-                jumping = false;
-                firsttouch = true;
+    if (Get_snowpea_shooted() >= 5) {
+        SetLooping(false);
+        SetPlaying(false);
+        Addfrozenfreq(1);
+    }
+    else {
+        if (!GetDead()) {
+            SetLooping(true);
+            SetPlaying(true);
+            auto cur_pos = GetPosition();
+            if (!GetTargetPlant()) {
+                SetPosition({cur_pos[0] - 0.15, cur_pos[1]});
+            }
+            else if(!firsttouch) {
+                SetPosition({cur_pos[0] - 0.25, cur_pos[1]});
+            }
+            // 當正在跳躍的時候，要去檢查是不是跳躍畫面的最後一幀了
+            if (jumping) {
+                // TODO 檢查是不是最後一幀
+                if (IfAnimationEnds()) {
+                    jumping = false;
+                    firsttouch = true;
+                    Setbacktomove();
+                    SetPosition({cur_pos[0] - 100, cur_pos[1]});
+                }
+            }
+
+            // test GPT Version
+            // 我自己加的，如果target植物死了，直接erase掉
+            if (GetTargetPlant() && GetTargetPlant()->Getlife()<=0) {
+                auto it = std::find(plants.begin(), plants.end(), GetTargetPlant());
+                if (it != plants.end()) {
+                    plants.erase(it);
+                }
+                m_Root.RemoveChild(GetTargetPlant());
+                Set_m_targetnull();
                 Setbacktomove();
-                SetPosition({cur_pos[0] - 100, cur_pos[1]});
             }
-        }
+            // 如果沒有目標植物，就去找
+            if (!GetTargetPlant()) {
+                // 找新的碰撞目標
+                for (auto& plant : plants) {
+                    if (CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(plant))) {
+                        // TODO 第一次遇到植物要跳躍超過它
+                        if (!firsttouch) {
+                            SetJump();
+                            Set_targetplant(plant);
+                            jumping = true;
+                        }
+                        else {
+                            Set_targetplant(plant);
+                            SetEat();
+                        }
+                        break;
+                    }
+                }
+            }
 
-        // test GPT Version
-        // 我自己加的，如果target植物死了，直接erase掉
-        if (GetTargetPlant() && GetTargetPlant()->Getlife()<=0) {
-            auto it = std::find(plants.begin(), plants.end(), GetTargetPlant());
-            if (it != plants.end()) {
-                plants.erase(it);
-            }
-            m_Root.RemoveChild(GetTargetPlant());
-            Set_m_targetnull();
-            Setbacktomove();
-        }
-        // 如果沒有目標植物，就去找
-        if (!GetTargetPlant()) {
-            // 找新的碰撞目標
-            for (auto& plant : plants) {
-                if (CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(plant))) {
-                    // TODO 第一次遇到植物要跳躍超過它
-                    if (!firsttouch) {
-                        SetJump();
-                        Set_targetplant(plant);
-                        jumping = true;
+            // 如果有目標植物，處理吃的邏輯
+            if (GetTargetPlant()) {
+                if (CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(GetTargetPlant()))) {
+                    if (Getcurfreq() >= GetAttackfreq()) {
+                        GetTargetPlant()->Setlife(GetTargetPlant()->Getlife() - GetAttackvalue());
+                        // cur_freq = 0;
+                        Setcurfreq(0);
+                    } else {
+                        Setcurfreq(Getcurfreq() + 1);
                     }
-                    else {
-                        Set_targetplant(plant);
-                        SetEat();
-                    }
-                    break;
                 }
             }
         }
-
-        // 如果有目標植物，處理吃的邏輯
-        if (GetTargetPlant()) {
-            if (CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(GetTargetPlant()))) {
-                if (Getcurfreq() >= GetAttackfreq()) {
-                    GetTargetPlant()->Setlife(GetTargetPlant()->Getlife() - GetAttackvalue());
-                    // cur_freq = 0;
-                    Setcurfreq(0);
-                } else {
-                    Setcurfreq(Getcurfreq() + 1);
-                }
-            }
-        }
+    }
+    if (Get_snowpea_freq() >= 1200 || Getfrozenfreq() >= 360) {
+        Add_snowpea_freq(-Get_snowpea_freq());
+        Set_snowpea_shooted(0);
+        // frozen_freq = 0;
+        Addfrozenfreq(-Getfrozenfreq());
+        Setstartcount(false);
+    }
+    // 被射到第一次才可以開始計算snowpea_freq
+    if (Getstartcount() && Getfrozenfreq() == 0) {
+        Add_snowpea_freq(1);
     }
 }
 

@@ -43,6 +43,30 @@ public:
     void Set_m_dead(bool value) {
         m_dead = value;
     }
+    void Set_snowpea_shooted(int value) {
+        snowpea_shooted = value;
+    }
+    int Get_snowpea_shooted() const {
+        return snowpea_shooted;
+    }
+    void Add_snowpea_freq(int value) {
+        snowpea_freq += value;
+    }
+    int Get_snowpea_freq() const {
+        return snowpea_freq;
+    }
+    void Setstartcount(bool value) {
+        startcount = value;
+    }
+    bool Getstartcount() const {
+        return startcount;
+    }
+    void Addfrozenfreq(int value) {
+        frozen_freq += value;
+    }
+    int Getfrozenfreq() const {
+        return frozen_freq;
+    }
     virtual  void SetEat();
     virtual void Setbacktomove();
     std::array<float, 2> GetSize() const override { return {110.0f, 144.0f}; }
@@ -51,6 +75,10 @@ private:
     int cur_freq = 0;
     bool m_dead = false;
     bool eating = false;
+    int snowpea_shooted = 0;
+    int snowpea_freq = 0;
+    int frozen_freq = 0;
+    bool startcount = false;
 };
 
 #endif //ZOMBIE_HPP
