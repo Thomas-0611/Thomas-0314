@@ -106,7 +106,7 @@ private:
     Button m_start_button = Button(28,340,79,155);
     Button m_placeable_button = Button(-435,285,-270,225);
 
-    int sun_num = 0;
+    int sun_num = 750;
     ChoosePlant choose = ChoosePlant::NONE;
 };
 
