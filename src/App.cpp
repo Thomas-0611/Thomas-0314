@@ -73,8 +73,10 @@ void App::Start() {
         m_Root.AddChild(flagzombie);
 
         m_store = std::make_shared<BackgroundImage>();
-        m_store->SetBackgroundImage("store");
-        m_store->SetPivot({475,-256});
+        // m_store->SetBackgroundImage("store");
+        // m_store->SetPivot({475,-256});
+        m_store->SetBackgroundImage("store_long");
+        m_store->SetPivot({350,-256});
         m_store->SetZIndex(-8);
         m_Root.AddChild(m_store);
         m_store_sun = std::make_shared<BackgroundImage>();
@@ -85,10 +87,10 @@ void App::Start() {
         m_Root.AddChild(m_store_sun);
 
         // 放入各種植物在商店
-        int storeplantCount = 5; // 可以調整生成數量
+        int storeplantCount = 8; // 可以調整生成數量
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
-            storeplant->SetPivot({525 - i * 75, -256});
+            storeplant->SetPivot({537 - i * 57, -256});
             storeplant->SetZIndex(-7);
             storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
             storeplants.push_back(storeplant);
@@ -105,7 +107,10 @@ void App::Start() {
 }
 
 void App::Update() {
-    // printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+        printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    }
+    //
     //TODO: do your things here and delete this line <3
     if (Getworldfreq()>540) {
         //生成太陽
