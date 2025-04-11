@@ -40,7 +40,7 @@ void App::Start() {
     if (m_start_button.MouseClickDetect()) {
         // 測試撐竿跳殭屍
         auto polevaultingzombie = std::make_shared<Polevaultingzombie>();
-        polevaultingzombie->SetPosition({520, 15});  // 每隻殭屍的位置稍微錯開
+        polevaultingzombie->SetPosition({520, 0});  // 每隻殭屍的位置稍微錯開
         zombies.push_back(polevaultingzombie);
         m_Root.AddChild(polevaultingzombie);
 
@@ -49,26 +49,26 @@ void App::Start() {
         int zombieCount = 5; // 可以調整生成數量
         for (int i = 0; i < zombieCount; ++i) {
             auto zombie = std::make_shared<Zombie>();
-            zombie->SetPosition({620 + i * 100, 15});  // 每隻殭屍的位置稍微錯開
+            zombie->SetPosition({620 + i * 100, 0});  // 每隻殭屍的位置稍微錯開
             zombies.push_back(zombie);
             m_Root.AddChild(zombie);
         }
 
         // 測試交通錐殭屍
         auto coneheadzombie = std::make_shared<Coneheadzombie>();
-        coneheadzombie->SetPosition({1120, 15});  // 每隻殭屍的位置稍微錯開
+        coneheadzombie->SetPosition({1120, 0});  // 每隻殭屍的位置稍微錯開
         zombies.push_back(coneheadzombie);
         m_Root.AddChild(coneheadzombie);
 
         // 測試鐵桶殭屍
         auto bucketheadzombie = std::make_shared<Bucketheadzombie>();
-        bucketheadzombie->SetPosition({1220, 15});  // 每隻殭屍的位置稍微錯開
+        bucketheadzombie->SetPosition({1220, 0});  // 每隻殭屍的位置稍微錯開
         zombies.push_back(bucketheadzombie);
         m_Root.AddChild(bucketheadzombie);
 
         // 測試旗子殭屍
         auto flagzombie = std::make_shared<Flagzombie>();
-        flagzombie->SetPosition({1320, 15});  // 每隻殭屍的位置稍微錯開
+        flagzombie->SetPosition({1320, 0});  // 每隻殭屍的位置稍微錯開
         zombies.push_back(flagzombie);
         m_Root.AddChild(flagzombie);
 
@@ -144,6 +144,7 @@ void App::Update() {
     }
 
     //選擇植物
+    ChoosePlant temp_choose = choose;
     if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
         choose = ChoosePlant::PEASHOOTER;
     }
@@ -158,6 +159,9 @@ void App::Update() {
     }
     if (m_snowpeashooter_button.MouseClickDetect() && Getsunnum()>=150) {
         choose = ChoosePlant::SNOWPEASHOOTER;
+    }
+    if(temp_choose == choose && (m_peashooters_button.MouseClickDetect() || m_sunflower_button.MouseClickDetect() || m_wallnut_button.MouseClickDetect() || m_repeater_button.MouseClickDetect() || m_snowpeashooter_button.MouseClickDetect())) {
+        choose = ChoosePlant::NONE;
     }
 
     // 更新殭屍
