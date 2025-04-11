@@ -39,10 +39,10 @@ void App::Start() {
     // 如果點在範圍內(開始遊戲的按鈕)
     if (m_start_button.MouseClickDetect()) {
         // 測試撐竿跳殭屍
-        // auto polevaultingzombie = std::make_shared<Polevaultingzombie>();
-        // polevaultingzombie->SetPosition({520, 15});  // 每隻殭屍的位置稍微錯開
-        // zombies.push_back(polevaultingzombie);
-        // m_Root.AddChild(polevaultingzombie);
+        auto polevaultingzombie = std::make_shared<Polevaultingzombie>();
+        polevaultingzombie->SetPosition({520, 15});  // 每隻殭屍的位置稍微錯開
+        zombies.push_back(polevaultingzombie);
+        m_Root.AddChild(polevaultingzombie);
 
 
         // 生成多個殭屍
