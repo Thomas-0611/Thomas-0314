@@ -8,6 +8,7 @@
 #include "plant/Peashooter.hpp"
 #include "GameContext.hpp"
 #include "plant/Repeater.hpp"
+#include "plant/Snowpeashooter.hpp"
 #include "plant/Sunflower.hpp"
 #include "plant/Wallnut.hpp"
 #include "zombie/Coneheadzombie.hpp"
@@ -72,8 +73,10 @@ void App::Start() {
         m_Root.AddChild(flagzombie);
 
         m_store = std::make_shared<BackgroundImage>();
-        m_store->SetBackgroundImage("store");
-        m_store->SetPivot({475,-256});
+        // m_store->SetBackgroundImage("store");
+        // m_store->SetPivot({475,-256});
+        m_store->SetBackgroundImage("store_long");
+        m_store->SetPivot({350,-256});
         m_store->SetZIndex(-8);
         m_Root.AddChild(m_store);
         m_store_sun = std::make_shared<BackgroundImage>();
@@ -84,10 +87,10 @@ void App::Start() {
         m_Root.AddChild(m_store_sun);
 
         // 放入各種植物在商店
-        int storeplantCount = 4; // 可以調整生成數量
+        int storeplantCount = 8; // 可以調整生成數量
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
-            storeplant->SetPivot({525 - i * 75, -256});
+            storeplant->SetPivot({537 - i * 57, -256});
             storeplant->SetZIndex(-7);
             storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
             storeplants.push_back(storeplant);
@@ -104,7 +107,10 @@ void App::Start() {
 }
 
 void App::Update() {
-    // printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+        printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    }
+    //
     //TODO: do your things here and delete this line <3
     if (Getworldfreq()>540) {
         //生成太陽
@@ -118,33 +124,33 @@ void App::Update() {
     }
 
     // 按下F1，生成一隻豌豆射手
-    // if (GetClick() && Getsunnum()>=100) {
-    //     if (m_placeable_button.MouseClickDetect()) {
-    //         auto m_peashooter = std::make_shared<Peashooter>();
-    //         auto place_pos = Util::Input::GetCursorPosition();
-    //         m_peashooter->SetPosition(place_pos);
-    //         plants.push_back(m_peashooter);
-    //         m_Root.AddChild(m_peashooter);
-    //         Setsunnum(-100);
-    //         SetClick();
-    //     }
-    // }
-
-
-    for (int i = 0;i < 9;i++) {
-        for(int j = 0;j < 5;j++) {
-            if(grid_buttons[9*j+i]->MouseClickDetect() && grid_buttons[9*j+i]->m_has_plant == false && Getsunnum()>100) {
-                auto m_peashooter = std::make_shared<Peashooter>();
-                auto place_pos = grid_buttons[9*j+i]->GetButtonPosition();
-                m_peashooter->SetPosition(place_pos);
-                plants.push_back(m_peashooter);
-                m_Root.AddChild(m_peashooter);
-                Setsunnum(-100);
-                SetClick();
-                grid_buttons[9*j+i]->m_has_plant = true;
-            }
+    if (GetClick() && Getsunnum()>=100) {
+        if (m_placeable_button.MouseClickDetect()) {
+            auto m_peashooter = std::make_shared<Peashooter>();
+            auto place_pos = Util::Input::GetCursorPosition();
+            m_peashooter->SetPosition(place_pos);
+            plants.push_back(m_peashooter);
+            m_Root.AddChild(m_peashooter);
+            Setsunnum(-100);
+            SetClick();
         }
     }
+
+
+    // for (int i = 0;i < 9;i++) {
+    //     for(int j = 0;j < 5;j++) {
+    //         if(grid_buttons[9*j+i]->MouseClickDetect() && grid_buttons[9*j+i]->m_has_plant == false && Getsunnum()>100) {
+    //             auto m_peashooter = std::make_shared<Peashooter>();
+    //             auto place_pos = grid_buttons[9*j+i]->GetButtonPosition();
+    //             m_peashooter->SetPosition(place_pos);
+    //             plants.push_back(m_peashooter);
+    //             m_Root.AddChild(m_peashooter);
+    //             Setsunnum(-100);
+    //             SetClick();
+    //             grid_buttons[9*j+i]->m_has_plant = true;
+    //         }
+    //     }
+    // }
 
     // 生成太陽花
     if (GetSunflowerClick() && Getsunnum()>=50) {
@@ -185,6 +191,19 @@ void App::Update() {
         }
     }
 
+    // 生成雪花豌豆
+    if (GetSnowpeashooterClick() && Getsunnum()>=150) {
+        if (m_placeable_button.MouseClickDetect()) {
+            auto m_snowpeashooter = std::make_shared<Snowpeashooter>();
+            auto place_pos = Util::Input::GetCursorPosition();
+            m_snowpeashooter->SetPosition(place_pos);
+            plants.push_back(m_snowpeashooter);
+            m_Root.AddChild(m_snowpeashooter);
+            Setsunnum(-150);
+            SetSnowpeashooterClick();
+        }
+    }
+
     if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
         if (GetSunflowerClick()) {
             SetSunflowerClick();
@@ -194,6 +213,9 @@ void App::Update() {
         }
         if (GetRepeaterClick()) {
             SetRepeaterClick();
+        }
+        if (GetSnowpeashooterClick()) {
+            SetSnowpeashooterClick();
         }
         SetClick();
     }
@@ -207,6 +229,9 @@ void App::Update() {
         if (GetRepeaterClick()) {
             SetRepeaterClick();
         }
+        if (GetSnowpeashooterClick()) {
+            SetSnowpeashooterClick();
+        }
         SetSunflowerClick();
     }
     if (m_wallnut_button.MouseClickDetect() && Getsunnum()>=50) {
@@ -218,6 +243,9 @@ void App::Update() {
         }
         if (GetRepeaterClick()) {
             SetRepeaterClick();
+        }
+        if (GetSnowpeashooterClick()) {
+            SetSnowpeashooterClick();
         }
         SetWallnutClick();
     }
@@ -231,7 +259,25 @@ void App::Update() {
         if (GetWallnutClick()) {
             SetWallnutClick();
         }
+        if (GetSnowpeashooterClick()) {
+            SetSnowpeashooterClick();
+        }
         SetRepeaterClick();
+    }
+    if (m_snowpeashooter_button.MouseClickDetect() && Getsunnum()>=150) {
+        if (GetClick()) {
+            SetClick();
+        }
+        if (GetSunflowerClick()) {
+            SetSunflowerClick();
+        }
+        if (GetWallnutClick()) {
+            SetWallnutClick();
+        }
+        if (GetRepeaterClick()) {
+            SetRepeaterClick();
+        }
+        SetSnowpeashooterClick();
     }
 
     // 更新殭屍
@@ -248,7 +294,7 @@ void App::Update() {
         }
     }
 
-    GameContext ctx{ m_Root, zombies, suns, peas };
+    GameContext ctx{ m_Root, zombies, suns, peas, snowpeas };
     // 更新所有植物
     for (auto it = plants.begin(); it != plants.end();) {
         auto plant = *it;
@@ -278,6 +324,37 @@ void App::Update() {
             pea->SetPlaying(false);
             m_Root.RemoveChild(pea);
             it = peas.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    // 雪豆更新
+    for (auto it = snowpeas.begin(); it != snowpeas.end();) {
+        auto snowpea = *it;
+        snowpea->Update();
+
+        bool hit = false;
+        for (auto& zombie : zombies) {
+            if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie)) {
+                zombie->Setlife(zombie->Getlife() - 200);
+                if (!zombie->Getstartcount()) {
+                    zombie->Setstartcount(true);
+                }
+                zombie->Set_snowpea_shooted(zombie->Get_snowpea_shooted()+1);
+                if (zombie->Getlife() <= 0) {
+                    zombie->SetDead();
+                }
+                hit = true;
+                break;
+            }
+        }
+
+        if (snowpea->IsOutOfBounds() || hit) {
+            snowpea->SetLooping(false);
+            snowpea->SetPlaying(false);
+            m_Root.RemoveChild(snowpea);
+            it = snowpeas.erase(it);
         } else {
             ++it;
         }

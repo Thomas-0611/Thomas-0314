@@ -64,6 +64,10 @@ add_executable(${PROJECT_NAME}
         src/Flagzombie.cpp
         include/zombie/Polevaultingzombie.hpp
         src/Polevaultingzombie.cpp
+        include/plant/Snowpeashooter.hpp
+        src/Snowpeashooter.cpp
+        include/plant/Snowpea.hpp
+        src/Snowpea.cpp
 )
 
 if(MSVC)
