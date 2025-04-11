@@ -21,39 +21,19 @@ public:
         END,
     };
 
+    //每新增植物種類需添加新的植物進去
+    enum class ChoosePlant {
+        NONE,
+        PEASHOOTER,
+        REPEATER,
+        SUNFLOWER,
+        WALLNUT,
+        SNOWPEASHOOTER,
+    };
+
     State GetCurrentState() const { return m_CurrentState; }
     void Setstartonce() {
         startonce = false;
-    }
-    void SetClick() {
-        pick = !pick;
-    }
-    bool GetClick() {
-        return pick;
-    }
-    void SetSunflowerClick() {
-        sunflower_pick = !sunflower_pick;
-    }
-    bool GetSunflowerClick() {
-        return sunflower_pick;
-    }
-    void SetWallnutClick() {
-        wallnut_pick = !wallnut_pick;
-    }
-    bool GetWallnutClick() {
-        return wallnut_pick;
-    }
-    void SetRepeaterClick() {
-        repeater_pick = !repeater_pick;
-    }
-    bool GetRepeaterClick() {
-        return repeater_pick;
-    }
-    void SetSnowpeashooterClick() {
-        snowpeashooter_pick = !snowpeashooter_pick;
-    }
-    bool GetSnowpeashooterClick() {
-        return snowpeashooter_pick;
     }
 
     void Setworldfreq(int value) {
@@ -67,6 +47,28 @@ public:
     }
     int Getsunnum() {
         return sun_num;
+    }
+
+    //放置植物
+    template <typename PlantType>
+    void PlacePlant(int cost){
+        if(choose != ChoosePlant::NONE) {
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 5; j++) {
+                    int index = 9 * j + i;
+                    if (grid_buttons[index]->MouseClickDetect() && !grid_buttons[index]->m_has_plant && Getsunnum() >= cost){
+                        auto plant = std::make_shared<PlantType>();
+                        auto place_pos = grid_buttons[index]->GetButtonPosition();
+                        plant->SetPosition(place_pos);
+                        plants.push_back(plant);
+                        m_Root.AddChild(plant);
+                        Setsunnum(-cost);
+                        choose = ChoosePlant::NONE;
+                        grid_buttons[index]->m_has_plant = true;
+                    }
+                }
+            }
+        }
     }
 
     void Start();
@@ -103,12 +105,9 @@ private:
     Button m_snowpeashooter_button = Button(-337,-281,221,293);
     Button m_start_button = Button(28,340,79,155);
     Button m_placeable_button = Button(-435,285,-270,225);
-    bool pick = false;
-    bool sunflower_pick = false;
-    bool wallnut_pick = false;
-    bool repeater_pick = false;
-    bool snowpeashooter_pick = false;
+
     int sun_num = 0;
+    ChoosePlant choose = ChoosePlant::NONE;
 };
 
 #endif

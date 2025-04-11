@@ -123,161 +123,41 @@ void App::Update() {
         Setworldfreq(Getworldfreq()+1);
     }
 
-    // 按下F1，生成一隻豌豆射手
-    if (GetClick() && Getsunnum()>=100) {
-        if (m_placeable_button.MouseClickDetect()) {
-            auto m_peashooter = std::make_shared<Peashooter>();
-            auto place_pos = Util::Input::GetCursorPosition();
-            m_peashooter->SetPosition(place_pos);
-            plants.push_back(m_peashooter);
-            m_Root.AddChild(m_peashooter);
-            Setsunnum(-100);
-            SetClick();
-        }
+
+    //放置植物
+    switch (choose) {
+        case ChoosePlant::PEASHOOTER:
+            PlacePlant<Peashooter>(100);
+            break;
+        case ChoosePlant::SUNFLOWER:
+            PlacePlant<Sunflower>(50);
+            break;
+        case ChoosePlant::WALLNUT:
+            PlacePlant<Wallnut>(50);
+            break;
+        case ChoosePlant::REPEATER:
+            PlacePlant<Repeater>(150);
+            break;
+        case ChoosePlant::SNOWPEASHOOTER:
+            PlacePlant<Snowpeashooter>(150);
+            break;
     }
 
-
-    // for (int i = 0;i < 9;i++) {
-    //     for(int j = 0;j < 5;j++) {
-    //         if(grid_buttons[9*j+i]->MouseClickDetect() && grid_buttons[9*j+i]->m_has_plant == false && Getsunnum()>100) {
-    //             auto m_peashooter = std::make_shared<Peashooter>();
-    //             auto place_pos = grid_buttons[9*j+i]->GetButtonPosition();
-    //             m_peashooter->SetPosition(place_pos);
-    //             plants.push_back(m_peashooter);
-    //             m_Root.AddChild(m_peashooter);
-    //             Setsunnum(-100);
-    //             SetClick();
-    //             grid_buttons[9*j+i]->m_has_plant = true;
-    //         }
-    //     }
-    // }
-
-    // 生成太陽花
-    if (GetSunflowerClick() && Getsunnum()>=50) {
-        if (m_placeable_button.MouseClickDetect()) {
-            auto m_sunflower = std::make_shared<Sunflower>();
-            auto place_pos = Util::Input::GetCursorPosition();
-            m_sunflower->SetPosition(place_pos);
-            plants.push_back(m_sunflower);
-            m_Root.AddChild(m_sunflower);
-            Setsunnum(-50);
-            SetSunflowerClick();
-        }
-    }
-
-    // 生成堅果牆
-    if (GetWallnutClick() && Getsunnum()>=50) {
-        if (m_placeable_button.MouseClickDetect()) {
-            auto m_wallnut = std::make_shared<Wallnut>();
-            auto place_pos = Util::Input::GetCursorPosition();
-            m_wallnut->SetPosition(place_pos);
-            plants.push_back(m_wallnut);
-            m_Root.AddChild(m_wallnut);
-            Setsunnum(-50);
-            SetWallnutClick();
-        }
-    }
-
-    // 生成連發豌豆
-    if (GetRepeaterClick() && Getsunnum()>=150) {
-        if (m_placeable_button.MouseClickDetect()) {
-            auto m_repeater = std::make_shared<Repeater>();
-            auto place_pos = Util::Input::GetCursorPosition();
-            m_repeater->SetPosition(place_pos);
-            plants.push_back(m_repeater);
-            m_Root.AddChild(m_repeater);
-            Setsunnum(-150);
-            SetRepeaterClick();
-        }
-    }
-
-    // 生成雪花豌豆
-    if (GetSnowpeashooterClick() && Getsunnum()>=150) {
-        if (m_placeable_button.MouseClickDetect()) {
-            auto m_snowpeashooter = std::make_shared<Snowpeashooter>();
-            auto place_pos = Util::Input::GetCursorPosition();
-            m_snowpeashooter->SetPosition(place_pos);
-            plants.push_back(m_snowpeashooter);
-            m_Root.AddChild(m_snowpeashooter);
-            Setsunnum(-150);
-            SetSnowpeashooterClick();
-        }
-    }
-
+    //選擇植物
     if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
-        if (GetSunflowerClick()) {
-            SetSunflowerClick();
-        }
-        if (GetWallnutClick()) {
-            SetWallnutClick();
-        }
-        if (GetRepeaterClick()) {
-            SetRepeaterClick();
-        }
-        if (GetSnowpeashooterClick()) {
-            SetSnowpeashooterClick();
-        }
-        SetClick();
+        choose = ChoosePlant::PEASHOOTER;
     }
     if (m_sunflower_button.MouseClickDetect() && Getsunnum()>=50) {
-        if (GetClick()) {
-            SetClick();
-        }
-        if (GetWallnutClick()) {
-            SetWallnutClick();
-        }
-        if (GetRepeaterClick()) {
-            SetRepeaterClick();
-        }
-        if (GetSnowpeashooterClick()) {
-            SetSnowpeashooterClick();
-        }
-        SetSunflowerClick();
+        choose = ChoosePlant::SUNFLOWER;
     }
     if (m_wallnut_button.MouseClickDetect() && Getsunnum()>=50) {
-        if (GetClick()) {
-            SetClick();
-        }
-        if (GetSunflowerClick()) {
-            SetSunflowerClick();
-        }
-        if (GetRepeaterClick()) {
-            SetRepeaterClick();
-        }
-        if (GetSnowpeashooterClick()) {
-            SetSnowpeashooterClick();
-        }
-        SetWallnutClick();
+        choose = ChoosePlant::WALLNUT;
     }
     if (m_repeater_button.MouseClickDetect() && Getsunnum()>=150) {
-        if (GetClick()) {
-            SetClick();
-        }
-        if (GetSunflowerClick()) {
-            SetSunflowerClick();
-        }
-        if (GetWallnutClick()) {
-            SetWallnutClick();
-        }
-        if (GetSnowpeashooterClick()) {
-            SetSnowpeashooterClick();
-        }
-        SetRepeaterClick();
+        choose = ChoosePlant::REPEATER;
     }
     if (m_snowpeashooter_button.MouseClickDetect() && Getsunnum()>=150) {
-        if (GetClick()) {
-            SetClick();
-        }
-        if (GetSunflowerClick()) {
-            SetSunflowerClick();
-        }
-        if (GetWallnutClick()) {
-            SetWallnutClick();
-        }
-        if (GetRepeaterClick()) {
-            SetRepeaterClick();
-        }
-        SetSnowpeashooterClick();
+        choose = ChoosePlant::SNOWPEASHOOTER;
     }
 
     // 更新殭屍
