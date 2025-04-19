@@ -22,6 +22,9 @@ struct GameContext {
     std::vector<std::shared_ptr<Sun>>& suns;
     std::vector<std::shared_ptr<Pea>>& peas;
     std::vector<std::shared_ptr<Snowpea>>& snowpeas;
+    std::vector<Plant*> to_remove_plants; // 延遲移除名單
+    float grid_x;
+    float grid_y;
 };
 
 #endif //GAMECONTEXT_HPP

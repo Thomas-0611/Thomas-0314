@@ -7,6 +7,7 @@
 #include "BackgroundImage.hpp"
 #include "plant/Peashooter.hpp"
 #include "GameContext.hpp"
+#include "plant/Cherrybomb.hpp"
 #include "plant/Repeater.hpp"
 #include "plant/Snowpeashooter.hpp"
 #include "plant/Sunflower.hpp"
@@ -41,6 +42,7 @@ void App::Start() {
         // 測試撐竿跳殭屍
         auto polevaultingzombie = std::make_shared<Polevaultingzombie>();
         polevaultingzombie->SetPosition({520, 0});  // 每隻殭屍的位置稍微錯開
+        polevaultingzombie->SetPivot({90,0}); // 圖片偏移
         zombies.push_back(polevaultingzombie);
         m_Root.AddChild(polevaultingzombie);
 
@@ -107,9 +109,9 @@ void App::Start() {
 }
 
 void App::Update() {
-    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-        printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
-    }
+    // if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+    //     printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    // }
     //
     //TODO: do your things here and delete this line <3
     if (Getworldfreq()>540) {
@@ -141,6 +143,8 @@ void App::Update() {
         case ChoosePlant::SNOWPEASHOOTER:
             PlacePlant<Snowpeashooter>(150);
             break;
+        case ChoosePlant::CHERRYBOMB:
+            PlacePlant<Cherrybomb>(200);
     }
 
     //選擇植物
@@ -160,6 +164,9 @@ void App::Update() {
     if (m_snowpeashooter_button.MouseClickDetect() && Getsunnum()>=150) {
         choose = ChoosePlant::SNOWPEASHOOTER;
     }
+    if (m_cherrybomb_button.MouseClickDetect() && Getsunnum()>=200) {
+        choose = ChoosePlant::CHERRYBOMB;
+    }
     if(temp_choose == choose && (m_peashooters_button.MouseClickDetect() || m_sunflower_button.MouseClickDetect() || m_wallnut_button.MouseClickDetect() || m_repeater_button.MouseClickDetect() || m_snowpeashooter_button.MouseClickDetect())) {
         choose = ChoosePlant::NONE;
     }
@@ -178,13 +185,25 @@ void App::Update() {
         }
     }
 
-    GameContext ctx{ m_Root, zombies, suns, peas, snowpeas };
+    GameContext ctx{ m_Root, zombies, suns, peas, snowpeas, {}, grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y};
+    // printf("%.2f %.2f\n",grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y);
     // 更新所有植物
     for (auto it = plants.begin(); it != plants.end();) {
         auto plant = *it;
         plant->Update(ctx);
         ++it;
     }
+    // 延遲移除 Cherrybomb 等植物
+    for (Plant* p : ctx.to_remove_plants) {
+        auto it = std::find_if(plants.begin(), plants.end(), [&](std::shared_ptr<Plant>& ptr) {
+            return ptr.get() == p;
+        });
+        if (it != plants.end()) {
+            m_Root.RemoveChild(*it);
+            plants.erase(it);
+        }
+    }
+    ctx.to_remove_plants.clear();
 
     // 豌豆更新
     for (auto it = peas.begin(); it != peas.end();) {

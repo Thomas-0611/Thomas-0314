@@ -29,6 +29,7 @@ public:
         SUNFLOWER,
         WALLNUT,
         SNOWPEASHOOTER,
+        CHERRYBOMB,
     };
 
     State GetCurrentState() const { return m_CurrentState; }
@@ -103,6 +104,8 @@ private:
     Button m_wallnut_button = Button(-451,-395,221,293);
     Button m_repeater_button = Button(-394,-338,221,293);
     Button m_snowpeashooter_button = Button(-337,-281,221,293);
+    // 食人花還沒做 Button(-280,-224,221,293);
+    Button m_cherrybomb_button = Button(-223,-167,221,293);
     Button m_start_button = Button(28,340,79,155);
     Button m_placeable_button = Button(-435,285,-270,225);
 
