@@ -6,8 +6,6 @@
 #define CHERRYBOMB_HPP
 
 #include "plant/Plant.hpp"
-#include "plant/Pea.hpp"
-#include <vector>
 
 class Cherrybomb : public Plant {
 public:

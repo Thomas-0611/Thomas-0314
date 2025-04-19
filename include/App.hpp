@@ -30,6 +30,7 @@ public:
         WALLNUT,
         SNOWPEASHOOTER,
         CHERRYBOMB,
+        POTATOMINE,
     };
 
     State GetCurrentState() const { return m_CurrentState; }
@@ -106,6 +107,7 @@ private:
     Button m_snowpeashooter_button = Button(-337,-281,221,293);
     // 食人花還沒做 Button(-280,-224,221,293);
     Button m_cherrybomb_button = Button(-223,-167,221,293);
+    Button m_potatomine_button = Button(-166,-110,221,293);
     Button m_start_button = Button(28,340,79,155);
     Button m_placeable_button = Button(-435,285,-270,225);
 
