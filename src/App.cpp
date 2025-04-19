@@ -42,7 +42,7 @@ void App::Start() {
         // 測試撐竿跳殭屍
         auto polevaultingzombie = std::make_shared<Polevaultingzombie>();
         polevaultingzombie->SetPosition({520, 0});  // 每隻殭屍的位置稍微錯開
-        polevaultingzombie->SetPivot({90,0}); // 圖片偏移
+        polevaultingzombie->SetPivot({50,0}); // 圖片偏移
         zombies.push_back(polevaultingzombie);
         m_Root.AddChild(polevaultingzombie);
 
