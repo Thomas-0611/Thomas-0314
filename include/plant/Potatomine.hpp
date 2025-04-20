@@ -20,5 +20,7 @@ public:
 private:
     int cur_freq = 0;
     bool ready = false;
+    bool is_triggered = false;
+    int exploding_timer = 0;
 };
 #endif //POTATOMINE_HPP

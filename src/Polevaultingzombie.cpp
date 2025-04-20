@@ -138,7 +138,7 @@ void Polevaultingzombie::SetDead(){
     if (!GetDead()) {
         Set_m_dead(true);
         std::vector<std::string> PolevaultingzombiedeadImages;
-        for (int i = 113; i < 166; ++i) {
+        for (int i = 130; i < 166; ++i) {
             PolevaultingzombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/PoleVaultingZombie(dead)_resized/frame_" + std::to_string(i) + ".png");
         }
         SetAnimation(PolevaultingzombiedeadImages);
