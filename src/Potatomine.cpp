@@ -32,32 +32,6 @@ void Potatomine::Update(GameContext& ctx) {
         else {
             Setcurfreq(cur_freq+1);
         }
-
-        // if (ready) {
-        //     //TODO:爆炸攻擊9宮格內的殭屍
-        //     auto center = GetPosition();
-        //     float w = ctx.grid_x;
-        //     float h = ctx.grid_y;
-        //
-        //     bool triggered = false;
-        //
-        //     // 第一步：判斷有沒有殭屍「踩到」地雷本體
-        //     for (auto& zombie : ctx.zombies) {
-        //         if (zombie->GetDead()) continue;
-        //         auto zpos = zombie->GetPosition();
-        //
-        //         // 這裡是碰到地雷本體的範圍（可根據圖片微調）
-        //         if (std::abs(zpos.x - center.x) <= w * 1.0f &&
-        //             std::abs(zpos.y - center.y) <= h * 1.0f) {
-        //             triggered = true;
-        //             break;
-        //             }
-        //     }
-        //
-        //     if (triggered) {
-        //         Settoexplore(ctx);
-        //     }
-        // }
         if (ready) {
             auto center = GetPosition();
             float w = ctx.grid_x;

@@ -8,6 +8,7 @@
 #include "plant/Peashooter.hpp"
 #include "GameContext.hpp"
 #include "plant/Cherrybomb.hpp"
+#include "plant/Chomper.hpp"
 #include "plant/Potatomine.hpp"
 #include "plant/Repeater.hpp"
 #include "plant/Snowpeashooter.hpp"
@@ -150,6 +151,9 @@ void App::Update() {
         case ChoosePlant::POTATOMINE:
             PlacePlant<Potatomine>(50);
             break;
+        case ChoosePlant::CHOMPER:
+            PlacePlant<Chomper>(200);
+            break;
     }
 
     //選擇植物
@@ -174,6 +178,9 @@ void App::Update() {
     }
     if (m_potatomine_button.MouseClickDetect() && Getsunnum()>=200) {
         choose = ChoosePlant::POTATOMINE;
+    }
+    if (m_chomper_button.MouseClickDetect() && Getsunnum()>=200) {
+        choose = ChoosePlant::CHOMPER;
     }
     if(temp_choose == choose && (m_peashooters_button.MouseClickDetect() || m_sunflower_button.MouseClickDetect() || m_wallnut_button.MouseClickDetect() || m_repeater_button.MouseClickDetect() || m_snowpeashooter_button.MouseClickDetect())) {
         choose = ChoosePlant::NONE;
