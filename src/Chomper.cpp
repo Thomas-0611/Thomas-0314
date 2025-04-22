@@ -32,9 +32,9 @@ void Chomper::Update(GameContext& ctx) {
                 if (zombie->GetDead()) continue;
                 auto zpos = zombie->GetPosition();
 
-                if (std::abs(zpos.x - center.x) <= w * 1.0f &&
-                    std::abs(zpos.y - center.y) <= h * 1.0f) {
-                    // 殭屍踩到地雷 → 進入倒數爆炸狀態
+                if (std::abs(zpos.x - center.x) <= w * 0.7f &&
+                    std::abs(zpos.y - center.y) <= h * 0.7f) {
+                    // 殭屍進入被咬的範圍
                     starteat = true;
                     eating_timer = 1800; // 約 30 秒
                     std::vector<std::string> ChompereatImages;
@@ -83,12 +83,16 @@ void Chomper::Seteating(GameContext& ctx) {
                 ChompereatingImages.emplace_back(RESOURCE_DIR"/Day/Plant/Chomper(ate)/frame_" + std::to_string(i) + "_delay-0.18s.png");
             }
             SetAnimation(ChompereatingImages);
-
+            zombie->Setbeeaten(true);
             zombie->Setlife(0);
             zombie->SetDead();
             eating = true;
             break;
         }
+    }
+    // 假設食人花原先有目標，但因為被其他植物殺死了，導致目標物消失，而導致空吃，為避免以上狀況而設計的
+    if (!eating) {
+        Setbacktonormal();
     }
 }
 

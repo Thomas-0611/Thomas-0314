@@ -137,11 +137,13 @@ void Polevaultingzombie::Setbacktomove(){
 void Polevaultingzombie::SetDead(){
     if (!GetDead()) {
         Set_m_dead(true);
-        std::vector<std::string> PolevaultingzombiedeadImages;
-        for (int i = 130; i < 166; ++i) {
-            PolevaultingzombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/PoleVaultingZombie(dead)_resized/frame_" + std::to_string(i) + ".png");
+        if (!Getbeeaten()) {
+            std::vector<std::string> PolevaultingzombiedeadImages;
+            for (int i = 130; i < 166; ++i) {
+                PolevaultingzombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/PoleVaultingZombie(dead)_resized/frame_" + std::to_string(i) + ".png");
+            }
+            SetAnimation(PolevaultingzombiedeadImages);
         }
-        SetAnimation(PolevaultingzombiedeadImages);
         SetLooping(false);
         SetPlaying(true);
     }

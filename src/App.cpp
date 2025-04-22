@@ -195,9 +195,14 @@ void App::Update() {
             zombie->SetPlaying(false);
             m_Root.RemoveChild(zombie);
             it = zombies.erase(it);  // 移除死亡的殭屍
-        } else {
+        }else if(zombie->GetDead() && zombie->Getbeeaten()) {
+            zombie->SetPlaying(false);
+            m_Root.RemoveChild(zombie);
+            it = zombies.erase(it);
+        }else {
             ++it;
         }
+
     }
 
     GameContext ctx{ m_Root, zombies, suns, peas, snowpeas, {}, grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y};
