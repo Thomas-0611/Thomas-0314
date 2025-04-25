@@ -67,11 +67,18 @@ public:
     int Getfrozenfreq() const {
         return frozen_freq;
     }
+    void Setbeeaten(bool value) {
+        be_eaten = value;
+    }
+    bool Getbeeaten() const {
+        return be_eaten;
+    }
     virtual  void SetEat();
     virtual void Setbacktomove();
     std::array<float, 2> GetSize() const override { return {110.0f, 144.0f}; }
 private:
     std::shared_ptr<Plant> m_targetPlant = nullptr;
+    bool be_eaten = false; // 是否被食人花吃掉
     int cur_freq = 0;
     bool m_dead = false;
     bool eating = false;

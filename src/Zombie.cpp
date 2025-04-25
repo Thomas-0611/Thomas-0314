@@ -110,11 +110,13 @@ void Zombie::Setbacktomove() {
 void Zombie::SetDead() {
     if (!m_dead) {
         m_dead = true;
-        std::vector<std::string> zombiedeadImages;
-        for (int i = 0; i < 10; ++i) {
-            zombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/Zombie(dead)/frame_" + std::to_string(i) + "_delay-0.1s.png");
+        if (!Getbeeaten()) {
+            std::vector<std::string> zombiedeadImages;
+            for (int i = 0; i < 10; ++i) {
+                zombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/Zombie(dead)/frame_" + std::to_string(i) + "_delay-0.1s.png");
+            }
+            SetAnimation(zombiedeadImages);
         }
-        SetAnimation(zombiedeadImages);
         SetLooping(false);
         SetPlaying(true);
     }

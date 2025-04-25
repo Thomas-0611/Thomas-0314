@@ -32,9 +32,6 @@ void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_p
             if (!GetTargetPlant()) {
                 SetPosition({cur_pos[0] - 0.15, cur_pos[1]});
             }
-            else if(!firsttouch) {
-                SetPosition({cur_pos[0] - 0.25, cur_pos[1]});
-            }
             // 當正在跳躍的時候，要去檢查是不是跳躍畫面的最後一幀了
             if (jumping) {
                 // TODO 檢查是不是最後一幀
@@ -42,7 +39,7 @@ void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_p
                     jumping = false;
                     firsttouch = true;
                     Setbacktomove();
-                    SetPosition({cur_pos[0] - 100, cur_pos[1]});
+                    SetPosition({cur_pos[0] - 150, cur_pos[1]});
                 }
             }
 
@@ -140,11 +137,13 @@ void Polevaultingzombie::Setbacktomove(){
 void Polevaultingzombie::SetDead(){
     if (!GetDead()) {
         Set_m_dead(true);
-        std::vector<std::string> PolevaultingzombiedeadImages;
-        for (int i = 113; i < 166; ++i) {
-            PolevaultingzombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/PoleVaultingZombie(dead)_resized/frame_" + std::to_string(i) + ".png");
+        if (!Getbeeaten()) {
+            std::vector<std::string> PolevaultingzombiedeadImages;
+            for (int i = 130; i < 166; ++i) {
+                PolevaultingzombiedeadImages.emplace_back(RESOURCE_DIR"/Day/Zombie/PoleVaultingZombie(dead)_resized/frame_" + std::to_string(i) + ".png");
+            }
+            SetAnimation(PolevaultingzombiedeadImages);
         }
-        SetAnimation(PolevaultingzombiedeadImages);
         SetLooping(false);
         SetPlaying(true);
     }

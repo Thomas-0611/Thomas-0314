@@ -68,6 +68,12 @@ add_executable(${PROJECT_NAME}
         src/Snowpeashooter.cpp
         include/plant/Snowpea.hpp
         src/Snowpea.cpp
+        include/plant/Cherrybomb.hpp
+        src/Cherrybomb.cpp
+        include/plant/Potatomine.hpp
+        src/Potatomine.cpp
+        include/plant/Chomper.hpp
+        src/Chomper.cpp
 )
 
 if(MSVC)
