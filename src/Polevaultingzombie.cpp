@@ -51,6 +51,7 @@ void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_p
             if (GetTargetPlant() && GetTargetPlant()->Getlife()<=0) {
                 auto it = std::find(plants.begin(), plants.end(), GetTargetPlant());
                 if (it != plants.end()) {
+                    GetTargetPlant()->GetGridButton()->m_has_plant = false;
                     plants.erase(it);
                 }
                 m_Root.RemoveChild(GetTargetPlant());

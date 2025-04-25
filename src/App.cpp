@@ -142,7 +142,7 @@ void App::Update() {
             PlacePlant<Snowpeashooter>(150);
             break;
     }
-
+    auto plant = std::make_shared<Sunflower>();
     //選擇植物
     ChoosePlant temp_choose = choose;
     if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
