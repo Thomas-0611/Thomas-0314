@@ -70,6 +70,7 @@ void Potatomine::Update(GameContext& ctx) {
     else {
         SetDead();
         // 從 plants 中移除自己
+        GetGridButton()->Setm_has_plant(false);
         ctx.to_remove_plants.push_back(this);
     }
 }

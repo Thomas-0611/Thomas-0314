@@ -59,7 +59,7 @@ public:
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 5; j++) {
                     int index = 9 * j + i;
-                    if (grid_buttons[index]->MouseClickDetect() && !grid_buttons[index]->m_has_plant && Getsunnum() >= cost){
+                    if (grid_buttons[index]->MouseClickDetect() && !grid_buttons[index]->Getm_has_plant() && Getsunnum() >= cost){
                         auto plant = std::make_shared<PlantType>();
                         auto place_pos = grid_buttons[index]->GetButtonPosition();
                         plant->SetPosition(place_pos);
@@ -68,7 +68,7 @@ public:
                         m_Root.AddChild(plant);
                         Setsunnum(-cost);
                         choose = ChoosePlant::NONE;
-                        grid_buttons[index]->m_has_plant = true;
+                        grid_buttons[index]->Setm_has_plant(true);
                     }
                 }
             }

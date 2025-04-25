@@ -40,7 +40,7 @@ void Zombie::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>>& 
             if (m_targetPlant && m_targetPlant->Getlife()<=0) {
                 auto it = std::find(plants.begin(), plants.end(), m_targetPlant);
                 if (it != plants.end()) {
-                    GetTargetPlant()->GetGridButton()->m_has_plant = false;
+                    GetTargetPlant()->GetGridButton()->Setm_has_plant(false);
                     plants.erase(it);
                 }
                 m_Root.RemoveChild(m_targetPlant);

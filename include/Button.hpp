@@ -9,7 +9,12 @@
 
 class Button {
 public:
-    bool m_has_plant = false;
+    void Setm_has_plant(bool value) {
+        m_has_plant = value;
+    }
+    bool Getm_has_plant() {
+        return m_has_plant;
+    }
     Button(int min_x, int max_x, int min_y, int max_y) {
         m_min_x = min_x;
         m_max_x = max_x;
@@ -34,6 +39,7 @@ public:
 private:
     int m_min_x,m_min_y,m_max_x,m_max_y;
     glm::vec2 s_ButtonPosition;
+    bool m_has_plant = false;
 };
 
 
