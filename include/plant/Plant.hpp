@@ -24,9 +24,16 @@ public:
             SetPlaying(false);
         }
     };
+    void SetGridButton(std::shared_ptr<Button> grid_button) {
+        m_grid_button = grid_button;
+    }
+    std::shared_ptr<Button> GetGridButton() {
+        return m_grid_button;
+    }
     virtual ~Plant() = default;
 private:
     bool m_dead = false;
+    std::shared_ptr<Button> m_grid_button;
 };
 
 #endif //PLANT_HPP

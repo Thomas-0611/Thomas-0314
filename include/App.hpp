@@ -63,6 +63,7 @@ public:
                         auto plant = std::make_shared<PlantType>();
                         auto place_pos = grid_buttons[index]->GetButtonPosition();
                         plant->SetPosition(place_pos);
+                        plant->SetGridButton(grid_buttons[index]);
                         plants.push_back(plant);
                         m_Root.AddChild(plant);
                         Setsunnum(-cost);
