@@ -76,6 +76,18 @@ void App::Start() {
         zombies.push_back(flagzombie);
         m_Root.AddChild(flagzombie);
 
+        m_stagebackground = std::make_shared<BackgroundImage>();
+        m_stagebackground->SetBackgroundImage("stage_background");
+        m_stagebackground->SetPivot({0,0});
+        m_stagebackground->SetZIndex(-1);
+        m_Root.AddChild(m_stagebackground);
+
+        m_stage1_3 = std::make_shared<BackgroundImage>();
+        m_stage1_3->SetBackgroundImage("stage1_10");
+        m_stage1_3->SetPivot({-1600,-220});
+        m_stage1_3->SetZIndex(0);
+        m_Root.AddChild(m_stage1_3);
+
         m_store = std::make_shared<BackgroundImage>();
         // m_store->SetBackgroundImage("store");
         // m_store->SetPivot({475,-256});
@@ -83,6 +95,7 @@ void App::Start() {
         m_store->SetPivot({350,-256});
         m_store->SetZIndex(-8);
         m_Root.AddChild(m_store);
+
         m_store_sun = std::make_shared<BackgroundImage>();
         // 太陽花的數量顯示
         m_store_sun->SetBackgroundImage("Sun_num/num_0");
@@ -111,11 +124,68 @@ void App::Start() {
 }
 
 void App::Update() {
-    // if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-    //     printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
-    // }
-    //
+
     //TODO: do your things here and delete this line <3
+    if (Util::Input::IsKeyUp(Util::Keycode::D) && !choosing_r && !choosing_l && move_bound<3) {
+        choosing_r = true;
+        temp_pivot = m_stage1_3->GetPivot();
+        move_bound++;
+    }
+    else if(Util::Input::IsKeyUp(Util::Keycode::A) && !choosing_l && !choosing_r && move_bound>0) {
+        choosing_l = true;
+        temp_pivot = m_stage1_3->GetPivot();
+        move_bound--;
+    }
+    if (choosing_r) {
+        m_stage1_3->SetPivot({m_stage1_3->GetPivot().x+10,m_stage1_3->GetPivot().y});
+    }
+    else if (choosing_l) {
+        m_stage1_3->SetPivot({m_stage1_3->GetPivot().x-10,m_stage1_3->GetPivot().y});
+    }
+    if (abs(m_stage1_3->GetPivot().x - temp_pivot.x) >=1360) {
+        choosing_r = false;
+        choosing_l = false;
+    }
+    // if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
+    //     printf("%.2f %.2f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
+    // }
+    if (m_left_stage.MouseClickDetect()) {
+        if (move_bound == 0) {
+            printf("Stage1\n");
+        }
+        else if (move_bound == 1) {
+            printf("Stage4\n");
+        }
+        else if (move_bound == 2) {
+            printf("Stage7\n");
+        }
+        else if (move_bound == 3) {
+            printf("Stage10\n");
+        }
+    }
+    if (m_middle_stage.MouseClickDetect()) {
+        if (move_bound == 0) {
+            printf("Stage2\n");
+        }
+        else if (move_bound == 1) {
+            printf("Stage5\n");
+        }
+        else if (move_bound == 2) {
+            printf("Stage8\n");
+        }
+    }
+    if (m_right_stage.MouseClickDetect()) {
+        if (move_bound == 0) {
+            printf("Stage3\n");
+        }
+        else if (move_bound == 1) {
+            printf("Stage6\n");
+        }
+        else if (move_bound == 2) {
+            printf("Stage9\n");
+        }
+    }
+
     if (Getworldfreq()>540) {
         //生成太陽
         auto m_Sun = std::make_shared<Sun>();
