@@ -88,44 +88,13 @@ void App::Start() {
         m_stage1_3->SetZIndex(0);
         m_Root.AddChild(m_stage1_3);
 
-        m_store = std::make_shared<BackgroundImage>();
-        // m_store->SetBackgroundImage("store");
-        // m_store->SetPivot({475,-256});
-        m_store->SetBackgroundImage("store_long");
-        m_store->SetPivot({350,-256});
-        m_store->SetZIndex(-8);
-        m_Root.AddChild(m_store);
-
-        m_store_sun = std::make_shared<BackgroundImage>();
-        // 太陽花的數量顯示
-        m_store_sun->SetBackgroundImage("Sun_num/num_0");
-        m_store_sun->SetPivot({603,-227});
-        m_store_sun->SetZIndex(-7);
-        m_Root.AddChild(m_store_sun);
-
-        // 放入各種植物在商店
-        int storeplantCount = 8; // 可以調整生成數量
-        for (int i = 0; i < storeplantCount; ++i) {
-            auto storeplant = std::make_shared<BackgroundImage>();
-            storeplant->SetPivot({537 - i * 57, -256});
-            storeplant->SetZIndex(-7);
-            storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
-            storeplants.push_back(storeplant);
-            m_Root.AddChild(storeplant);
-        }
-        m_stage1 = std::make_shared<BackgroundImage>();
-        m_stage1->SetBackgroundImage("five");
-        m_stage1->SetZIndex(-9);
-        m_Root.AddChild(m_stage1);
-        m_CurrentState = State::UPDATE;
+        m_CurrentState = State::CHOOSE;
     }
     m_Root.Update();
 
 }
 
-void App::Update() {
-
-    //TODO: do your things here and delete this line <3
+void App::Choose() {
     if (Util::Input::IsKeyUp(Util::Keycode::D) && !choosing_r && !choosing_l && move_bound<3) {
         choosing_r = true;
         temp_pivot = m_stage1_3->GetPivot();
@@ -146,12 +115,43 @@ void App::Update() {
         choosing_r = false;
         choosing_l = false;
     }
-    // if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-    //     printf("%.2f %.2f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
-    // }
+
     if (m_left_stage.MouseClickDetect()) {
         if (move_bound == 0) {
             printf("Stage1\n");
+            m_stagebackground->SetZIndex(-100);
+            m_stage1_3->SetZIndex(-100);
+
+            m_store = std::make_shared<BackgroundImage>();
+            // m_store->SetBackgroundImage("store");
+            // m_store->SetPivot({475,-256});
+            m_store->SetBackgroundImage("store_long");
+            m_store->SetPivot({350,-256});
+            m_store->SetZIndex(-8);
+            m_Root.AddChild(m_store);
+
+            m_store_sun = std::make_shared<BackgroundImage>();
+            // 太陽花的數量顯示
+            m_store_sun->SetBackgroundImage("Sun_num/num_0");
+            m_store_sun->SetPivot({603,-227});
+            m_store_sun->SetZIndex(-7);
+            m_Root.AddChild(m_store_sun);
+
+            // 放入各種植物在商店
+            int storeplantCount = 8; // 可以調整生成數量
+            for (int i = 0; i < storeplantCount; ++i) {
+                auto storeplant = std::make_shared<BackgroundImage>();
+                storeplant->SetPivot({537 - i * 57, -256});
+                storeplant->SetZIndex(-7);
+                storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
+                storeplants.push_back(storeplant);
+                m_Root.AddChild(storeplant);
+            }
+            m_stage1 = std::make_shared<BackgroundImage>();
+            m_stage1->SetBackgroundImage("five");
+            m_stage1->SetZIndex(-9);
+            m_Root.AddChild(m_stage1);
+            m_CurrentState = State::UPDATE;
         }
         else if (move_bound == 1) {
             printf("Stage4\n");
@@ -185,6 +185,18 @@ void App::Update() {
             printf("Stage9\n");
         }
     }
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
+        Util::Input::IfExit()) {
+        m_CurrentState = State::END;
+        }
+    m_Root.Update();
+}
+
+
+void App::Update() {
+
+    //TODO: do your things here and delete this line <3
+
 
     if (Getworldfreq()>540) {
         //生成太陽

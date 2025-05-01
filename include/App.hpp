@@ -17,6 +17,7 @@ class App {
 public:
     enum class State {
         START,
+        CHOOSE,
         UPDATE,
         END,
     };
@@ -76,6 +77,8 @@ public:
     }
 
     void Start();
+
+    void Choose();
 
     void Update();
 
