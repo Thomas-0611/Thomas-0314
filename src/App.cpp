@@ -319,7 +319,7 @@ void App::Update() {
 
         bool hit = false;
         for (auto& zombie : zombies) {
-            if (!zombie->GetDead() && pea->CheckCollisionPea(zombie)) {
+            if (!zombie->GetDead() && pea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
                 zombie->Setlife(zombie->Getlife() - 200);
                 if (zombie->Getlife() <= 0) {
                     zombie->SetDead();
@@ -346,7 +346,7 @@ void App::Update() {
 
         bool hit = false;
         for (auto& zombie : zombies) {
-            if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie)) {
+            if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
                 zombie->Setlife(zombie->Getlife() - 200);
                 if (!zombie->Getstartcount()) {
                     zombie->Setstartcount(true);
