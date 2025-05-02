@@ -79,9 +79,6 @@ void App::Start() {
         m_Root.AddChild(flagzombie);
         */
 
-        auto level = LevelManager();
-        level.LoadLevel(1,m_Root, zombies);
-
         m_stagebackground = std::make_shared<BackgroundImage>();
         m_stagebackground->SetBackgroundImage("stage_background");
         m_stagebackground->SetPivot({0,0});
@@ -125,6 +122,8 @@ void App::Choose() {
     if (m_left_stage.MouseClickDetect()) {
         if (move_bound == 0) {
             printf("Stage1\n");
+            auto level = LevelManager();
+            level.LoadLevel(1,m_Root, zombies);
             m_stagebackground->SetZIndex(-100);
             m_stage1_3->SetZIndex(-100);
 

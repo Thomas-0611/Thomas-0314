@@ -79,7 +79,7 @@ public:
         auto pos2 = other->GetPosition();
         auto size2 = other->GetSize();
 
-        return (pos1[0]  < pos2[0] + (0.5 * size2[0]) &&
+        return (pos1[0]  < pos2[0] + (0.5* size2[0]) &&
                 pos1[0]  > pos2[0] - (0.5 * size2[0]) &&
                 pos1[1]  < pos2[1] + (0.5 * size2[1]) &&
                 pos1[1]  > pos2[1] - (0.5 * size2[1]));

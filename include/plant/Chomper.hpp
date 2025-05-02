@@ -15,6 +15,7 @@ public:
     std::array<float, 2> GetSize() const override { return {75.0f, 55.0f}; }
 
 private:
+    std::shared_ptr<Zombie> m_targetzombie = nullptr;
     bool starteat = false;
     bool eating = false;
     int eating_timer = 0;

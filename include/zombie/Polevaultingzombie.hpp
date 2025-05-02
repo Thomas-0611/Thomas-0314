@@ -15,6 +15,9 @@ public:
     void SetDead() override;
     void SetEat() override;
     void SetJump();
+    bool GetJump() {
+        return jumping;
+    }
 private:
     bool firsttouch = false;
     bool jumping = false;
