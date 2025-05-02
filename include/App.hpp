@@ -17,6 +17,7 @@ class App {
 public:
     enum class State {
         START,
+        CHOOSE,
         UPDATE,
         END,
     };
@@ -77,6 +78,8 @@ public:
 
     void Start();
 
+    void Choose();
+
     void Update();
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
@@ -91,6 +94,8 @@ private:
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
     std::vector<std::shared_ptr<Button>> grid_buttons;
     std::shared_ptr<BackgroundImage> m_Background;
+    std::shared_ptr<BackgroundImage> m_stagebackground;
+    std::shared_ptr<BackgroundImage> m_stage1_3;
     std::shared_ptr<BackgroundImage> m_store;
     std::shared_ptr<BackgroundImage> m_store_sun;
     std::shared_ptr<BackgroundImage> m_stage1;
@@ -113,7 +118,15 @@ private:
     Button m_start_button = Button(28,340,79,155);
     Button m_placeable_button = Button(-435,285,-270,225);
 
+    Button m_left_stage = Button(-565,-329,109,340);
+    Button m_middle_stage = Button(-108,123,109,340);
+    Button m_right_stage = Button(345,576,109,340);
+
     int sun_num = 750;
+    bool choosing_r = false;
+    bool choosing_l = false;
+    int move_bound = 0;
+    glm::vec2 temp_pivot=glm::vec2(0,0);
     ChoosePlant choose = ChoosePlant::NONE;
 };
 
