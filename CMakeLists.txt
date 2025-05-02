@@ -74,6 +74,9 @@ add_executable(${PROJECT_NAME}
         src/Potatomine.cpp
         include/plant/Chomper.hpp
         src/Chomper.cpp
+        include/ZombieSpawner.hpp
+        include/Level1.hpp
+        include/LevelManager.hpp
 )
 
 if(MSVC)

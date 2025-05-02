@@ -18,6 +18,7 @@
 #include "zombie/Bucketheadzombie.hpp"
 #include "zombie/Flagzombie.hpp"
 #include "zombie/Polevaultingzombie.hpp"
+#include "LevelManager.hpp"
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -42,6 +43,7 @@ void App::Start() {
     // 如果點在範圍內(開始遊戲的按鈕)
     if (m_start_button.MouseClickDetect()) {
         // 測試撐竿跳殭屍
+        /*
         auto polevaultingzombie = std::make_shared<Polevaultingzombie>();
         polevaultingzombie->SetPosition({520, 0});  // 每隻殭屍的位置稍微錯開
         polevaultingzombie->SetPivot({50,0}); // 圖片偏移
@@ -75,6 +77,10 @@ void App::Start() {
         flagzombie->SetPosition({1320, 0});  // 每隻殭屍的位置稍微錯開
         zombies.push_back(flagzombie);
         m_Root.AddChild(flagzombie);
+        */
+
+        auto level = LevelManager();
+        level.LoadLevel(1,m_Root, zombies);
 
         m_stagebackground = std::make_shared<BackgroundImage>();
         m_stagebackground->SetBackgroundImage("stage_background");
