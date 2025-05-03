@@ -387,6 +387,15 @@ void App::Update() {
     // 更新太陽數量的顯示
     m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
 
+    // 如果zombies空了的話，就判定關卡結束
+    if (zombies.size() == 0) {
+        m_stage1_3->SetZIndex(0);
+        m_stagebackground->SetZIndex(-1);
+        m_CurrentState = State::CHOOSE;
+        // TODO: 把所有植物、豌豆、背景erase掉
+        clearall();
+
+    }
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.

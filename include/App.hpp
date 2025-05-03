@@ -75,6 +75,70 @@ public:
             }
         }
     }
+    void clearall() {
+        // 移除所有植物
+        for (auto& plant : plants) {
+            // 取得植物位置
+            glm::vec2 plantPos = plant->GetPosition();
+
+            // 找出該植物對應的 grid button（用最靠近的匹配）
+            for (auto& button : grid_buttons) {
+                glm::vec2 btnPos = button->GetButtonPosition();
+                float cellWidth = grid_buttons[1]->GetButtonPosition().x - grid_buttons[0]->GetButtonPosition().x;
+                float cellHeight = grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y;
+
+                // 判斷 plant 是否在此格內（你也可以依你 Button 實作調整這個邏輯）
+                if (std::abs(plantPos.x - btnPos.x) < cellWidth / 2 &&
+                    std::abs(plantPos.y - btnPos.y) < cellHeight / 2) {
+                    button->Setm_has_plant(false);
+                    break;
+                    }
+            }
+
+            m_Root.RemoveChild(plant);
+        }
+        plants.clear();
+
+        // 移除所有豌豆
+        for (auto& pea : peas) {
+            m_Root.RemoveChild(pea);
+        }
+        peas.clear();
+
+        // 移除所有雪豆
+        for (auto& snowpea : snowpeas) {
+            m_Root.RemoveChild(snowpea);
+        }
+        snowpeas.clear();
+
+        // 移除所有太陽
+        for (auto& sun : suns) {
+            m_Root.RemoveChild(sun);
+        }
+        suns.clear();
+
+        // 移除商店植物
+        for (auto& sp : storeplants) {
+            m_Root.RemoveChild(sp);
+        }
+        storeplants.clear();
+
+        // 移除背景圖片
+        if (m_store) {
+            m_Root.RemoveChild(m_store);
+            m_store = nullptr;
+        }
+
+        if (m_store_sun) {
+            m_Root.RemoveChild(m_store_sun);
+            m_store_sun = nullptr;
+        }
+
+        if (m_stage1) {
+            m_Root.RemoveChild(m_stage1);
+            m_stage1 = nullptr;
+        }
+    };
 
     void Start();
 
