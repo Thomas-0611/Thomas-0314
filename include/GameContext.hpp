@@ -22,7 +22,9 @@ struct GameContext {
     std::vector<std::shared_ptr<Sun>>& suns;
     std::vector<std::shared_ptr<Pea>>& peas;
     std::vector<std::shared_ptr<Snowpea>>& snowpeas;
+    std::vector<std::shared_ptr<Plant>>& plants;
     std::vector<Plant*> to_remove_plants; // 延遲移除名單
+    std::vector<std::shared_ptr<Button>>& grid_buttons;
     float grid_x;
     float grid_y;
 };

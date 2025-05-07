@@ -8,6 +8,7 @@
 #include "plant/Peashooter.hpp"
 #include "Util/Renderer.hpp"
 #include "Button.hpp"
+#include "Lawnmower.hpp"
 #include "plant/Sun.hpp"
 #include "plant/Plant.hpp"
 #include "plant/Snowpea.hpp"
@@ -155,6 +156,7 @@ private:
 
     Util::Renderer m_Root;
     bool startonce = true;
+    std::shared_ptr<Lawnmower> lawnmower;
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
     std::vector<std::shared_ptr<Button>> grid_buttons;
     std::shared_ptr<BackgroundImage> m_Background;
