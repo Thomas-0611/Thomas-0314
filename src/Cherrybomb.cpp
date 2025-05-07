@@ -32,7 +32,7 @@ void Cherrybomb::Update(GameContext& ctx) {
 
             for (auto& zombie : ctx.zombies) {
                 if (zombie->GetDead()) continue;
-                if (zombie->Getontheground()) continue;
+                if (!zombie->Getontheground()) continue;
                 auto zpos = zombie->GetPosition();
                 if (std::abs(zpos.x - center.x) <= w * 1.5f && std::abs(zpos.y - center.y) <= h * 1.5f) {
                     zombie->Setlife(zombie->Getlife() - GetAttackvalue());
