@@ -139,6 +139,8 @@ public:
             m_Root.RemoveChild(m_stage1);
             m_stage1 = nullptr;
         }
+        //移除割草機
+        m_Root.RemoveChild(lawnmower);
     };
 
     void Start();

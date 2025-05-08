@@ -20,6 +20,9 @@ public:
             SetVisible(false);
         }
     };
+    bool Getcleaning() {
+        return cleaning;
+    }
     void Cleanall(GameContext& ctx);
     virtual ~Lawnmower() = default;
 private:
