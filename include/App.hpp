@@ -11,6 +11,7 @@
 #include "plant/Sun.hpp"
 #include "plant/Plant.hpp"
 #include "plant/Snowpea.hpp"
+#include "LevelManager.hpp"
 
 
 class App {
@@ -115,6 +116,8 @@ private:
 
     int sun_num = 750;
     ChoosePlant choose = ChoosePlant::NONE;
+
+    LevelManager level;
 };
 
 #endif

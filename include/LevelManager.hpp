@@ -5,23 +5,33 @@
 #ifndef LEVELMANAGER_HPP
 #define LEVELMANAGER_HPP
 
+#include "Level.hpp"
 #include "Level1.hpp"
 // #include "Level2.hpp"  // 新增新關卡
 
 class LevelManager {
 public:
-    static void LoadLevel(int levelId, Util::Renderer& root, std::vector<std::shared_ptr<Zombie>>& zombies) {
-        switch (levelId) {
+    void LoadLevel(int levelId, Util::Renderer& root, std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants) {
+        m_levelId = levelId;
+        switch (m_levelId) {
             case 1:
-                Level1::Load(root, zombies);
+                level = std::make_unique<Level1>();
                 break;
             // case 2:
-            //     Level2::Load(root);
+            //     Level2::Load(root, zombies, storeplants);
             //     break;
             default:
                 break;
         }
+        level->Load(root, zombies, storeplants);
     }
+
+    void Update(Util::Renderer& root, std::vector<std::shared_ptr<Zombie>>& zombies) {
+        level->GameUpdate(root, zombies);
+    }
+private:
+    std::unique_ptr<Level> level;
+    int m_levelId;
 };
 
 #endif //LEVELMANAGER_HPP

@@ -18,7 +18,7 @@
 #include "zombie/Bucketheadzombie.hpp"
 #include "zombie/Flagzombie.hpp"
 #include "zombie/Polevaultingzombie.hpp"
-#include "LevelManager.hpp"
+
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -79,8 +79,7 @@ void App::Start() {
         m_Root.AddChild(flagzombie);
         */
 
-        auto level = LevelManager();
-        level.LoadLevel(1,m_Root, zombies);
+        level.LoadLevel(1,m_Root, zombies, storeplants);
 
         m_store = std::make_shared<BackgroundImage>();
         // m_store->SetBackgroundImage("store");
@@ -95,9 +94,9 @@ void App::Start() {
         m_store_sun->SetPivot({603,-227});
         m_store_sun->SetZIndex(-7);
         m_Root.AddChild(m_store_sun);
-
+        /*
         // 放入各種植物在商店
-        int storeplantCount = 8; // 可以調整生成數量
+        int storeplantCount = 2; // 可以調整生成數量
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
             storeplant->SetPivot({537 - i * 57, -256});
@@ -106,10 +105,12 @@ void App::Start() {
             storeplants.push_back(storeplant);
             m_Root.AddChild(storeplant);
         }
+
         m_stage1 = std::make_shared<BackgroundImage>();
         m_stage1->SetBackgroundImage("five");
         m_stage1->SetZIndex(-9);
         m_Root.AddChild(m_stage1);
+        */
         m_CurrentState = State::UPDATE;
     }
     m_Root.Update();
@@ -305,6 +306,8 @@ void App::Update() {
 
     // 更新太陽數量的顯示
     m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
+
+    level.Update(m_Root, zombies);
 
     /*
      * Do not touch the code below as they serve the purpose for

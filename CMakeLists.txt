@@ -77,6 +77,7 @@ add_executable(${PROJECT_NAME}
         include/ZombieSpawner.hpp
         include/Level1.hpp
         include/LevelManager.hpp
+        include/Level.hpp
 )
 
 if(MSVC)
