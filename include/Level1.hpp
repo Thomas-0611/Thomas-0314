@@ -29,18 +29,18 @@ public:
         }
 
         // Level 1: 1 pole-vaulter, 5 regular, then 1 conehead
-        spawner.Spawn({ ZombieSpawner::Type::Polevaulter, 1, 520, 0 });
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     5, 620, 100 });
-        spawner.Spawn({ ZombieSpawner::Type::Conehead,    1, 1120, 0 });
-        spawner.Spawn({ ZombieSpawner::Type::Buckethead,    1, 1220, 0 });
+        spawner.Spawn({ ZombieSpawner::Type::Polevaulter, 1, 520, 0, 5 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     5, 620, 100, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Conehead,    1, 1120, 0, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Buckethead,    1, 1220, 0, 3 });
     }
 
     void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies)override {
         // 檢查 zombies 中是否沒有第一階段的殭屍
         ZombieSpawner spawner(root, zombies);
         if (!finalWaveSpawned && AllZombiesDead(zombies)) {
-            spawner.Spawn({ ZombieSpawner::Type::Buckethead, 1, 520, 0 });
-            spawner.Spawn({ ZombieSpawner::Type::Flag,       1, 620, 0 });
+            spawner.Spawn({ ZombieSpawner::Type::Buckethead, 1, 520, 0, 3 });
+            spawner.Spawn({ ZombieSpawner::Type::Flag,       1, 620, 0, 3 });
             finalWaveSpawned = true;
         }
     }

@@ -28,6 +28,7 @@ public:
         int     count;
         int     startX;
         int     spacing;
+        int     startY;
     };
 
     ZombieSpawner(Util::Renderer& root, std::vector<std::shared_ptr<Zombie>>& zombies)
@@ -55,7 +56,8 @@ public:
                     z = std::make_shared<Flagzombie>();
                 break;
             }
-            z->SetPosition({ cfg.startX + i * cfg.spacing, 0 });
+            int y = (cfg.startY-3)*97.4;
+            z->SetPosition({ cfg.startX + i * cfg.spacing, y });
             m_zombies.push_back(z);
             m_root.AddChild(z);
         }
