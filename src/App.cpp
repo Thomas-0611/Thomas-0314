@@ -18,7 +18,7 @@
 #include "zombie/Bucketheadzombie.hpp"
 #include "zombie/Flagzombie.hpp"
 #include "zombie/Polevaultingzombie.hpp"
-#include "LevelManager.hpp"
+
 
 void App::Start() {
     LOG_TRACE("Start");
@@ -79,6 +79,8 @@ void App::Start() {
         m_Root.AddChild(flagzombie);
         */
 
+
+        level.LoadLevel(1,m_Root, zombies, storeplants);
         m_stagebackground = std::make_shared<BackgroundImage>();
         m_stagebackground->SetBackgroundImage("stage_background");
         m_stagebackground->SetPivot({0,0});
@@ -391,6 +393,8 @@ void App::Update() {
 
     // 更新太陽數量的顯示
     m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
+    // 這裡要修
+    level.Update(m_Root, zombies);
 
     // 如果zombies空了的話，就判定關卡結束
     if (zombies.size() == 0) {

@@ -5,19 +5,58 @@
 #ifndef LEVEL1_HPP
 #define LEVEL1_HPP
 
-#include "ZombieSpawner.hpp"
+#include "Level.hpp"
 
-class Level1 {
+class Level1:public Level {
 public:
-    static void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies) {
+    Level1() = default;
+    void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants) override {
         ZombieSpawner spawner(root, zombies);
+
+        std::shared_ptr<BackgroundImage> m_stage = std::make_shared<BackgroundImage>();
+        m_stage->SetBackgroundImage("one");
+        m_stage->SetZIndex(-9);
+        root.AddChild(m_stage);
+
+        int storeplantCount = 3; // 可以調整植物生成數量
+        for (int i = 0; i < storeplantCount; ++i) {
+            auto storeplant = std::make_shared<BackgroundImage>();
+            storeplant->SetPivot({537 - i * 57, -256});
+            storeplant->SetZIndex(-7);
+            storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
+            storeplants.push_back(storeplant);
+            root.AddChild(storeplant);
+        }
+
         // Level 1: 1 pole-vaulter, 5 regular, then 1 conehead
         spawner.Spawn({ ZombieSpawner::Type::Polevaulter, 1, 520, 0 });
         spawner.Spawn({ ZombieSpawner::Type::Regular,     5, 620, 100 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,    1, 1120, 0 });
         spawner.Spawn({ ZombieSpawner::Type::Buckethead,    1, 1220, 0 });
-        spawner.Spawn({ ZombieSpawner::Type::Flag,    1, 1320, 0 });
     }
+
+    void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies)override {
+        // 檢查 zombies 中是否沒有第一階段的殭屍
+        ZombieSpawner spawner(root, zombies);
+        if (!finalWaveSpawned && AllZombiesDead(zombies)) {
+            spawner.Spawn({ ZombieSpawner::Type::Buckethead, 1, 520, 0 });
+            spawner.Spawn({ ZombieSpawner::Type::Flag,       1, 620, 0 });
+            finalWaveSpawned = true;
+        }
+    }
+
+    bool AllZombiesDead(const std::vector<std::shared_ptr<Zombie>>& zombies) {
+        for (const auto& zombie : zombies) {
+            if (!zombie->GetDead()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+private:
+    bool finalWaveSpawned = false;
+
 };
 
 #endif //LEVEL1_HPP
