@@ -42,45 +42,7 @@ void App::Start() {
 
     // 如果點在範圍內(開始遊戲的按鈕)
     if (m_start_button.MouseClickDetect()) {
-        // 測試撐竿跳殭屍
-        /*
-        auto polevaultingzombie = std::make_shared<Polevaultingzombie>();
-        polevaultingzombie->SetPosition({520, 0});  // 每隻殭屍的位置稍微錯開
-        polevaultingzombie->SetPivot({50,0}); // 圖片偏移
-        zombies.push_back(polevaultingzombie);
-        m_Root.AddChild(polevaultingzombie);
 
-
-        // 生成多個殭屍
-        int zombieCount = 5; // 可以調整生成數量
-        for (int i = 0; i < zombieCount; ++i) {
-            auto zombie = std::make_shared<Zombie>();
-            zombie->SetPosition({620 + i * 100, 0});  // 每隻殭屍的位置稍微錯開
-            zombies.push_back(zombie);
-            m_Root.AddChild(zombie);
-        }
-
-        // 測試交通錐殭屍
-        auto coneheadzombie = std::make_shared<Coneheadzombie>();
-        coneheadzombie->SetPosition({1120, 0});  // 每隻殭屍的位置稍微錯開
-        zombies.push_back(coneheadzombie);
-        m_Root.AddChild(coneheadzombie);
-
-        // 測試鐵桶殭屍
-        auto bucketheadzombie = std::make_shared<Bucketheadzombie>();
-        bucketheadzombie->SetPosition({1220, 0});  // 每隻殭屍的位置稍微錯開
-        zombies.push_back(bucketheadzombie);
-        m_Root.AddChild(bucketheadzombie);
-
-        // 測試旗子殭屍
-        auto flagzombie = std::make_shared<Flagzombie>();
-        flagzombie->SetPosition({1320, 0});  // 每隻殭屍的位置稍微錯開
-        zombies.push_back(flagzombie);
-        m_Root.AddChild(flagzombie);
-        */
-
-
-        level.LoadLevel(1,m_Root, zombies, storeplants);
         m_stagebackground = std::make_shared<BackgroundImage>();
         m_stagebackground->SetBackgroundImage("stage_background");
         m_stagebackground->SetPivot({0,0});
@@ -124,8 +86,7 @@ void App::Choose() {
     if (m_left_stage.MouseClickDetect()) {
         if (move_bound == 0) {
             printf("Stage1\n");
-            auto level = LevelManager();
-            level.LoadLevel(1,m_Root, zombies);
+            level.LoadLevel(1,m_Root, zombies, storeplants);
             lawnmower = std::make_shared<Lawnmower>();
             m_Root.AddChild(lawnmower);
 
@@ -147,20 +108,20 @@ void App::Choose() {
             m_store_sun->SetZIndex(-7);
             m_Root.AddChild(m_store_sun);
 
-            // 放入各種植物在商店
-            int storeplantCount = 8; // 可以調整生成數量
-            for (int i = 0; i < storeplantCount; ++i) {
-                auto storeplant = std::make_shared<BackgroundImage>();
-                storeplant->SetPivot({537 - i * 57, -256});
-                storeplant->SetZIndex(-7);
-                storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
-                storeplants.push_back(storeplant);
-                m_Root.AddChild(storeplant);
-            }
-            m_stage1 = std::make_shared<BackgroundImage>();
-            m_stage1->SetBackgroundImage("five");
-            m_stage1->SetZIndex(-9);
-            m_Root.AddChild(m_stage1);
+            // // 放入各種植物在商店
+            // int storeplantCount = 8; // 可以調整生成數量
+            // for (int i = 0; i < storeplantCount; ++i) {
+            //     auto storeplant = std::make_shared<BackgroundImage>();
+            //     storeplant->SetPivot({537 - i * 57, -256});
+            //     storeplant->SetZIndex(-7);
+            //     storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
+            //     storeplants.push_back(storeplant);
+            //     m_Root.AddChild(storeplant);
+            // }
+            // m_stage1 = std::make_shared<BackgroundImage>();
+            // m_stage1->SetBackgroundImage("five");
+            // m_stage1->SetZIndex(-9);
+            // m_Root.AddChild(m_stage1);
             m_CurrentState = State::UPDATE;
         }
         else if (move_bound == 1) {
