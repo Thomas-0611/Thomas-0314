@@ -104,6 +104,7 @@ void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_p
 
 void Polevaultingzombie::SetJump() {
     if (!GetDead()) {
+        Setontheground(false);
         std::vector<std::string> PolevaultingzombiejumpImages;
         for (int i = 52; i < 94; ++i) {
             PolevaultingzombiejumpImages.emplace_back(RESOURCE_DIR"/Day/Zombie/PoleVaultingZombie(action)_resized/frame_" + std::to_string(i) + ".png");
@@ -125,6 +126,7 @@ void Polevaultingzombie::SetEat(){
 }
 
 void Polevaultingzombie::Setbacktomove(){
+    Setontheground(true);
     std::vector<std::string> PolevaultingzombieImages;
     for (int i = 94; i < 114; ++i) {
         PolevaultingzombieImages.emplace_back(RESOURCE_DIR"/Day/Zombie/PoleVaultingZombie(walk_non)_resized/frame_" + std::to_string(i) + ".png");

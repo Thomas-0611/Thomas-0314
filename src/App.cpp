@@ -79,50 +79,135 @@ void App::Start() {
         m_Root.AddChild(flagzombie);
         */
 
+
         level.LoadLevel(1,m_Root, zombies, storeplants);
+        m_stagebackground = std::make_shared<BackgroundImage>();
+        m_stagebackground->SetBackgroundImage("stage_background");
+        m_stagebackground->SetPivot({0,0});
+        m_stagebackground->SetZIndex(-1);
+        m_Root.AddChild(m_stagebackground);
 
-        m_store = std::make_shared<BackgroundImage>();
-        // m_store->SetBackgroundImage("store");
-        // m_store->SetPivot({475,-256});
-        m_store->SetBackgroundImage("store_long");
-        m_store->SetPivot({350,-256});
-        m_store->SetZIndex(-8);
-        m_Root.AddChild(m_store);
-        m_store_sun = std::make_shared<BackgroundImage>();
-        // 太陽花的數量顯示
-        m_store_sun->SetBackgroundImage("Sun_num/num_0");
-        m_store_sun->SetPivot({603,-227});
-        m_store_sun->SetZIndex(-7);
-        m_Root.AddChild(m_store_sun);
-        /*
-        // 放入各種植物在商店
-        int storeplantCount = 2; // 可以調整生成數量
-        for (int i = 0; i < storeplantCount; ++i) {
-            auto storeplant = std::make_shared<BackgroundImage>();
-            storeplant->SetPivot({537 - i * 57, -256});
-            storeplant->SetZIndex(-7);
-            storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
-            storeplants.push_back(storeplant);
-            m_Root.AddChild(storeplant);
-        }
+        m_stage1_3 = std::make_shared<BackgroundImage>();
+        m_stage1_3->SetBackgroundImage("stage1_10");
+        m_stage1_3->SetPivot({-1600,-220});
+        m_stage1_3->SetZIndex(0);
+        m_Root.AddChild(m_stage1_3);
 
-        m_stage1 = std::make_shared<BackgroundImage>();
-        m_stage1->SetBackgroundImage("five");
-        m_stage1->SetZIndex(-9);
-        m_Root.AddChild(m_stage1);
-        */
-        m_CurrentState = State::UPDATE;
+        m_CurrentState = State::CHOOSE;
     }
     m_Root.Update();
 
 }
 
+void App::Choose() {
+    if (Util::Input::IsKeyUp(Util::Keycode::D) && !choosing_r && !choosing_l && move_bound<3) {
+        choosing_r = true;
+        temp_pivot = m_stage1_3->GetPivot();
+        move_bound++;
+    }
+    else if(Util::Input::IsKeyUp(Util::Keycode::A) && !choosing_l && !choosing_r && move_bound>0) {
+        choosing_l = true;
+        temp_pivot = m_stage1_3->GetPivot();
+        move_bound--;
+    }
+    if (choosing_r) {
+        m_stage1_3->SetPivot({m_stage1_3->GetPivot().x+10,m_stage1_3->GetPivot().y});
+    }
+    else if (choosing_l) {
+        m_stage1_3->SetPivot({m_stage1_3->GetPivot().x-10,m_stage1_3->GetPivot().y});
+    }
+    if (abs(m_stage1_3->GetPivot().x - temp_pivot.x) >=1360) {
+        choosing_r = false;
+        choosing_l = false;
+    }
+
+    if (m_left_stage.MouseClickDetect()) {
+        if (move_bound == 0) {
+            printf("Stage1\n");
+            auto level = LevelManager();
+            level.LoadLevel(1,m_Root, zombies);
+            lawnmower = std::make_shared<Lawnmower>();
+            m_Root.AddChild(lawnmower);
+
+            m_stagebackground->SetZIndex(-100);
+            m_stage1_3->SetZIndex(-100);
+
+            m_store = std::make_shared<BackgroundImage>();
+            // m_store->SetBackgroundImage("store");
+            // m_store->SetPivot({475,-256});
+            m_store->SetBackgroundImage("store_long");
+            m_store->SetPivot({350,-256});
+            m_store->SetZIndex(-8);
+            m_Root.AddChild(m_store);
+
+            m_store_sun = std::make_shared<BackgroundImage>();
+            // 太陽花的數量顯示
+            m_store_sun->SetBackgroundImage("Sun_num/num_0");
+            m_store_sun->SetPivot({603,-227});
+            m_store_sun->SetZIndex(-7);
+            m_Root.AddChild(m_store_sun);
+
+            // 放入各種植物在商店
+            int storeplantCount = 8; // 可以調整生成數量
+            for (int i = 0; i < storeplantCount; ++i) {
+                auto storeplant = std::make_shared<BackgroundImage>();
+                storeplant->SetPivot({537 - i * 57, -256});
+                storeplant->SetZIndex(-7);
+                storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
+                storeplants.push_back(storeplant);
+                m_Root.AddChild(storeplant);
+            }
+            m_stage1 = std::make_shared<BackgroundImage>();
+            m_stage1->SetBackgroundImage("five");
+            m_stage1->SetZIndex(-9);
+            m_Root.AddChild(m_stage1);
+            m_CurrentState = State::UPDATE;
+        }
+        else if (move_bound == 1) {
+            printf("Stage4\n");
+        }
+        else if (move_bound == 2) {
+            printf("Stage7\n");
+        }
+        else if (move_bound == 3) {
+            printf("Stage10\n");
+        }
+    }
+    if (m_middle_stage.MouseClickDetect()) {
+        if (move_bound == 0) {
+            printf("Stage2\n");
+        }
+        else if (move_bound == 1) {
+            printf("Stage5\n");
+        }
+        else if (move_bound == 2) {
+            printf("Stage8\n");
+        }
+    }
+    if (m_right_stage.MouseClickDetect()) {
+        if (move_bound == 0) {
+            printf("Stage3\n");
+        }
+        else if (move_bound == 1) {
+            printf("Stage6\n");
+        }
+        else if (move_bound == 2) {
+            printf("Stage9\n");
+        }
+    }
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
+        Util::Input::IfExit()) {
+        m_CurrentState = State::END;
+        }
+    m_Root.Update();
+}
+
+
 void App::Update() {
-    // if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB)) {
-    //     printf("x:%f y:%f\n",Util::Input::GetCursorPosition().x,Util::Input::GetCursorPosition().y);
-    // }
-    //
+
     //TODO: do your things here and delete this line <3
+
+
     if (Getworldfreq()>540) {
         //生成太陽
         auto m_Sun = std::make_shared<Sun>();
@@ -212,7 +297,7 @@ void App::Update() {
 
     }
 
-    GameContext ctx{ m_Root, zombies, suns, peas, snowpeas, {}, grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y};
+    GameContext ctx{ m_Root, zombies, suns, peas, snowpeas, plants,{}, grid_buttons, grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y};
     // printf("%.2f %.2f\n",grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y);
     // 更新所有植物
     for (auto it = plants.begin(); it != plants.end();) {
@@ -220,6 +305,7 @@ void App::Update() {
         plant->Update(ctx);
         ++it;
     }
+    lawnmower->Update(ctx);
     // 延遲移除 Cherrybomb 等植物
     for (Plant* p : ctx.to_remove_plants) {
         auto it = std::find_if(plants.begin(), plants.end(), [&](std::shared_ptr<Plant>& ptr) {
@@ -239,7 +325,7 @@ void App::Update() {
 
         bool hit = false;
         for (auto& zombie : zombies) {
-            if (!zombie->GetDead() && pea->CheckCollisionPea(zombie)) {
+            if (!zombie->GetDead() && pea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
                 zombie->Setlife(zombie->Getlife() - 200);
                 if (zombie->Getlife() <= 0) {
                     zombie->SetDead();
@@ -266,7 +352,7 @@ void App::Update() {
 
         bool hit = false;
         for (auto& zombie : zombies) {
-            if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie)) {
+            if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
                 zombie->Setlife(zombie->Getlife() - 200);
                 if (!zombie->Getstartcount()) {
                     zombie->Setstartcount(true);
@@ -304,11 +390,21 @@ void App::Update() {
         }
     }
 
+
     // 更新太陽數量的顯示
     m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
-
+    // 這裡要修
     level.Update(m_Root, zombies);
 
+    // 如果zombies空了的話，就判定關卡結束
+    if (zombies.size() == 0) {
+        m_stage1_3->SetZIndex(0);
+        m_stagebackground->SetZIndex(-1);
+        m_CurrentState = State::CHOOSE;
+        // TODO: 把所有植物、豌豆、背景erase掉
+        clearall();
+
+    }
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
