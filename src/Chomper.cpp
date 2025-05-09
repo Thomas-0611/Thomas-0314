@@ -32,8 +32,9 @@ void Chomper::Update(GameContext& ctx) {
                 if (zombie->GetDead()) continue;
                 auto zpos = zombie->GetPosition();
 
-                if (std::abs(zpos.x - center.x) <= w * 0.7f &&
-                    std::abs(zpos.y - center.y) <= h * 0.7f) {
+                if (std::abs(zpos.x - center.x) <= w * 0.5f &&
+                    std::abs(zpos.y - center.y) <= h * 0.5f) {
+                    m_targetzombie = zombie;
                     // 殭屍進入被咬的範圍
                     starteat = true;
                     eating_timer = 1800; // 約 30 秒
@@ -43,12 +44,19 @@ void Chomper::Update(GameContext& ctx) {
                     }
                     SetAnimation(ChompereatImages);
                     break;
-                    }
+                }
             }
         } else {
             // 檢查eat的動畫播完沒，播完了後切到ate
             if (IfAnimationEnds() && !eating) {
-                Seteating(ctx);
+                if (m_targetzombie->Getontheground()) {
+                    Seteating(ctx);
+                }
+                else {
+                    Setbacktonormal();
+                    starteat = false;
+                    m_targetzombie = nullptr;
+                }
             }
             if (eating) {
                 if (eating_timer > 0) {

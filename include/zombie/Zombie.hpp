@@ -73,6 +73,12 @@ public:
     bool Getbeeaten() const {
         return be_eaten;
     }
+    void Setontheground(bool value) {
+        ontheground = value;
+    }
+    bool Getontheground() const {
+        return ontheground;
+    }
     virtual  void SetEat();
     virtual void Setbacktomove();
     std::array<float, 2> GetSize() const override { return {110.0f, 144.0f}; }
@@ -86,6 +92,7 @@ private:
     int snowpea_freq = 0;
     int frozen_freq = 0;
     bool startcount = false;
+    bool ontheground = true;
 };
 
 #endif //ZOMBIE_HPP

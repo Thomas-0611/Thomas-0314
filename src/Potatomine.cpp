@@ -89,6 +89,7 @@ void Potatomine::Settoexplore(GameContext& ctx) {
         float w = ctx.grid_x;
         float h = ctx.grid_y;
         if (zombie->GetDead()) continue;
+        if (!zombie->Getontheground()) continue;
         auto zpos = zombie->GetPosition();
 
         if (std::abs(zpos.x - center.x) <= w * 1.5f &&

@@ -79,9 +79,6 @@ void App::Start() {
         m_Root.AddChild(flagzombie);
         */
 
-        auto level = LevelManager();
-        level.LoadLevel(1,m_Root, zombies);
-
         m_stagebackground = std::make_shared<BackgroundImage>();
         m_stagebackground->SetBackgroundImage("stage_background");
         m_stagebackground->SetPivot({0,0});
@@ -125,6 +122,11 @@ void App::Choose() {
     if (m_left_stage.MouseClickDetect()) {
         if (move_bound == 0) {
             printf("Stage1\n");
+            auto level = LevelManager();
+            level.LoadLevel(1,m_Root, zombies);
+            lawnmower = std::make_shared<Lawnmower>();
+            m_Root.AddChild(lawnmower);
+
             m_stagebackground->SetZIndex(-100);
             m_stage1_3->SetZIndex(-100);
 
@@ -293,7 +295,7 @@ void App::Update() {
 
     }
 
-    GameContext ctx{ m_Root, zombies, suns, peas, snowpeas, {}, grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y};
+    GameContext ctx{ m_Root, zombies, suns, peas, snowpeas, plants,{}, grid_buttons, grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y};
     // printf("%.2f %.2f\n",grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y);
     // 更新所有植物
     for (auto it = plants.begin(); it != plants.end();) {
@@ -301,6 +303,7 @@ void App::Update() {
         plant->Update(ctx);
         ++it;
     }
+    lawnmower->Update(ctx);
     // 延遲移除 Cherrybomb 等植物
     for (Plant* p : ctx.to_remove_plants) {
         auto it = std::find_if(plants.begin(), plants.end(), [&](std::shared_ptr<Plant>& ptr) {
@@ -320,7 +323,7 @@ void App::Update() {
 
         bool hit = false;
         for (auto& zombie : zombies) {
-            if (!zombie->GetDead() && pea->CheckCollisionPea(zombie)) {
+            if (!zombie->GetDead() && pea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
                 zombie->Setlife(zombie->Getlife() - 200);
                 if (zombie->Getlife() <= 0) {
                     zombie->SetDead();
@@ -347,7 +350,7 @@ void App::Update() {
 
         bool hit = false;
         for (auto& zombie : zombies) {
-            if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie)) {
+            if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
                 zombie->Setlife(zombie->Getlife() - 200);
                 if (!zombie->Getstartcount()) {
                     zombie->Setstartcount(true);
@@ -385,9 +388,19 @@ void App::Update() {
         }
     }
 
+
     // 更新太陽數量的顯示
     m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
 
+    // 如果zombies空了的話，就判定關卡結束
+    if (zombies.size() == 0) {
+        m_stage1_3->SetZIndex(0);
+        m_stagebackground->SetZIndex(-1);
+        m_CurrentState = State::CHOOSE;
+        // TODO: 把所有植物、豌豆、背景erase掉
+        clearall();
+
+    }
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
