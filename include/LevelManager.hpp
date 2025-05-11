@@ -7,6 +7,7 @@
 
 #include "Level.hpp"
 #include "Level1.hpp"
+#include "Level2.hpp"
 // #include "Level2.hpp"  // 新增新關卡
 
 class LevelManager {
@@ -15,11 +16,11 @@ public:
         m_levelId = levelId;
         switch (m_levelId) {
             case 1:
-                level = std::make_unique<Level1>();
+                level = std::make_shared<Level1>();
                 break;
-            // case 2:
-            //     Level2::Load(root, zombies, storeplants);
-            //     break;
+            case 2:
+                level = std::make_shared<Level2>();
+                break;
             default:
                 break;
         }
@@ -29,8 +30,14 @@ public:
     void Update(Util::Renderer& root, std::vector<std::shared_ptr<Zombie>>& zombies) {
         level->GameUpdate(root, zombies);
     }
+    std::shared_ptr<Level> Getcurrentlevel() {
+        return level;
+    }
+    void Setlevlenull() {
+        level = nullptr;
+    }
 private:
-    std::unique_ptr<Level> level;
+    std::shared_ptr<Level> level;
     int m_levelId;
 };
 

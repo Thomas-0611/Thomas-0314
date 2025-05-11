@@ -1,27 +1,29 @@
 //
-// Created by tommy on 2025/5/1.
+// Created by Thomas on 2025/5/9.
 //
 
-#ifndef LEVEL1_HPP
-#define LEVEL1_HPP
+#ifndef LEVEL2_HPP
+#define LEVEL2_HPP
 
 #include "Level.hpp"
 
-class Level1:public Level {
+class Level2:public Level {
 public:
-    Level1() = default;
+    Level2() = default;
     void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants) override {
         ZombieSpawner spawner(root, zombies);
+
         if (!m_stage) {
             m_stage = std::make_shared<BackgroundImage>();
-            m_stage->SetBackgroundImage("one");
+            m_stage->SetBackgroundImage("three");
             m_stage->SetZIndex(-9);
         } else {
-            m_stage->SetBackgroundImage("one");
+            m_stage->SetBackgroundImage("three");
             m_stage->SetZIndex(-9);
         }
         root.AddChild(m_stage);
-        int storeplantCount = 1; // 可以調整植物生成數量
+
+        int storeplantCount = 2; // 可以調整植物生成數量
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
             storeplant->SetPivot({537 - i * 57, -256});
@@ -31,16 +33,19 @@ public:
             root.AddChild(storeplant);
         }
 
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     3, 620, 100, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     3, 620, 100, 4 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     2, 620, 100, 2 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     2, 620, 100, 3 });
     }
 
     void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies)override {
         // 檢查 zombies 中是否沒有第一階段的殭屍
         ZombieSpawner spawner(root, zombies);
         if (!finalWaveSpawned && AllZombiesDead(zombies)) {
-            // spawner.Spawn({ ZombieSpawner::Type::Buckethead, 1, 520, 0, 3 });
-            spawner.Spawn({ ZombieSpawner::Type::Flag,1, 620, 0, 3 });
-            spawner.Spawn({ZombieSpawner::Type::Regular,1,670,0,3});
+            spawner.Spawn({ ZombieSpawner::Type::Flag,1, 620, 0, 2 });
+            spawner.Spawn({ZombieSpawner::Type::Regular,1,670,0,2});
+            spawner.Spawn({ZombieSpawner::Type::Regular,2,670,50,3});
+            spawner.Spawn({ZombieSpawner::Type::Regular,1,670,0,4});
             finalWaveSpawned = true;
         }
     }
@@ -59,4 +64,4 @@ private:
 
 };
 
-#endif //LEVEL1_HPP
+#endif //LEVEL2_HPP

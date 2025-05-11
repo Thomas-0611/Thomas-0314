@@ -62,6 +62,7 @@ void App::Start() {
 }
 
 void App::Choose() {
+
     if (Util::Input::IsKeyUp(Util::Keycode::D) && !choosing_r && !choosing_l && move_bound<3) {
         choosing_r = true;
         temp_pivot = m_stage1_3->GetPivot();
@@ -86,43 +87,7 @@ void App::Choose() {
     if (m_left_stage.MouseClickDetect()) {
         if (move_bound == 0) {
             printf("Stage1\n");
-            level.LoadLevel(1,m_Root, zombies, storeplants);
-            lawnmower = std::make_shared<Lawnmower>();
-            m_Root.AddChild(lawnmower);
-
-            m_stagebackground->SetZIndex(-100);
-            m_stage1_3->SetZIndex(-100);
-
-            m_store = std::make_shared<BackgroundImage>();
-            // m_store->SetBackgroundImage("store");
-            // m_store->SetPivot({475,-256});
-            m_store->SetBackgroundImage("store_long");
-            m_store->SetPivot({350,-256});
-            m_store->SetZIndex(-8);
-            m_Root.AddChild(m_store);
-
-            m_store_sun = std::make_shared<BackgroundImage>();
-            // 太陽花的數量顯示
-            m_store_sun->SetBackgroundImage("Sun_num/num_0");
-            m_store_sun->SetPivot({603,-227});
-            m_store_sun->SetZIndex(-7);
-            m_Root.AddChild(m_store_sun);
-
-            // // 放入各種植物在商店
-            // int storeplantCount = 8; // 可以調整生成數量
-            // for (int i = 0; i < storeplantCount; ++i) {
-            //     auto storeplant = std::make_shared<BackgroundImage>();
-            //     storeplant->SetPivot({537 - i * 57, -256});
-            //     storeplant->SetZIndex(-7);
-            //     storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
-            //     storeplants.push_back(storeplant);
-            //     m_Root.AddChild(storeplant);
-            // }
-            // m_stage1 = std::make_shared<BackgroundImage>();
-            // m_stage1->SetBackgroundImage("five");
-            // m_stage1->SetZIndex(-9);
-            // m_Root.AddChild(m_stage1);
-            m_CurrentState = State::UPDATE;
+            SwitchToLevel(1);
         }
         else if (move_bound == 1) {
             printf("Stage4\n");
@@ -137,6 +102,7 @@ void App::Choose() {
     if (m_middle_stage.MouseClickDetect()) {
         if (move_bound == 0) {
             printf("Stage2\n");
+            SwitchToLevel(2);
         }
         else if (move_bound == 1) {
             printf("Stage5\n");
@@ -146,6 +112,7 @@ void App::Choose() {
         }
     }
     if (m_right_stage.MouseClickDetect()) {
+        level.Getcurrentlevel()->RemoveStage(m_Root);
         if (move_bound == 0) {
             printf("Stage3\n");
         }
