@@ -112,9 +112,9 @@ void App::Choose() {
         }
     }
     if (m_right_stage.MouseClickDetect()) {
-        level.Getcurrentlevel()->RemoveStage(m_Root);
         if (move_bound == 0) {
             printf("Stage3\n");
+            SwitchToLevel(3);
         }
         else if (move_bound == 1) {
             printf("Stage6\n");

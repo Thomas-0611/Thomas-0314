@@ -81,6 +81,7 @@ add_executable(${PROJECT_NAME}
         include/Lawnmower.hpp
         src/Lawnmower.cpp
         include/Level2.hpp
+        include/Level3.hpp
 )
 
 if(MSVC)

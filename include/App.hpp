@@ -146,6 +146,7 @@ public:
             level.Setlevlenull();
         }
         level.LoadLevel(levelId, m_Root, zombies, storeplants);
+        printf("in\n");
         lawnmower = std::make_shared<Lawnmower>();
         m_Root.AddChild(lawnmower);
         m_stagebackground->SetZIndex(-100);
