@@ -91,6 +91,7 @@ void App::Choose() {
         }
         else if (move_bound == 1) {
             printf("Stage4\n");
+            SwitchToLevel(4);
         }
         else if (move_bound == 2) {
             printf("Stage7\n");

@@ -16,11 +16,12 @@ public:
             m_stage = std::make_shared<BackgroundImage>();
             m_stage->SetBackgroundImage("one");
             m_stage->SetZIndex(-9);
+            root.AddChild(m_stage);
         } else {
             m_stage->SetBackgroundImage("one");
             m_stage->SetZIndex(-9);
         }
-        root.AddChild(m_stage);
+
         int storeplantCount = 1; // 可以調整植物生成數量
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
@@ -31,7 +32,7 @@ public:
             root.AddChild(storeplant);
         }
 
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     3, 620, 100, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     3, 520, 100, 3 });
     }
 
     void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies)override {
@@ -39,8 +40,8 @@ public:
         ZombieSpawner spawner(root, zombies);
         if (!finalWaveSpawned && AllZombiesDead(zombies)) {
             // spawner.Spawn({ ZombieSpawner::Type::Buckethead, 1, 520, 0, 3 });
-            spawner.Spawn({ ZombieSpawner::Type::Flag,1, 620, 0, 3 });
-            spawner.Spawn({ZombieSpawner::Type::Regular,1,670,0,3});
+            spawner.Spawn({ ZombieSpawner::Type::Flag,1, 520, 0, 3 });
+            spawner.Spawn({ZombieSpawner::Type::Regular,1,570,0,3});
             finalWaveSpawned = true;
         }
     }

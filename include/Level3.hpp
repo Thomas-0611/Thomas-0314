@@ -35,22 +35,22 @@ public:
             root.AddChild(storeplant);
         }
 
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     2, 620, 200, 2 });
-        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 920, 200, 2 });
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1070, 100, 2 });
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 700, 100, 3 });
-        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 700, 100, 3 });
-        spawner.Spawn({ ZombieSpawner::Type::Conehead,     2, 800, 250, 4 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     2, 520, 200, 2 });
+        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 820, 200, 2 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 970, 100, 2 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 600, 100, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 600, 100, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Conehead,     2, 700, 250, 4 });
     }
 
     void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies)override {
         // 檢查 zombies 中是否沒有第一階段的殭屍
         ZombieSpawner spawner(root, zombies);
         if (!finalWaveSpawned && AllZombiesDead(zombies)) {
-            spawner.Spawn({ ZombieSpawner::Type::Flag,1, 620, 0, 2 });
-            spawner.Spawn({ZombieSpawner::Type::Regular,2,670,50,3});
-            spawner.Spawn({ZombieSpawner::Type::Conehead,1,670,0,4});
-            spawner.Spawn({ZombieSpawner::Type::Regular,2,720,50,4});
+            spawner.Spawn({ ZombieSpawner::Type::Flag,1, 520, 0, 2 });
+            spawner.Spawn({ZombieSpawner::Type::Regular,2,570,50,3});
+            spawner.Spawn({ZombieSpawner::Type::Conehead,1,570,0,4});
+            spawner.Spawn({ZombieSpawner::Type::Regular,2,620,50,4});
             finalWaveSpawned = true;
         }
     }
