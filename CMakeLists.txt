@@ -84,6 +84,7 @@ add_executable(${PROJECT_NAME}
         include/Level3.hpp
         include/Level4.hpp
         include/Level5.hpp
+        include/Level6.hpp
 )
 
 if(MSVC)
