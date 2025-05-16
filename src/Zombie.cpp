@@ -32,7 +32,7 @@ void Zombie::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>>& 
             SetPlaying(true);
             auto cur_pos = GetPosition();
             if (!m_targetPlant) {
-                SetPosition({cur_pos[0] - 0.2, cur_pos[1]});
+                SetPosition({cur_pos[0] - 0.3, cur_pos[1]});
             }
 
             // test GPT Version
