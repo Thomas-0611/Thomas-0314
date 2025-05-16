@@ -60,7 +60,7 @@ public:
     void PlacePlant(int cost){
         if(choose != ChoosePlant::NONE) {
             for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 5; j++) {
+                for (int j = 2-(button_number-1)/2; j < (button_number+1)/2+2; j++) {
                     int index = 9 * j + i;
                     if (grid_buttons[index]->MouseClickDetect() && !grid_buttons[index]->Getm_has_plant() && Getsunnum() >= cost){
                         auto plant = std::make_shared<PlantType>();
@@ -141,7 +141,10 @@ public:
             m_stage1 = nullptr;
         }
         //移除割草機
-        m_Root.RemoveChild(lawnmower);
+        //m_Root.RemoveChild(lawnmower);
+        for (auto& lm : lawnmowers) {
+            m_Root.RemoveChild(lm);
+        }
     };
 
     void Start();
@@ -159,9 +162,11 @@ private:
 
     Util::Renderer m_Root;
     bool startonce = true;
-    std::shared_ptr<Lawnmower> lawnmower;
+    //std::shared_ptr<Lawnmower> lawnmower;
+    std::vector<std::shared_ptr<Lawnmower>> lawnmowers;
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
     std::vector<std::shared_ptr<Button>> grid_buttons;
+    int button_number;
     std::shared_ptr<BackgroundImage> m_Background;
     std::shared_ptr<BackgroundImage> m_stagebackground;
     std::shared_ptr<BackgroundImage> m_stage1_3;
@@ -199,6 +204,7 @@ private:
     ChoosePlant choose = ChoosePlant::NONE;
 
     LevelManager level;
+
 };
 
 #endif

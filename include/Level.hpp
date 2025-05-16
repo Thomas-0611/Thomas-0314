@@ -6,12 +6,13 @@
 #define LEVEL_HPP
 
 #include "ZombieSpawner.hpp"
+#include "Lawnmower.hpp"
 
 class Level {
 public:
     Level() = default;
-    virtual void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants) = 0;
-    virtual void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies) = 0;
+    virtual void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants, int& button_number, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers) = 0;
+    virtual void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies,GameContext& ctx, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers) = 0;
 };
 
 #endif //LEVEL_HPP

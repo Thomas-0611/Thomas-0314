@@ -9,7 +9,7 @@
 
 class Lawnmower : public AnimatedCharacter {
 public:
-    Lawnmower();
+    Lawnmower(int index);
     void Update(GameContext& ctx);
     bool GetDead() const { return m_dead; }
     void SetDead() {
@@ -28,6 +28,7 @@ public:
 private:
     bool m_dead = false;
     bool cleaning = false;
+    int m_index;
 };
 
 #endif //LAWNMOWER_HPP
