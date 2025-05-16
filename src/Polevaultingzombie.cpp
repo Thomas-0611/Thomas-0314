@@ -30,7 +30,7 @@ void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_p
             SetPlaying(true);
             auto cur_pos = GetPosition();
             if (!GetTargetPlant()) {
-                SetPosition({cur_pos[0] - 0.15, cur_pos[1]});
+                SetPosition({cur_pos[0] - 0.2, cur_pos[1]});
             }
             // 當正在跳躍的時候，要去檢查是不是跳躍畫面的最後一幀了
             if (jumping) {
