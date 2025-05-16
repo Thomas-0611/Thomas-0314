@@ -10,7 +10,7 @@
 class Level1:public Level {
 public:
     Level1() = default;
-    void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants) override {
+    void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants, int& button_number, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers) override {
         ZombieSpawner spawner(root, zombies);
         if (!m_stage) {
             m_stage = std::make_shared<BackgroundImage>();
@@ -22,7 +22,16 @@ public:
             m_stage->SetZIndex(-9);
         }
 
+        button_number = 5;//輸入1or3or5
+        
+        for(int i = 1; i < 6; i++) {
+            lawnmower = std::make_shared<Lawnmower>(i);
+            lawnmowers.emplace_back(lawnmower);
+            root.AddChild(lawnmower);
+        }
+
         int storeplantCount = 1; // 可以調整植物生成數量
+
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
             storeplant->SetPivot({537 - i * 57, -256});
@@ -35,7 +44,7 @@ public:
         spawner.Spawn({ ZombieSpawner::Type::Regular,     3, 520, 100, 3 });
     }
 
-    void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies)override {
+    void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies,GameContext& ctx, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers)override {
         // 檢查 zombies 中是否沒有第一階段的殭屍
         ZombieSpawner spawner(root, zombies);
         if (!finalWaveSpawned && AllZombiesDead(zombies)) {
@@ -43,6 +52,9 @@ public:
             spawner.Spawn({ ZombieSpawner::Type::Flag,1, 520, 0, 3 });
             spawner.Spawn({ZombieSpawner::Type::Regular,1,570,0,3});
             finalWaveSpawned = true;
+        }
+        for (auto& lawnmower : lawnmowers) {
+            lawnmower->Update(ctx);
         }
     }
 
@@ -57,7 +69,7 @@ public:
 
 private:
     bool finalWaveSpawned = false;
-
+    std::shared_ptr<Lawnmower> lawnmower;
 };
 
 #endif //LEVEL1_HPP

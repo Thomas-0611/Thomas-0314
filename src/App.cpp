@@ -87,7 +87,12 @@ void App::Choose() {
     if (m_left_stage.MouseClickDetect()) {
         if (move_bound == 0) {
             printf("Stage1\n");
+
+            //要改下面的Switchtolevel;
+            level.LoadLevel(1,m_Root, zombies, storeplants,button_number,lawnmowers);
+            
             SwitchToLevel(1);
+
         }
         else if (move_bound == 1) {
             printf("Stage4\n");
@@ -237,7 +242,8 @@ void App::Update() {
         plant->Update(ctx);
         ++it;
     }
-    lawnmower->Update(ctx);
+    //lawnmower->Update(ctx);
+    level.Update(m_Root, zombies,ctx,lawnmowers);
     // 延遲移除 Cherrybomb 等植物
     for (Plant* p : ctx.to_remove_plants) {
         auto it = std::find_if(plants.begin(), plants.end(), [&](std::shared_ptr<Plant>& ptr) {
@@ -326,7 +332,7 @@ void App::Update() {
     // 更新太陽數量的顯示
     m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
     // 這裡要修
-    level.Update(m_Root, zombies);
+
 
     // 如果zombies空了的話，就判定關卡結束
     if (zombies.size() == 0) {

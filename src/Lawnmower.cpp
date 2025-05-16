@@ -5,12 +5,34 @@
 
 #include "plant/Plant.hpp"
 
-Lawnmower::Lawnmower():AnimatedCharacter(std::vector<std::string>()) {
+Lawnmower::Lawnmower(int index):AnimatedCharacter(std::vector<std::string>()) {
     std::vector<std::string> lawnmowerImages;
     lawnmowerImages.emplace_back(RESOURCE_DIR"/Day/Tool/Lawnmower.png");
     SetAnimation(lawnmowerImages);
     SetZIndex(2);
-    SetPosition({-500, 0});
+    int y;
+    int grid_ymin = -267;
+    int grid_ymax = 220;
+    float grid_y = (grid_ymax - grid_ymin)/5;
+    m_index = index;
+    switch (m_index) {
+        case 1:
+            y = grid_y*2;
+            break;
+        case 2:
+            y = grid_y;
+            break;
+        case 3:
+            y = 0;
+            break;
+        case 4:
+            y = -grid_y;
+            break;
+        case 5:
+            y = -grid_y*2;
+            break;
+    }
+    SetPosition({-500, y});
     SetVisible(true);
     Setlife(1500);
     SetAttackfreq(180);
@@ -20,7 +42,8 @@ void Lawnmower::Update(GameContext &ctx) {
     if (!GetDead()) {
         if (!cleaning) {
             for (auto& zombie : ctx.zombies) {
-                if (zombie->GetPosition().x - 25 <= GetPosition().x) {
+                float cellHeight = ctx.grid_buttons[9]->GetButtonPosition().y - ctx.grid_buttons[0]->GetButtonPosition().y;
+                if (zombie->GetPosition().x - 25 <= GetPosition().x && zombie->GetPosition().y < -(cellHeight*(m_index-3)-cellHeight/2) && zombie->GetPosition().y > -(cellHeight*(m_index-3)+cellHeight/2)) {
                     cleaning = true;
                     break;
                 }
@@ -34,8 +57,9 @@ void Lawnmower::Update(GameContext &ctx) {
                 SetPosition({GetPosition().x+5,GetPosition().y});
                 //中間的範圍在25~72
                 //清除植物
+                float cellHeight = ctx.grid_buttons[9]->GetButtonPosition().y - ctx.grid_buttons[0]->GetButtonPosition().y;
                 for (auto& plant : ctx.plants) {
-                    if (plant->GetPosition().y<25 && plant->GetPosition().y>-72) {
+                    if (plant->GetPosition().y < -(cellHeight*(m_index-3)-cellHeight/2) && plant->GetPosition().y > -(cellHeight*(m_index-3)+cellHeight/2)) {
                         // 取得植物位置
                         printf("fuck\n");
                         glm::vec2 plantPos = plant->GetPosition();
@@ -60,7 +84,7 @@ void Lawnmower::Update(GameContext &ctx) {
                 }
                 //清除殭屍
                 for (auto& zombie : ctx.zombies) {
-                    if (zombie->GetPosition().y<25 && zombie->GetPosition().y>-72 && zombie->GetPosition().x<=GetPosition().x) {
+                    if (zombie->GetPosition().y < -(cellHeight*(m_index-3)-cellHeight/2) && zombie->GetPosition().y > -(cellHeight*(m_index-3)+cellHeight/2) && zombie->GetPosition().x<=GetPosition().x) {
                         zombie->Setlife(0);
                         zombie->SetDead();
                     }
