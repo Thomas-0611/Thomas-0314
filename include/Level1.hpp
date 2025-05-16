@@ -12,20 +12,26 @@ public:
     Level1() = default;
     void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants, int& button_number, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers) override {
         ZombieSpawner spawner(root, zombies);
+        if (!m_stage) {
+            m_stage = std::make_shared<BackgroundImage>();
+            m_stage->SetBackgroundImage("one");
+            m_stage->SetZIndex(-9);
+            root.AddChild(m_stage);
+        } else {
+            m_stage->SetBackgroundImage("one");
+            m_stage->SetZIndex(-9);
+        }
 
-        std::shared_ptr<BackgroundImage> m_stage = std::make_shared<BackgroundImage>();
         button_number = 5;//輸入1or3or5
-        m_stage->SetBackgroundImage("one");
-        m_stage->SetZIndex(-9);
-        root.AddChild(m_stage);
-
+        
         for(int i = 1; i < 6; i++) {
             lawnmower = std::make_shared<Lawnmower>(i);
             lawnmowers.emplace_back(lawnmower);
             root.AddChild(lawnmower);
         }
 
-        int storeplantCount = 3; // 可以調整植物生成數量
+        int storeplantCount = 1; // 可以調整植物生成數量
+
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
             storeplant->SetPivot({537 - i * 57, -256});
@@ -35,19 +41,16 @@ public:
             root.AddChild(storeplant);
         }
 
-        // Level 1: 1 pole-vaulter, 5 regular, then 1 conehead
-        spawner.Spawn({ ZombieSpawner::Type::Polevaulter, 1, 520, 0, 5 });
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     5, 620, 100, 3 });
-        spawner.Spawn({ ZombieSpawner::Type::Conehead,    1, 1120, 0, 3 });
-        spawner.Spawn({ ZombieSpawner::Type::Buckethead,    1, 1220, 0, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     3, 520, 100, 3 });
     }
 
     void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies,GameContext& ctx, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers)override {
         // 檢查 zombies 中是否沒有第一階段的殭屍
         ZombieSpawner spawner(root, zombies);
         if (!finalWaveSpawned && AllZombiesDead(zombies)) {
-            spawner.Spawn({ ZombieSpawner::Type::Buckethead, 1, 520, 0, 3 });
-            spawner.Spawn({ ZombieSpawner::Type::Flag,       1, 620, 0, 3 });
+            // spawner.Spawn({ ZombieSpawner::Type::Buckethead, 1, 520, 0, 3 });
+            spawner.Spawn({ ZombieSpawner::Type::Flag,1, 520, 0, 3 });
+            spawner.Spawn({ZombieSpawner::Type::Regular,1,570,0,3});
             finalWaveSpawned = true;
         }
         for (auto& lawnmower : lawnmowers) {

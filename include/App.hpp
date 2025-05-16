@@ -136,16 +136,41 @@ public:
             m_store_sun = nullptr;
         }
 
-        if (m_stage1) {
-            m_Root.RemoveChild(m_stage1);
-            m_stage1 = nullptr;
-        }
         //移除割草機
         //m_Root.RemoveChild(lawnmower);
         for (auto& lm : lawnmowers) {
             m_Root.RemoveChild(lm);
         }
     };
+    void SwitchToLevel(int levelId) {
+        if (level.Getcurrentlevel()) {
+            level.Getcurrentlevel()->RemoveStage(m_Root);
+            printf("fuck\n");
+            level.Setlevlenull();
+        }
+        level.LoadLevel(levelId, m_Root, zombies, storeplants);
+        printf("in\n");
+        lawnmower = std::make_shared<Lawnmower>();
+        m_Root.AddChild(lawnmower);
+        m_stagebackground->SetZIndex(-100);
+        m_stage1_3->SetZIndex(-100);
+
+        m_store = std::make_shared<BackgroundImage>();
+        m_store->SetBackgroundImage("store_long");
+        m_store->SetPivot({350,-256});
+        m_store->SetZIndex(-8);
+        m_Root.AddChild(m_store);
+
+        m_store_sun = std::make_shared<BackgroundImage>();
+        // 太陽花的數量顯示
+        m_store_sun->SetBackgroundImage("Sun_num/num_0");
+        m_store_sun->SetPivot({603,-227});
+        m_store_sun->SetZIndex(-7);
+        m_Root.AddChild(m_store_sun);
+
+        m_CurrentState = State::UPDATE;
+    }
+
 
     void Start();
 
@@ -172,7 +197,6 @@ private:
     std::shared_ptr<BackgroundImage> m_stage1_3;
     std::shared_ptr<BackgroundImage> m_store;
     std::shared_ptr<BackgroundImage> m_store_sun;
-    std::shared_ptr<BackgroundImage> m_stage1;
     std::vector<std::shared_ptr<Sun>> suns;
     std::vector<std::shared_ptr<BackgroundImage>> storeplants;
     int world_freq = 0;
