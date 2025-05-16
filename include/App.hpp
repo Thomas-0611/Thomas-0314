@@ -148,10 +148,10 @@ public:
             printf("fuck\n");
             level.Setlevlenull();
         }
-        level.LoadLevel(levelId, m_Root, zombies, storeplants);
+        level.LoadLevel(levelId, m_Root, zombies, storeplants,button_number,lawnmowers);
         printf("in\n");
-        lawnmower = std::make_shared<Lawnmower>();
-        m_Root.AddChild(lawnmower);
+        // lawnmower = std::make_shared<Lawnmower>();
+        // m_Root.AddChild(lawnmower);
         m_stagebackground->SetZIndex(-100);
         m_stage1_3->SetZIndex(-100);
 

@@ -89,7 +89,7 @@ void App::Choose() {
             printf("Stage1\n");
 
             //要改下面的Switchtolevel;
-            level.LoadLevel(1,m_Root, zombies, storeplants,button_number,lawnmowers);
+            // level.LoadLevel(1,m_Root, zombies, storeplants,button_number,lawnmowers);
             
             SwitchToLevel(1);
 
