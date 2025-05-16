@@ -12,6 +12,7 @@
 #include "Level4.hpp"
 #include "Level5.hpp"
 #include "Level6.hpp"
+#include "Level7.hpp"
 // #include "Level2.hpp"  // 新增新關卡
 
 class LevelManager {
@@ -36,6 +37,9 @@ public:
                 break;
             case 6:
                 level = std::make_shared<Level6>();
+                break;
+            case 7:
+                level = std::make_shared<Level7>();
                 break;
             default:
                 break;
