@@ -87,10 +87,6 @@ void App::Choose() {
     if (m_left_stage.MouseClickDetect()) {
         if (move_bound == 0) {
             printf("Stage1\n");
-
-            //要改下面的Switchtolevel;
-            // level.LoadLevel(1,m_Root, zombies, storeplants,button_number,lawnmowers);
-            
             SwitchToLevel(1);
 
         }
@@ -131,6 +127,7 @@ void App::Choose() {
         }
         else if (move_bound == 2) {
             printf("Stage9\n");
+            SwitchToLevel(9);
         }
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
