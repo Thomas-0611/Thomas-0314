@@ -23,6 +23,13 @@ public:
             m_stage->SetZIndex(-9);
         }
 
+        button_number = 3;//輸入1or3or5
+
+        for(int i = 2; i < 5; i++) {
+            lawnmower = std::make_shared<Lawnmower>(i);
+            lawnmowers.emplace_back(lawnmower);
+            root.AddChild(lawnmower);
+        }
 
         int storeplantCount = 2; // 可以調整植物生成數量
         for (int i = 0; i < storeplantCount; ++i) {
@@ -39,7 +46,7 @@ public:
         spawner.Spawn({ ZombieSpawner::Type::Regular,     2, 520, 100, 3 });
     }
 
-    void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies)override {
+    void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies,GameContext& ctx, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers)override {
         // 檢查 zombies 中是否沒有第一階段的殭屍
         ZombieSpawner spawner(root, zombies);
         if (!finalWaveSpawned && AllZombiesDead(zombies)) {
@@ -48,6 +55,9 @@ public:
             spawner.Spawn({ZombieSpawner::Type::Regular,2,570,50,3});
             spawner.Spawn({ZombieSpawner::Type::Regular,1,570,0,4});
             finalWaveSpawned = true;
+        }
+        for (auto& lawnmower : lawnmowers) {
+            lawnmower->Update(ctx);
         }
     }
 
@@ -62,6 +72,7 @@ public:
 
 private:
     bool finalWaveSpawned = false;
+    std::shared_ptr<Lawnmower> lawnmower;
 
 };
 

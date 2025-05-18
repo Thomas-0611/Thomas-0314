@@ -22,9 +22,9 @@ public:
             m_stage->SetZIndex(-9);
         }
 
-        button_number = 5;//輸入1or3or5
+        button_number = 1;//輸入1or3or5
         
-        for(int i = 1; i < 6; i++) {
+        for(int i = 3; i < 4; i++) {
             lawnmower = std::make_shared<Lawnmower>(i);
             lawnmowers.emplace_back(lawnmower);
             root.AddChild(lawnmower);
