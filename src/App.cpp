@@ -117,6 +117,7 @@ void App::Choose() {
         }
         else if (move_bound == 2) {
             printf("Stage8\n");
+            SwitchToLevel(8);
         }
     }
     if (m_right_stage.MouseClickDetect()) {
