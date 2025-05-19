@@ -100,6 +100,7 @@ void App::Choose() {
         }
         else if (move_bound == 3) {
             printf("Stage10\n");
+            SwitchToLevel(10);
         }
     }
     if (m_middle_stage.MouseClickDetect()) {

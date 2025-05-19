@@ -7,6 +7,7 @@
 
 #include "Level.hpp"
 #include "Level1.hpp"
+#include "Level10.hpp"
 #include "Level2.hpp"
 #include "Level3.hpp"
 #include "Level4.hpp"
@@ -48,6 +49,9 @@ public:
                 break;
             case 9:
                 level = std::make_shared<Level9>();
+                break;
+            case 10:
+                level = std::make_shared<Level10>();
                 break;
             default:
                 break;
