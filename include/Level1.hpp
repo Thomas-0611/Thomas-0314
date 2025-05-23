@@ -6,6 +6,7 @@
 #define LEVEL1_HPP
 
 #include "Level.hpp"
+#include "Shovel.hpp"
 
 class Level1:public Level {
 public:
@@ -40,6 +41,7 @@ public:
             storeplants.push_back(storeplant);
             root.AddChild(storeplant);
         }
+        // shovel = std::make_shared<Shovel>();
 
         spawner.Spawn({ ZombieSpawner::Type::Regular,     3, 520, 100, 3 });
     }
@@ -56,6 +58,9 @@ public:
         for (auto& lawnmower : lawnmowers) {
             lawnmower->Update(ctx);
         }
+        //更新鏟子
+
+
     }
 
     bool AllZombiesDead(const std::vector<std::shared_ptr<Zombie>>& zombies) {
@@ -70,6 +75,7 @@ public:
 private:
     bool finalWaveSpawned = false;
     std::shared_ptr<Lawnmower> lawnmower;
+    // std::shared_ptr<Shovel> shovel;
 };
 
 #endif //LEVEL1_HPP
