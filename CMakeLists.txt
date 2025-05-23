@@ -86,6 +86,11 @@ add_executable(${PROJECT_NAME}
         include/Level5.hpp
         include/Level6.hpp
         include/Level7.hpp
+        include/Level8.hpp
+        include/Level9.hpp
+        include/Level10.hpp
+        include/Shovel.hpp
+        src/Shovel.cpp
 )
 
 if(MSVC)

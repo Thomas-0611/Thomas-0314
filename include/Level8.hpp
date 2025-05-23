@@ -1,38 +1,37 @@
 //
-// Created by tommy on 2025/5/1.
+// Created by Thomas on 2025/5/18.
 //
 
-#ifndef LEVEL1_HPP
-#define LEVEL1_HPP
-
+#ifndef LEVEL8_HPP
+#define LEVEL8_HPP
 #include "Level.hpp"
-#include "Shovel.hpp"
 
-class Level1:public Level {
+class Level8:public Level {
 public:
-    Level1() = default;
+    Level8() = default;
     void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants, int& button_number, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers) override {
         ZombieSpawner spawner(root, zombies);
+
         if (!m_stage) {
             m_stage = std::make_shared<BackgroundImage>();
-            m_stage->SetBackgroundImage("one");
+            m_stage->SetBackgroundImage("five");
             m_stage->SetZIndex(-9);
+
             root.AddChild(m_stage);
         } else {
-            m_stage->SetBackgroundImage("one");
+            m_stage->SetBackgroundImage("five");
             m_stage->SetZIndex(-9);
         }
 
-        button_number = 1;//輸入1or3or5
-        
-        for(int i = 3; i < 4; i++) {
+        button_number = 5;//輸入1or3or5
+
+        for(int i = 1; i < 6; i++) {
             lawnmower = std::make_shared<Lawnmower>(i);
             lawnmowers.emplace_back(lawnmower);
             root.AddChild(lawnmower);
         }
 
-        int storeplantCount = 1; // 可以調整植物生成數量
-
+        int storeplantCount = 6; // 可以調整植物生成數量 要再改成櫻桃炸彈
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
             storeplant->SetPivot({537 - i * 57, -256});
@@ -41,26 +40,37 @@ public:
             storeplants.push_back(storeplant);
             root.AddChild(storeplant);
         }
-        // shovel = std::make_shared<Shovel>();
 
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     3, 520, 100, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 520, 200, 4 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 620, 200, 1 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 720, 100, 5 });
+        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 800, 100, 2 });
+        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 880, 100, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Buckethead,     1, 960, 250, 4 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1000, 100, 2 });
+        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1040, 100, 1 });
+        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1100, 100, 5 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1120, 100, 3 });
+        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1180, 100, 2 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1200, 100, 4 });
     }
 
     void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies,GameContext& ctx, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers)override {
         // 檢查 zombies 中是否沒有第一階段的殭屍
         ZombieSpawner spawner(root, zombies);
         if (!finalWaveSpawned && AllZombiesDead(zombies)) {
-            // spawner.Spawn({ ZombieSpawner::Type::Buckethead, 1, 520, 0, 3 });
-            spawner.Spawn({ ZombieSpawner::Type::Flag,1, 520, 0, 3 });
-            spawner.Spawn({ZombieSpawner::Type::Regular,1,570,0,3});
+            spawner.Spawn({ ZombieSpawner::Type::Flag,1, 520, 0, 2 });
+            spawner.Spawn({ZombieSpawner::Type::Buckethead,1,570,30,1});
+            spawner.Spawn({ZombieSpawner::Type::Regular,1,590,0,1});
+            spawner.Spawn({ZombieSpawner::Type::Regular,2,570,30,3});
+            spawner.Spawn({ZombieSpawner::Type::Regular,1,570,50,4});
+            spawner.Spawn({ZombieSpawner::Type::Regular,1,570,0,5});
+            spawner.Spawn({ZombieSpawner::Type::Conehead,1,590,50,5});
             finalWaveSpawned = true;
         }
         for (auto& lawnmower : lawnmowers) {
             lawnmower->Update(ctx);
         }
-        //更新鏟子
-
-
     }
 
     bool AllZombiesDead(const std::vector<std::shared_ptr<Zombie>>& zombies) {
@@ -75,7 +85,6 @@ public:
 private:
     bool finalWaveSpawned = false;
     std::shared_ptr<Lawnmower> lawnmower;
-    // std::shared_ptr<Shovel> shovel;
-};
 
-#endif //LEVEL1_HPP
+};
+#endif //LEVEL8_HPP

@@ -13,6 +13,7 @@
 #include "plant/Plant.hpp"
 #include "plant/Snowpea.hpp"
 #include "LevelManager.hpp"
+#include "Shovel.hpp"
 
 
 class App {
@@ -141,6 +142,8 @@ public:
         for (auto& lm : lawnmowers) {
             m_Root.RemoveChild(lm);
         }
+        //移除鏟子
+        m_Root.RemoveChild(shovel);
     };
     void SwitchToLevel(int levelId) {
         if (level.Getcurrentlevel()) {
@@ -188,6 +191,7 @@ private:
     Util::Renderer m_Root;
     bool startonce = true;
     //std::shared_ptr<Lawnmower> lawnmower;
+    std::shared_ptr<Shovel> shovel;
     std::vector<std::shared_ptr<Lawnmower>> lawnmowers;
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍
     std::vector<std::shared_ptr<Button>> grid_buttons;
@@ -220,6 +224,7 @@ private:
     Button m_middle_stage = Button(-108,123,109,340);
     Button m_right_stage = Button(345,576,109,340);
 
+    Button m_shovel = Button(-50,50,221,293);
     int sun_num = 750;
     bool choosing_r = false;
     bool choosing_l = false;

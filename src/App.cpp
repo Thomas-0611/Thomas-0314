@@ -7,6 +7,7 @@
 #include "BackgroundImage.hpp"
 #include "plant/Peashooter.hpp"
 #include "GameContext.hpp"
+#include "Shovel.hpp"
 #include "plant/Cherrybomb.hpp"
 #include "plant/Chomper.hpp"
 #include "plant/Potatomine.hpp"
@@ -87,10 +88,6 @@ void App::Choose() {
     if (m_left_stage.MouseClickDetect()) {
         if (move_bound == 0) {
             printf("Stage1\n");
-
-            //要改下面的Switchtolevel;
-            // level.LoadLevel(1,m_Root, zombies, storeplants,button_number,lawnmowers);
-            
             SwitchToLevel(1);
 
         }
@@ -104,7 +101,10 @@ void App::Choose() {
         }
         else if (move_bound == 3) {
             printf("Stage10\n");
+            SwitchToLevel(10);
         }
+        shovel = std::make_shared<Shovel>();
+        m_Root.AddChild(shovel);
     }
     if (m_middle_stage.MouseClickDetect()) {
         if (move_bound == 0) {
@@ -117,7 +117,10 @@ void App::Choose() {
         }
         else if (move_bound == 2) {
             printf("Stage8\n");
+            SwitchToLevel(8);
         }
+        shovel = std::make_shared<Shovel>();
+        m_Root.AddChild(shovel);
     }
     if (m_right_stage.MouseClickDetect()) {
         if (move_bound == 0) {
@@ -130,7 +133,10 @@ void App::Choose() {
         }
         else if (move_bound == 2) {
             printf("Stage9\n");
+            SwitchToLevel(9);
         }
+        shovel = std::make_shared<Shovel>();
+        m_Root.AddChild(shovel);
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
@@ -244,6 +250,20 @@ void App::Update() {
     }
     //lawnmower->Update(ctx);
     level.Update(m_Root, zombies,ctx,lawnmowers);
+
+
+
+    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && shovel->GetClick()) {
+        printf("clean the plant\n");
+        shovel->Clean(ctx,Util::Input::GetCursorPosition());
+        shovel->SetClick();
+    }
+    if (m_shovel.MouseClickDetect()) {
+        printf("I'm here\n");
+        shovel->SetClick();
+    }
+
+
     // 延遲移除 Cherrybomb 等植物
     for (Plant* p : ctx.to_remove_plants) {
         auto it = std::find_if(plants.begin(), plants.end(), [&](std::shared_ptr<Plant>& ptr) {
