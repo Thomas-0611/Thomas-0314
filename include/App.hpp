@@ -142,6 +142,15 @@ public:
         for (auto& lm : lawnmowers) {
             m_Root.RemoveChild(lm);
         }
+        lawnmowers.clear();
+
+        //移除太陽數字
+        for (auto& lm : m_store_suns) {
+            m_Root.RemoveChild(lm);
+        }
+        m_store_suns.clear();
+        Setsunnum(50);
+
         //移除鏟子
         m_Root.RemoveChild(shovel);
     };
@@ -164,12 +173,24 @@ public:
         m_store->SetZIndex(-8);
         m_Root.AddChild(m_store);
 
+        /*
         m_store_sun = std::make_shared<BackgroundImage>();
         // 太陽花的數量顯示
         m_store_sun->SetBackgroundImage("Sun_num/num_0");
         m_store_sun->SetPivot({603,-227});
         m_store_sun->SetZIndex(-7);
         m_Root.AddChild(m_store_sun);
+        */
+
+        for(int i = 0; i < 5; i++) {
+            m_store_sun = std::make_shared<BackgroundImage>();
+            // 太陽花的數量顯示
+            m_store_sun->SetBackgroundImage("Sun_num/digit_0");
+            m_store_sun->SetPivot({589+8*i,-227});
+            m_store_sun->SetZIndex(-7);
+            m_store_suns.push_back(m_store_sun);
+            m_Root.AddChild(m_store_sun);
+        }
 
         m_CurrentState = State::UPDATE;
     }
@@ -201,6 +222,7 @@ private:
     std::shared_ptr<BackgroundImage> m_stage1_3;
     std::shared_ptr<BackgroundImage> m_store;
     std::shared_ptr<BackgroundImage> m_store_sun;
+    std::vector<std::shared_ptr<BackgroundImage>> m_store_suns;
     std::vector<std::shared_ptr<Sun>> suns;
     std::vector<std::shared_ptr<BackgroundImage>> storeplants;
     int world_freq = 0;

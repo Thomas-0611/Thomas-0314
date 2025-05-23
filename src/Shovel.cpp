@@ -38,6 +38,8 @@ void Shovel::Clean(GameContext &ctx, glm::vec2 pos) {
                         }
                 }
                 ctx.to_remove_plants.push_back(plant.get());
+                plant->Setlife(0);
+                plant->SetDead();
                 break;
                 }
         }

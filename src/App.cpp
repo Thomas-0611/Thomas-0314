@@ -350,7 +350,13 @@ void App::Update() {
 
 
     // 更新太陽數量的顯示
-    m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
+    int temp_sunnumber = Getsunnum();
+    for(int i = 0; i < 5;i++) {
+        int temp_number = temp_sunnumber % 10;
+        temp_sunnumber = temp_sunnumber / 10;
+        m_store_suns[i]->SetBackgroundImage("Sun_num/digit_"+std::to_string(temp_number));
+    }
+    //m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
     // 這裡要修
 
 
