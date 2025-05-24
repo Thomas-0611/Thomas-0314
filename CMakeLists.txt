@@ -40,9 +40,9 @@ add_executable(${PROJECT_NAME}
         src/AnimatedCharacter.cpp
         include/BackgroundImage.hpp
         include/zombie/Zombie.hpp
-        src/Zombie.cpp
+        src/zombie/Zombie.cpp
         include/plant/Peashooter.hpp
-        src/Peashooter.cpp
+        src/plant/Peashooter.cpp
         include/plant/Pea.hpp
         src/Pea.cpp
         include/Button.hpp
@@ -50,45 +50,45 @@ add_executable(${PROJECT_NAME}
         src/Sun.cpp
         include/plant/Plant.hpp
         include/plant/Sunflower.hpp
-        src/Sunflower.cpp
+        src/plant/Sunflower.cpp
         include/GameContext.hpp
         include/plant/Wallnut.hpp
-        src/Wallnut.cpp
+        src/plant/Wallnut.cpp
         include/plant/Repeater.hpp
         src/Repeater.cpp
         include/zombie/Coneheadzombie.hpp
-        src/Coneheadzombie.cpp
+        src/zombie/Coneheadzombie.cpp
         include/zombie/Bucketheadzombie.hpp
-        src/Bucketheadzombie.cpp
+        src/zombie/Bucketheadzombie.cpp
         include/zombie/Flagzombie.hpp
-        src/Flagzombie.cpp
+        src/zombie/Flagzombie.cpp
         include/zombie/Polevaultingzombie.hpp
-        src/Polevaultingzombie.cpp
+        src/zombie/Polevaultingzombie.cpp
         include/plant/Snowpeashooter.hpp
-        src/Snowpeashooter.cpp
+        src/plant/Snowpeashooter.cpp
         include/plant/Snowpea.hpp
         src/Snowpea.cpp
         include/plant/Cherrybomb.hpp
-        src/Cherrybomb.cpp
+        src/plant/Cherrybomb.cpp
         include/plant/Potatomine.hpp
-        src/Potatomine.cpp
+        src/plant/Potatomine.cpp
         include/plant/Chomper.hpp
-        src/Chomper.cpp
+        src/plant/Chomper.cpp
         include/ZombieSpawner.hpp
-        include/Level1.hpp
-        include/LevelManager.hpp
-        include/Level.hpp
+        include/level/Level1.hpp
+        include/level/LevelManager.hpp
+        include/level/Level.hpp
         include/Lawnmower.hpp
         src/Lawnmower.cpp
-        include/Level2.hpp
-        include/Level3.hpp
-        include/Level4.hpp
-        include/Level5.hpp
-        include/Level6.hpp
-        include/Level7.hpp
-        include/Level8.hpp
-        include/Level9.hpp
-        include/Level10.hpp
+        include/level/Level2.hpp
+        include/level/Level3.hpp
+        include/level/Level4.hpp
+        include/level/Level5.hpp
+        include/level/Level6.hpp
+        include/level/Level7.hpp
+        include/level/Level8.hpp
+        include/level/Level9.hpp
+        include/level/Level10.hpp
         include/Shovel.hpp
         src/Shovel.cpp
 )
