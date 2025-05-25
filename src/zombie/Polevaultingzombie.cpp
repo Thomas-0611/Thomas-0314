@@ -30,7 +30,12 @@ void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_p
             SetPlaying(true);
             auto cur_pos = GetPosition();
             if (!GetTargetPlant()) {
-                SetPosition({cur_pos[0] - 0.4, cur_pos[1]});
+                if (!firsttouch) {
+                    SetPosition({cur_pos[0] - 0.4, cur_pos[1]});
+                }
+                else {
+                    SetPosition({cur_pos[0] - 0.3, cur_pos[1]});
+                }
             }
             // 當正在跳躍的時候，要去檢查是不是跳躍畫面的最後一幀了
             if (jumping) {
@@ -53,7 +58,9 @@ void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_p
                 }
                 m_Root.RemoveChild(GetTargetPlant());
                 Set_m_targetnull();
-                Setbacktomove();
+                if(!jumping) {
+                    Setbacktomove();
+                }
             }
             // 如果沒有目標植物，就去找
             if (!GetTargetPlant()) {
