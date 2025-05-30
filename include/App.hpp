@@ -173,15 +173,6 @@ public:
         m_store->SetZIndex(-8);
         m_Root.AddChild(m_store);
 
-        /*
-        m_store_sun = std::make_shared<BackgroundImage>();
-        // 太陽花的數量顯示
-        m_store_sun->SetBackgroundImage("Sun_num/num_0");
-        m_store_sun->SetPivot({603,-227});
-        m_store_sun->SetZIndex(-7);
-        m_Root.AddChild(m_store_sun);
-        */
-
         for(int i = 0; i < 5; i++) {
             m_store_sun = std::make_shared<BackgroundImage>();
             // 太陽花的數量顯示
@@ -211,7 +202,6 @@ private:
 
     Util::Renderer m_Root;
     bool startonce = true;
-    //std::shared_ptr<Lawnmower> lawnmower;
     std::shared_ptr<Shovel> shovel;
     std::vector<std::shared_ptr<Lawnmower>> lawnmowers;
     std::vector<std::shared_ptr<Zombie>> zombies;  // 多個殭屍

@@ -14,6 +14,7 @@
 #include <vector>
 #include <memory>
 
+#include "plant/Plant.hpp"
 #include "plant/Snowpea.hpp"
 
 struct GameContext {
