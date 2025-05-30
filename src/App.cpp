@@ -262,17 +262,15 @@ void App::Update() {
 
 
     if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && shovel->GetClick()) {
-        printf("clean the plant\n");
         shovel->Clean(ctx,Util::Input::GetCursorPosition());
         shovel->SetClick();
     }
     if (m_shovel.MouseClickDetect()) {
-        printf("I'm here\n");
         shovel->SetClick();
     }
 
 
-    // 延遲移除 Cherrybomb 等植物
+    // 延遲移除死亡植物
     for (Plant* p : ctx.to_remove_plants) {
         auto it = std::find_if(plants.begin(), plants.end(), [&](std::shared_ptr<Plant>& ptr) {
             return ptr.get() == p;
@@ -355,7 +353,21 @@ void App::Update() {
             ++it;
         }
     }
-
+    // 作弊模式的開關為C
+    if (Util::Input::IsKeyUp(Util::Keycode::C)) {
+        cheatmode = !cheatmode;
+        if (cheatmode) {
+            printf("Cheat mode on\n");
+        }
+        else {
+            printf("Cheat mode off\n");
+        }
+    }
+    // 作弊模式下太陽數量始終為750
+    if (cheatmode) {
+        int addnum = 750 - Getsunnum();
+        Setsunnum(addnum);
+    }
 
     // 更新太陽數量的顯示
     int temp_sunnumber = Getsunnum();
@@ -375,7 +387,6 @@ void App::Update() {
         m_CurrentState = State::CHOOSE;
         // TODO: 把所有植物、豌豆、背景erase掉
         clearall();
-
     }
     /*
      * Do not touch the code below as they serve the purpose for

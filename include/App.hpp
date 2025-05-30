@@ -243,6 +243,7 @@ private:
     int move_bound = 0;
     glm::vec2 temp_pivot=glm::vec2(0,0);
     ChoosePlant choose = ChoosePlant::NONE;
+    bool cheatmode = false;
 
     LevelManager level;
 
