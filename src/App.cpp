@@ -221,10 +221,18 @@ void App::Update() {
         choose = ChoosePlant::NONE;
     }
 
+
+    GameContext ctx{
+        m_Root, zombies, suns, peas, snowpeas, plants, {}, grid_buttons,
+        grid_buttons[1]->GetButtonPosition().x - grid_buttons[0]->GetButtonPosition().x,
+        grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y
+    };
+
+
     // 更新殭屍
     for (auto it = zombies.begin(); it != zombies.end();) {
         auto zombie = *it;
-        zombie->Update(m_Root,plants);
+        zombie->Update(ctx);
 
         if (zombie->GetDead() && zombie->IfAnimationEnds()) {
             zombie->SetPlaying(false);
@@ -240,7 +248,7 @@ void App::Update() {
 
     }
 
-    GameContext ctx{ m_Root, zombies, suns, peas, snowpeas, plants,{}, grid_buttons, grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y};
+    // GameContext ctx{ m_Root, zombies, suns, peas, snowpeas, plants,{}, grid_buttons, grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y};
     // printf("%.2f %.2f\n",grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y);
     // 更新所有植物
     for (auto it = plants.begin(); it != plants.end();) {

@@ -3,6 +3,7 @@
 //
 #include "zombie/Polevaultingzombie.hpp"
 
+#include "GameContext.hpp"
 #include "plant/Plant.hpp"
 
 Polevaultingzombie::Polevaultingzombie() : Zombie(){
@@ -18,7 +19,9 @@ Polevaultingzombie::Polevaultingzombie() : Zombie(){
     SetAttackfreq(180);
     SetAttackvalue(200);
 }
-void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>>& plants) {
+
+
+void Polevaultingzombie::Update(GameContext& ctx) {
     if (Get_snowpea_shooted() >= 5) {
         SetLooping(false);
         SetPlaying(false);
@@ -51,12 +54,11 @@ void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_p
             // test GPT Version
             // 我自己加的，如果target植物死了，直接erase掉
             if (GetTargetPlant() && GetTargetPlant()->Getlife()<=0) {
-                auto it = std::find(plants.begin(), plants.end(), GetTargetPlant());
-                if (it != plants.end()) {
+                auto it = std::find(ctx.plants.begin(), ctx.plants.end(), GetTargetPlant());
+                if (it != ctx.plants.end()) {
                     GetTargetPlant()->GetGridButton()->Setm_has_plant(false);
-                    plants.erase(it);
+                    ctx.to_remove_plants.push_back(GetTargetPlant().get());
                 }
-                m_Root.RemoveChild(GetTargetPlant());
                 Set_m_targetnull();
                 if(!jumping) {
                     Setbacktomove();
@@ -65,7 +67,7 @@ void Polevaultingzombie::Update(Util::Renderer& m_Root,std::vector<std::shared_p
             // 如果沒有目標植物，就去找
             if (!GetTargetPlant()) {
                 // 找新的碰撞目標
-                for (auto& plant : plants) {
+                for (auto& plant : ctx.plants) {
                     if (CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(plant))) {
                         // TODO 第一次遇到植物要跳躍超過它
                         if (!firsttouch) {

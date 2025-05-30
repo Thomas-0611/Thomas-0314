@@ -10,13 +10,15 @@
 #include <vector>
 
 #include "Util/Renderer.hpp"
-
+#pragma once
 class Plant; // 👈 Forward declaration
+class GameContext;  // forward declaration
 
 class Zombie : public AnimatedCharacter {
 public:
     Zombie();
-    virtual void Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>> &plants);
+    // virtual void Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>> &plants);
+    virtual void Update(GameContext& ctx);
     bool GetDead() const { return m_dead; }
     virtual void SetDead();
     void Seteatvalue(bool value) {

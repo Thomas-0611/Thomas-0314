@@ -4,6 +4,7 @@
 #include "zombie/Zombie.hpp"
 #include "plant/Peashooter.hpp"
 #include "plant/Plant.hpp"
+#include "GameContext.hpp"
 Zombie::Zombie()
     : AnimatedCharacter(std::vector<std::string>()) { // 初始化父類
     std::vector<std::string> zombieImages;
@@ -19,7 +20,7 @@ Zombie::Zombie()
     SetAttackvalue(200);
 }
 
-void Zombie::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>>& plants) {
+void Zombie::Update(GameContext& ctx) {
     // 當 20 秒內被射 5 顆以上，要被凍住 6 秒
     if (Get_snowpea_shooted() >= 5) {
         SetLooping(false);
@@ -38,19 +39,18 @@ void Zombie::Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Plant>>& 
             // test GPT Version
             // 我自己加的，如果target植物死了，直接erase掉
             if (m_targetPlant && m_targetPlant->Getlife()<=0) {
-                auto it = std::find(plants.begin(), plants.end(), m_targetPlant);
-                if (it != plants.end()) {
+                auto it = std::find(ctx.plants.begin(), ctx.plants.end(), m_targetPlant);
+                if (it != ctx.plants.end()) {
                     GetTargetPlant()->GetGridButton()->Setm_has_plant(false);
-                    plants.erase(it);
+                    ctx.to_remove_plants.push_back(m_targetPlant.get());
                 }
-                m_Root.RemoveChild(m_targetPlant);
                 m_targetPlant = nullptr;
                 Setbacktomove();
             }
             // 如果沒有目標植物，就去找
             if (!m_targetPlant) {
                 // 找新的碰撞目標
-                for (auto& plant : plants) {
+                for (auto& plant : ctx.plants) {
                     if (CheckCollisionZombie(std::static_pointer_cast<AnimatedCharacter>(plant))) {
                         m_targetPlant = plant;
                         SetEat();
