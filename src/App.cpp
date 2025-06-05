@@ -60,6 +60,15 @@ void App::Start() {
     }
     m_Root.Update();
 
+    /*
+    GameContext ctx{
+        m_Root, zombies, suns, peas, snowpeas, plants, storeplants, {}, grid_buttons,
+        grid_buttons[1]->GetButtonPosition().x - grid_buttons[0]->GetButtonPosition().x,
+        grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y,
+        button_number
+    };
+    */
+
 }
 
 void App::Choose() {
@@ -85,64 +94,58 @@ void App::Choose() {
         choosing_l = false;
     }
 
-    if (m_left_stage.MouseClickDetect()) {
-        if (move_bound == 0) {
-            printf("Stage1\n");
-            SwitchToLevel(1);
+    GameContext ctx{
+        m_Root, zombies, suns, peas, snowpeas, plants, storeplants, {}, grid_buttons,lawnmowers,
+        grid_buttons[1]->GetButtonPosition().x - grid_buttons[0]->GetButtonPosition().x,
+        grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y,
+        button_number
+    };
 
+    if (m_left_stage.MouseClickDetect()) {
+        int stage_to_enter = 1 + move_bound * 3;
+        if (stage_to_enter <= max_level_cleared + 1 || cheatmode) {
+            printf("Stage%d\n", stage_to_enter);
+            SwitchToLevel(stage_to_enter, ctx);
+            current_level = stage_to_enter;
+
+            shovel = std::make_shared<Shovel>();
+            m_Root.AddChild(shovel);
+        } else {
+            printf("Stage%d is locked! Clear previous stages first.\n", stage_to_enter);
         }
-        else if (move_bound == 1) {
-            printf("Stage4\n");
-            SwitchToLevel(4);
-        }
-        else if (move_bound == 2) {
-            printf("Stage7\n");
-            SwitchToLevel(7);
-        }
-        else if (move_bound == 3) {
-            printf("Stage10\n");
-            SwitchToLevel(10);
-        }
-        shovel = std::make_shared<Shovel>();
-        m_Root.AddChild(shovel);
     }
     if (m_middle_stage.MouseClickDetect()) {
-        if (move_bound == 0) {
-            printf("Stage2\n");
-            SwitchToLevel(2);
+        int stage_to_enter = 2 + move_bound * 3;
+        if (stage_to_enter <= max_level_cleared + 1 || cheatmode) {
+            printf("Stage%d\n", stage_to_enter);
+            SwitchToLevel(stage_to_enter, ctx);
+            current_level = stage_to_enter;
+
+            shovel = std::make_shared<Shovel>();
+            m_Root.AddChild(shovel);
+        } else {
+            printf("Stage%d is locked! Clear previous stages first.\n", stage_to_enter);
         }
-        else if (move_bound == 1) {
-            printf("Stage5\n");
-            SwitchToLevel(5);
-        }
-        else if (move_bound == 2) {
-            printf("Stage8\n");
-            SwitchToLevel(8);
-        }
-        shovel = std::make_shared<Shovel>();
-        m_Root.AddChild(shovel);
     }
     if (m_right_stage.MouseClickDetect()) {
-        if (move_bound == 0) {
-            printf("Stage3\n");
-            SwitchToLevel(3);
+        int stage_to_enter = 3 + move_bound * 3;
+        if (stage_to_enter <= max_level_cleared + 1 || cheatmode) {
+            printf("Stage%d\n", stage_to_enter);
+            SwitchToLevel(stage_to_enter, ctx);
+            current_level = stage_to_enter;
+
+            shovel = std::make_shared<Shovel>();
+            m_Root.AddChild(shovel);
+        } else {
+            printf("Stage%d is locked! Clear previous stages first.\n", stage_to_enter);
         }
-        else if (move_bound == 1) {
-            printf("Stage6\n");
-            SwitchToLevel(6);
-        }
-        else if (move_bound == 2) {
-            printf("Stage9\n");
-            SwitchToLevel(9);
-        }
-        shovel = std::make_shared<Shovel>();
-        m_Root.AddChild(shovel);
     }
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
         }
     m_Root.Update();
+
 }
 
 
@@ -221,13 +224,12 @@ void App::Update() {
         choose = ChoosePlant::NONE;
     }
 
-
     GameContext ctx{
-        m_Root, zombies, suns, peas, snowpeas, plants, {}, grid_buttons,
+        m_Root, zombies, suns, peas, snowpeas, plants, storeplants, {}, grid_buttons,lawnmowers,
         grid_buttons[1]->GetButtonPosition().x - grid_buttons[0]->GetButtonPosition().x,
-        grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y
+        grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y,
+        button_number
     };
-
 
     // 更新殭屍
     for (auto it = zombies.begin(); it != zombies.end();) {
@@ -257,7 +259,7 @@ void App::Update() {
         ++it;
     }
     //lawnmower->Update(ctx);
-    level.Update(m_Root, zombies,ctx,lawnmowers);
+    level.Update(ctx);
 
 
 
@@ -385,6 +387,12 @@ void App::Update() {
         m_stage1_3->SetZIndex(0);
         m_stagebackground->SetZIndex(-1);
         m_CurrentState = State::CHOOSE;
+
+        // 更新破關進度
+        if (!cheatmode && current_level > max_level_cleared) {
+            max_level_cleared = current_level;
+        }
+
         // TODO: 把所有植物、豌豆、背景erase掉
         clearall();
     }

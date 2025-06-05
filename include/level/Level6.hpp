@@ -10,26 +10,26 @@
 class Level6:public Level {
 public:
     Level6() = default;
-    void Load(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants, int& button_number, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers) override {
-        ZombieSpawner spawner(root, zombies);
+    void Load(GameContext& ctx) override {
+        ZombieSpawner spawner(ctx.m_Root, ctx.zombies);
 
         if (!m_stage) {
             m_stage = std::make_shared<BackgroundImage>();
             m_stage->SetBackgroundImage("five");
             m_stage->SetZIndex(-9);
 
-            root.AddChild(m_stage);
+            ctx.m_Root.AddChild(m_stage);
         } else {
             m_stage->SetBackgroundImage("five");
             m_stage->SetZIndex(-9);
         }
 
-        button_number = 5;//輸入1or3or5
+        ctx.button_number = 5;//輸入1or3or5
 
         for(int i = 1; i < 6; i++) {
             lawnmower = std::make_shared<Lawnmower>(i);
-            lawnmowers.emplace_back(lawnmower);
-            root.AddChild(lawnmower);
+            ctx.lawnmowers.emplace_back(lawnmower);
+            ctx.m_Root.AddChild(lawnmower);
         }
 
         int storeplantCount = 6; // 可以調整植物生成數量 要再改成櫻桃炸彈
@@ -38,8 +38,8 @@ public:
             storeplant->SetPivot({537 - i * 57, -256});
             storeplant->SetZIndex(-7);
             storeplant->SetBackgroundImage("plant"+std::to_string(i+1));
-            storeplants.push_back(storeplant);
-            root.AddChild(storeplant);
+            ctx.storeplants.push_back(storeplant);
+            ctx.m_Root.AddChild(storeplant);
         }
 
         spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 520, 200, 4 });
@@ -58,10 +58,10 @@ public:
         spawner.Spawn({ ZombieSpawner::Type::Regular,     2, 1200, 50, 5 });
     }
 
-    void GameUpdate(Util::Renderer& root,std::vector<std::shared_ptr<Zombie>>& zombies,GameContext& ctx, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers)override {
+    void GameUpdate(GameContext& ctx)override {
         // 檢查 zombies 中是否沒有第一階段的殭屍
-        ZombieSpawner spawner(root, zombies);
-        if (!finalWaveSpawned && AllZombiesDead(zombies)) {
+        ZombieSpawner spawner(ctx.m_Root, ctx.zombies);
+        if (!finalWaveSpawned && AllZombiesDead(ctx.zombies)) {
             spawner.Spawn({ ZombieSpawner::Type::Flag,1, 520, 0, 2 });
             spawner.Spawn({ZombieSpawner::Type::Conehead,1,570,30,1});
             spawner.Spawn({ZombieSpawner::Type::Regular,1,600,0,1});
@@ -72,7 +72,7 @@ public:
             spawner.Spawn({ZombieSpawner::Type::Conehead,1,570,50,5});
             finalWaveSpawned = true;
         }
-        for (auto& lawnmower : lawnmowers) {
+        for (auto& lawnmower : ctx.lawnmowers) {
             lawnmower->Update(ctx);
         }
     }

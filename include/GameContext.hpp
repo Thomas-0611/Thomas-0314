@@ -13,9 +13,11 @@
 #include "zombie/Zombie.hpp"
 #include <vector>
 #include <memory>
+#include "BackgroundImage.hpp"
 
 #include "plant/Plant.hpp"
 #include "plant/Snowpea.hpp"
+class Lawnmower;
 
 struct GameContext {
     Util::Renderer& m_Root;
@@ -24,10 +26,13 @@ struct GameContext {
     std::vector<std::shared_ptr<Pea>>& peas;
     std::vector<std::shared_ptr<Snowpea>>& snowpeas;
     std::vector<std::shared_ptr<Plant>>& plants;
+    std::vector<std::shared_ptr<BackgroundImage>> storeplants;
     std::vector<Plant*> to_remove_plants; // 延遲移除名單
     std::vector<std::shared_ptr<Button>>& grid_buttons;
+    std::vector<std::shared_ptr<Lawnmower>>& lawnmowers;
     float grid_x;
     float grid_y;
+    int& button_number;
 };
 
 #endif //GAMECONTEXT_HPP

@@ -154,13 +154,13 @@ public:
         //移除鏟子
         m_Root.RemoveChild(shovel);
     };
-    void SwitchToLevel(int levelId) {
+    void SwitchToLevel(int levelId, GameContext& ctx) {
         if (level.Getcurrentlevel()) {
             level.Getcurrentlevel()->RemoveStage(m_Root);
             printf("fuck\n");
             level.Setlevlenull();
         }
-        level.LoadLevel(levelId, m_Root, zombies, storeplants,button_number,lawnmowers);
+        level.LoadLevel(levelId, ctx);
         printf("in\n");
         // lawnmower = std::make_shared<Lawnmower>();
         // m_Root.AddChild(lawnmower);
@@ -247,6 +247,8 @@ private:
 
     LevelManager level;
 
+    int max_level_cleared = 0; // 預設只開放第一關
+    int current_level = 0;     // 紀錄目前進行的關卡
 };
 
 #endif

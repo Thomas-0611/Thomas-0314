@@ -20,7 +20,7 @@
 
 class LevelManager {
 public:
-    void LoadLevel(int levelId, Util::Renderer& root, std::vector<std::shared_ptr<Zombie>>& zombies, std::vector<std::shared_ptr<BackgroundImage>>& storeplants, int& button_number, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers) {
+    void LoadLevel(int levelId, GameContext& ctx) {
         m_levelId = levelId;
         switch (m_levelId) {
             case 1:
@@ -56,11 +56,11 @@ public:
             default:
                 break;
         }
-        level->Load(root, zombies, storeplants, button_number, lawnmowers);
+        level->Load(ctx);
     }
 
-    void Update(Util::Renderer& root, std::vector<std::shared_ptr<Zombie>>& zombies,GameContext& ctx, std::vector<std::shared_ptr<Lawnmower>>& lawnmowers) {
-        level->GameUpdate(root, zombies, ctx, lawnmowers);
+    void Update(GameContext& ctx) {
+        level->GameUpdate(ctx);
     }
     std::shared_ptr<Level> Getcurrentlevel() {
         return level;
