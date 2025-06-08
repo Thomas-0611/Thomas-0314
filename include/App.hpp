@@ -221,6 +221,31 @@ private:
     std::vector<std::shared_ptr<Pea>> peas;
     std::vector<std::shared_ptr<Snowpea>> snowpeas;
     std::vector<std::shared_ptr<Plant>> plants;
+    std::vector<Button> m_plant_buttons = {
+        Button(-565,-509,221,293), // PEASHOOTER
+        Button(-508,-452,221,293), // SUNFLOWER
+        Button(-451,-395,221,293), // WALLNUT
+        Button(-394,-338,221,293), // REPEATER
+        Button(-337,-281,221,293), // SNOWPEASHOOTER
+        Button(-280,-224,221,293), // CHOMPER
+        Button(-223,-167,221,293), // CHERRYBOMB
+        Button(-166,-110,221,293)  // POTATOMINE
+    };
+
+    std::vector<int> sun_cost = {100, 50, 50, 150, 150, 200, 200, 200};
+
+    // 植物對應的選擇枚舉（需與 ChoosePlant Enum 對應順序一致）
+    std::vector<ChoosePlant> plant_types = {
+        ChoosePlant::PEASHOOTER,
+        ChoosePlant::SUNFLOWER,
+        ChoosePlant::WALLNUT,
+        ChoosePlant::REPEATER,
+        ChoosePlant::SNOWPEASHOOTER,
+        ChoosePlant::CHOMPER,
+        ChoosePlant::CHERRYBOMB,
+        ChoosePlant::POTATOMINE
+    };
+
     Button m_peashooters_button = Button(-565,-509,221,293);
     Button m_sunflower_button = Button(-508,-452,221,293);
     Button m_wallnut_button = Button(-451,-395,221,293);
@@ -249,6 +274,8 @@ private:
 
     int max_level_cleared = 0; // 預設只開放第一關
     int current_level = 0;     // 紀錄目前進行的關卡
+
+    int stage_to_enter;
 };
 
 #endif
