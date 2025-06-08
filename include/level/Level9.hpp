@@ -31,7 +31,7 @@ public:
             ctx.m_Root.AddChild(lawnmower);
         }
 
-        int storeplantCount = 6; // 可以調整植物生成數量 要再改成櫻桃炸彈
+        int storeplantCount = 8; // 可以調整植物生成數量 要再改成櫻桃炸彈
         for (int i = 0; i < storeplantCount; ++i) {
             auto storeplant = std::make_shared<BackgroundImage>();
             storeplant->SetPivot({537 - i * 57, -256});

@@ -102,7 +102,7 @@ void App::Choose() {
     };
 
     if (m_left_stage.MouseClickDetect()) {
-        int stage_to_enter = 1 + move_bound * 3;
+        stage_to_enter = 1 + move_bound * 3;
         if (stage_to_enter <= max_level_cleared + 1 || cheatmode) {
             printf("Stage%d\n", stage_to_enter);
             SwitchToLevel(stage_to_enter, ctx);
@@ -115,7 +115,7 @@ void App::Choose() {
         }
     }
     if (m_middle_stage.MouseClickDetect()) {
-        int stage_to_enter = 2 + move_bound * 3;
+        stage_to_enter = 2 + move_bound * 3;
         if (stage_to_enter <= max_level_cleared + 1 || cheatmode) {
             printf("Stage%d\n", stage_to_enter);
             SwitchToLevel(stage_to_enter, ctx);
@@ -128,7 +128,7 @@ void App::Choose() {
         }
     }
     if (m_right_stage.MouseClickDetect()) {
-        int stage_to_enter = 3 + move_bound * 3;
+        stage_to_enter = 3 + move_bound * 3;
         if (stage_to_enter <= max_level_cleared + 1 || cheatmode) {
             printf("Stage%d\n", stage_to_enter);
             SwitchToLevel(stage_to_enter, ctx);
@@ -196,6 +196,25 @@ void App::Update() {
     auto plant = std::make_shared<Sunflower>();
     //選擇植物
     ChoosePlant temp_choose = choose;
+
+    int max_index = std::min(stage_to_enter, 8); // 最多只處理前8個植物
+    bool clicked_same_button = false;
+
+    for (int i = 0; i < max_index; ++i) {
+        if (m_plant_buttons[i].MouseClickDetect()) {
+            if (Getsunnum() >= sun_cost[i]) {
+                choose = plant_types[i];
+                clicked_same_button = true;
+            }
+        }
+    }
+
+    // 若點擊了同一顆按鈕但沒更換植物，則取消選擇
+    if (temp_choose == choose && clicked_same_button) {
+        choose = ChoosePlant::NONE;
+    }
+
+    /*
     if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
         choose = ChoosePlant::PEASHOOTER;
     }
@@ -223,6 +242,7 @@ void App::Update() {
     if(temp_choose == choose && (m_peashooters_button.MouseClickDetect() || m_sunflower_button.MouseClickDetect() || m_wallnut_button.MouseClickDetect() || m_repeater_button.MouseClickDetect() || m_snowpeashooter_button.MouseClickDetect())) {
         choose = ChoosePlant::NONE;
     }
+    */
 
     GameContext ctx{
         m_Root, zombies, suns, peas, snowpeas, plants, storeplants, {}, grid_buttons,lawnmowers,
