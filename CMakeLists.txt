@@ -91,6 +91,7 @@ add_executable(${PROJECT_NAME}
         include/level/Level10.hpp
         include/Shovel.hpp
         src/Shovel.cpp
+        include/plant/IExplosive.hpp
 )
 
 if(MSVC)

@@ -75,7 +75,6 @@ public:
     }
     bool CheckCollisionZombie(const std::shared_ptr<AnimatedCharacter>& other) const {
         auto pos1 = GetPosition();
-        auto size1 = GetSize();
         auto pos2 = other->GetPosition();
         auto size2 = other->GetSize();
 

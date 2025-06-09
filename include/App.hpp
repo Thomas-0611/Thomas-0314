@@ -22,6 +22,7 @@ public:
         START,
         CHOOSE,
         UPDATE,
+        PAUSE,
         END,
     };
 
@@ -102,6 +103,12 @@ public:
         }
         plants.clear();
 
+        // 移除所有殭屍
+        for (auto& zombie : zombies) {
+            m_Root.RemoveChild(zombie);
+        }
+        zombies.clear();
+
         // 移除所有豌豆
         for (auto& pea : peas) {
             m_Root.RemoveChild(pea);
@@ -127,6 +134,8 @@ public:
         storeplants.clear();
 
         // 移除背景圖片
+        m_stage1_3->SetZIndex(0);
+        m_stagebackground->SetZIndex(-1);
         if (m_store) {
             m_Root.RemoveChild(m_store);
             m_store = nullptr;
@@ -154,6 +163,7 @@ public:
         //移除鏟子
         m_Root.RemoveChild(shovel);
     };
+
     void SwitchToLevel(int levelId, GameContext& ctx) {
         if (level.Getcurrentlevel()) {
             level.Getcurrentlevel()->RemoveStage(m_Root);
@@ -182,6 +192,8 @@ public:
             m_store_suns.push_back(m_store_sun);
             m_Root.AddChild(m_store_sun);
         }
+        shovel = std::make_shared<Shovel>();
+        m_Root.AddChild(shovel);
 
         m_CurrentState = State::UPDATE;
     }
@@ -192,6 +204,7 @@ public:
     void Choose();
 
     void Update();
+    void Pause();
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
@@ -208,6 +221,8 @@ private:
     std::vector<std::shared_ptr<Button>> grid_buttons;
     int button_number;
     std::shared_ptr<BackgroundImage> m_Background;
+    std::shared_ptr<BackgroundImage> m_Paused;
+    std::shared_ptr<BackgroundImage> m_Pausedpage;
     std::shared_ptr<BackgroundImage> m_stagebackground;
     std::shared_ptr<BackgroundImage> m_stage1_3;
     std::shared_ptr<BackgroundImage> m_store;
@@ -262,6 +277,11 @@ private:
     Button m_right_stage = Button(345,576,109,340);
 
     Button m_shovel = Button(-50,50,221,293);
+
+    Button m_menu_button = Button(-120,100,-221,-177);
+    Button m_continue_button = Button(-232,-10,-171,-129);
+    Button m_restart_button = Button(-9,216,-171,-129);
+    Button m_paused_button = Button(520,635,190,300);
     int sun_num = 750;
     bool choosing_r = false;
     bool choosing_l = false;
@@ -275,7 +295,10 @@ private:
     int max_level_cleared = 0; // 預設只開放第一關
     int current_level = 0;     // 紀錄目前進行的關卡
 
-    int stage_to_enter;
+    bool paused = false;
+    int stage_to_enter = 1;
+    bool pausedpageadded = false;
+
 };
 
 #endif

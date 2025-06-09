@@ -5,8 +5,9 @@
 #ifndef POTATOMINE_HPP
 #define POTATOMINE_HPP
 #include "plant/Plant.hpp"
+#include "plant/IExplosive.hpp"
 
-class Potatomine : public Plant {
+class Potatomine : public Plant, public IExplosive {
 public:
     Potatomine();
     void Update(GameContext& ctx) override;
@@ -14,7 +15,7 @@ public:
         cur_freq = value;
     }
     void Setreadymode();
-    void Settoexplore(GameContext& ctx);
+    void Explode(GameContext& ctx) override;
     std::array<float, 2> GetSize() const override { return {75.0f, 55.0f}; }
 
 private:

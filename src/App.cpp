@@ -60,15 +60,6 @@ void App::Start() {
     }
     m_Root.Update();
 
-    /*
-    GameContext ctx{
-        m_Root, zombies, suns, peas, snowpeas, plants, storeplants, {}, grid_buttons,
-        grid_buttons[1]->GetButtonPosition().x - grid_buttons[0]->GetButtonPosition().x,
-        grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y,
-        button_number
-    };
-    */
-
 }
 
 void App::Choose() {
@@ -107,9 +98,11 @@ void App::Choose() {
             printf("Stage%d\n", stage_to_enter);
             SwitchToLevel(stage_to_enter, ctx);
             current_level = stage_to_enter;
-
-            shovel = std::make_shared<Shovel>();
-            m_Root.AddChild(shovel);
+            m_Paused = std::make_shared<BackgroundImage>();
+            m_Paused->SetBackgroundImage("pause");
+            m_Paused->SetPivot({-580,-240});
+            m_Paused->SetZIndex(-1);
+            m_Root.AddChild(m_Paused);
         } else {
             printf("Stage%d is locked! Clear previous stages first.\n", stage_to_enter);
         }
@@ -120,9 +113,11 @@ void App::Choose() {
             printf("Stage%d\n", stage_to_enter);
             SwitchToLevel(stage_to_enter, ctx);
             current_level = stage_to_enter;
-
-            shovel = std::make_shared<Shovel>();
-            m_Root.AddChild(shovel);
+            m_Paused = std::make_shared<BackgroundImage>();
+            m_Paused->SetBackgroundImage("pause");
+            m_Paused->SetPivot({-580,-240});
+            m_Paused->SetZIndex(-1);
+            m_Root.AddChild(m_Paused);
         } else {
             printf("Stage%d is locked! Clear previous stages first.\n", stage_to_enter);
         }
@@ -133,9 +128,11 @@ void App::Choose() {
             printf("Stage%d\n", stage_to_enter);
             SwitchToLevel(stage_to_enter, ctx);
             current_level = stage_to_enter;
-
-            shovel = std::make_shared<Shovel>();
-            m_Root.AddChild(shovel);
+            m_Paused = std::make_shared<BackgroundImage>();
+            m_Paused->SetBackgroundImage("pause");
+            m_Paused->SetPivot({-580,-240});
+            m_Paused->SetZIndex(-1);
+            m_Root.AddChild(m_Paused);
         } else {
             printf("Stage%d is locked! Clear previous stages first.\n", stage_to_enter);
         }
@@ -144,6 +141,7 @@ void App::Choose() {
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
         }
+
     m_Root.Update();
 
 }
@@ -153,18 +151,25 @@ void App::Update() {
 
     //TODO: do your things here and delete this line <3
 
-
-    if (Getworldfreq()>540) {
-        //生成太陽
-        auto m_Sun = std::make_shared<Sun>();
-        suns.push_back(m_Sun);
-        m_Root.AddChild(m_Sun);
-        Setworldfreq(0);
-    }
-    else {
-        Setworldfreq(Getworldfreq()+1);
+    if (paused) {
+        m_CurrentState = State::PAUSE;
+        pausedpageadded = false;
     }
 
+    if (!paused) {
+        if (m_paused_button.MouseClickDetect()) {
+            paused = true;
+        }
+        if (Getworldfreq()>540) {
+            //生成太陽
+            auto m_Sun = std::make_shared<Sun>();
+            suns.push_back(m_Sun);
+            m_Root.AddChild(m_Sun);
+            Setworldfreq(0);
+        }
+        else {
+            Setworldfreq(Getworldfreq()+1);
+        }
 
     //放置植物
     switch (choose) {
@@ -214,207 +219,172 @@ void App::Update() {
         choose = ChoosePlant::NONE;
     }
 
-    /*
-    if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
-        choose = ChoosePlant::PEASHOOTER;
-    }
-    if (m_sunflower_button.MouseClickDetect() && Getsunnum()>=50) {
-        choose = ChoosePlant::SUNFLOWER;
-    }
-    if (m_wallnut_button.MouseClickDetect() && Getsunnum()>=50) {
-        choose = ChoosePlant::WALLNUT;
-    }
-    if (m_repeater_button.MouseClickDetect() && Getsunnum()>=150) {
-        choose = ChoosePlant::REPEATER;
-    }
-    if (m_snowpeashooter_button.MouseClickDetect() && Getsunnum()>=150) {
-        choose = ChoosePlant::SNOWPEASHOOTER;
-    }
-    if (m_cherrybomb_button.MouseClickDetect() && Getsunnum()>=200) {
-        choose = ChoosePlant::CHERRYBOMB;
-    }
-    if (m_potatomine_button.MouseClickDetect() && Getsunnum()>=200) {
-        choose = ChoosePlant::POTATOMINE;
-    }
-    if (m_chomper_button.MouseClickDetect() && Getsunnum()>=200) {
-        choose = ChoosePlant::CHOMPER;
-    }
-    if(temp_choose == choose && (m_peashooters_button.MouseClickDetect() || m_sunflower_button.MouseClickDetect() || m_wallnut_button.MouseClickDetect() || m_repeater_button.MouseClickDetect() || m_snowpeashooter_button.MouseClickDetect())) {
-        choose = ChoosePlant::NONE;
-    }
-    */
+        GameContext ctx{
+            m_Root, zombies, suns, peas, snowpeas, plants, storeplants, {}, grid_buttons,lawnmowers,
+            grid_buttons[1]->GetButtonPosition().x - grid_buttons[0]->GetButtonPosition().x,
+            grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y,
+            button_number
+        };
 
-    GameContext ctx{
-        m_Root, zombies, suns, peas, snowpeas, plants, storeplants, {}, grid_buttons,lawnmowers,
-        grid_buttons[1]->GetButtonPosition().x - grid_buttons[0]->GetButtonPosition().x,
-        grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y,
-        button_number
-    };
+        // 更新殭屍
+        for (auto it = zombies.begin(); it != zombies.end();) {
+            auto zombie = *it;
+            zombie->Update(ctx);
 
-    // 更新殭屍
-    for (auto it = zombies.begin(); it != zombies.end();) {
-        auto zombie = *it;
-        zombie->Update(ctx);
+            if (zombie->GetDead() && zombie->IfAnimationEnds()) {
+                zombie->SetPlaying(false);
+                m_Root.RemoveChild(zombie);
+                it = zombies.erase(it);  // 移除死亡的殭屍
+            }else if(zombie->GetDead() && zombie->Getbeeaten()) {
+                zombie->SetPlaying(false);
+                m_Root.RemoveChild(zombie);
+                it = zombies.erase(it);
+            }else {
+                ++it;
+            }
 
-        if (zombie->GetDead() && zombie->IfAnimationEnds()) {
-            zombie->SetPlaying(false);
-            m_Root.RemoveChild(zombie);
-            it = zombies.erase(it);  // 移除死亡的殭屍
-        }else if(zombie->GetDead() && zombie->Getbeeaten()) {
-            zombie->SetPlaying(false);
-            m_Root.RemoveChild(zombie);
-            it = zombies.erase(it);
-        }else {
+        }
+
+        // 更新所有植物
+        for (auto it = plants.begin(); it != plants.end();) {
+            auto plant = *it;
+            plant->Update(ctx);
             ++it;
         }
-
-    }
-
-    // GameContext ctx{ m_Root, zombies, suns, peas, snowpeas, plants,{}, grid_buttons, grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y};
-    // printf("%.2f %.2f\n",grid_buttons[1]->GetButtonPosition().x-grid_buttons[0]->GetButtonPosition().x, grid_buttons[9]->GetButtonPosition().y-grid_buttons[0]->GetButtonPosition().y);
-    // 更新所有植物
-    for (auto it = plants.begin(); it != plants.end();) {
-        auto plant = *it;
-        plant->Update(ctx);
-        ++it;
-    }
-    //lawnmower->Update(ctx);
-    level.Update(ctx);
+        level.Update(ctx);
 
 
 
-    if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && shovel->GetClick()) {
-        shovel->Clean(ctx,Util::Input::GetCursorPosition());
-        shovel->SetClick();
-    }
-    if (m_shovel.MouseClickDetect()) {
-        shovel->SetClick();
-    }
-
-
-    // 延遲移除死亡植物
-    for (Plant* p : ctx.to_remove_plants) {
-        auto it = std::find_if(plants.begin(), plants.end(), [&](std::shared_ptr<Plant>& ptr) {
-            return ptr.get() == p;
-        });
-        if (it != plants.end()) {
-            m_Root.RemoveChild(*it);
-            plants.erase(it);
+        if (Util::Input::IsKeyUp(Util::Keycode::MOUSE_LB) && shovel->GetClick()) {
+            shovel->Clean(ctx,Util::Input::GetCursorPosition());
+            shovel->SetClick();
         }
-    }
-    ctx.to_remove_plants.clear();
+        if (m_shovel.MouseClickDetect()) {
+            shovel->SetClick();
+        }
 
-    // 豌豆更新
-    for (auto it = peas.begin(); it != peas.end();) {
-        auto pea = *it;
-        pea->Update();
 
-        bool hit = false;
-        for (auto& zombie : zombies) {
-            if (!zombie->GetDead() && pea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
-                zombie->Setlife(zombie->Getlife() - 200);
-                if (zombie->Getlife() <= 0) {
-                    zombie->SetDead();
+        // 延遲移除死亡植物
+        for (Plant* p : ctx.to_remove_plants) {
+            auto it = std::find_if(plants.begin(), plants.end(), [&](std::shared_ptr<Plant>& ptr) {
+                return ptr.get() == p;
+            });
+            if (it != plants.end()) {
+                m_Root.RemoveChild(*it);
+                plants.erase(it);
+            }
+        }
+        ctx.to_remove_plants.clear();
+
+        // 豌豆更新
+        for (auto it = peas.begin(); it != peas.end();) {
+            auto pea = *it;
+            pea->Update();
+
+            bool hit = false;
+            for (auto& zombie : zombies) {
+                if (!zombie->GetDead() && pea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
+                    zombie->Setlife(zombie->Getlife() - 200);
+                    if (zombie->Getlife() <= 0) {
+                        zombie->SetDead();
+                    }
+                    hit = true;
+                    break;
                 }
-                hit = true;
-                break;
+            }
+
+            if (pea->IsOutOfBounds() || hit) {
+                pea->SetLooping(false);
+                pea->SetPlaying(false);
+                m_Root.RemoveChild(pea);
+                it = peas.erase(it);
+            } else {
+                ++it;
             }
         }
 
-        if (pea->IsOutOfBounds() || hit) {
-            pea->SetLooping(false);
-            pea->SetPlaying(false);
-            m_Root.RemoveChild(pea);
-            it = peas.erase(it);
-        } else {
-            ++it;
-        }
-    }
+        // 雪豆更新
+        for (auto it = snowpeas.begin(); it != snowpeas.end();) {
+            auto snowpea = *it;
+            snowpea->Update();
 
-    // 雪豆更新
-    for (auto it = snowpeas.begin(); it != snowpeas.end();) {
-        auto snowpea = *it;
-        snowpea->Update();
+            bool hit = false;
+            for (auto& zombie : zombies) {
+                if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
+                    zombie->Setlife(zombie->Getlife() - 200);
+                    if (!zombie->Getstartcount()) {
+                        zombie->Setstartcount(true);
+                    }
+                    zombie->Set_snowpea_shooted(zombie->Get_snowpea_shooted()+1);
+                    if (zombie->Getlife() <= 0) {
+                        zombie->SetDead();
+                    }
+                    hit = true;
+                    break;
+                }
+            }
 
-        bool hit = false;
-        for (auto& zombie : zombies) {
-            if (!zombie->GetDead() && snowpea->CheckCollisionPea(zombie) && zombie->Getontheground()) {
-                zombie->Setlife(zombie->Getlife() - 200);
-                if (!zombie->Getstartcount()) {
-                    zombie->Setstartcount(true);
-                }
-                zombie->Set_snowpea_shooted(zombie->Get_snowpea_shooted()+1);
-                if (zombie->Getlife() <= 0) {
-                    zombie->SetDead();
-                }
-                hit = true;
-                break;
+            if (snowpea->IsOutOfBounds() || hit) {
+                snowpea->SetLooping(false);
+                snowpea->SetPlaying(false);
+                m_Root.RemoveChild(snowpea);
+                it = snowpeas.erase(it);
+            } else {
+                ++it;
             }
         }
 
-        if (snowpea->IsOutOfBounds() || hit) {
-            snowpea->SetLooping(false);
-            snowpea->SetPlaying(false);
-            m_Root.RemoveChild(snowpea);
-            it = snowpeas.erase(it);
-        } else {
-            ++it;
+        // 更新太陽
+        for (auto it = suns.begin(); it != suns.end();) {
+            auto sun = *it;
+            sun->Update();
+            if (sun->GetPick()) {
+                m_Root.RemoveChild(sun);
+                it = suns.erase(it);
+                Setsunnum(25);
+            }
+            else {
+                ++it;
+            }
         }
-    }
-
-    // 更新太陽
-    for (auto it = suns.begin(); it != suns.end();) {
-        auto sun = *it;
-        sun->Update();
-        if (sun->GetPick()) {
-            m_Root.RemoveChild(sun);
-            it = suns.erase(it);
-            Setsunnum(25);
+        // 作弊模式的開關為C
+        if (Util::Input::IsKeyUp(Util::Keycode::C)) {
+            cheatmode = !cheatmode;
+            if (cheatmode) {
+                printf("Cheat mode on\n");
+            }
+            else {
+                printf("Cheat mode off\n");
+            }
         }
-        else {
-            ++it;
-        }
-    }
-    // 作弊模式的開關為C
-    if (Util::Input::IsKeyUp(Util::Keycode::C)) {
-        cheatmode = !cheatmode;
+        // 作弊模式下太陽數量始終為750
         if (cheatmode) {
-            printf("Cheat mode on\n");
-        }
-        else {
-            printf("Cheat mode off\n");
-        }
-    }
-    // 作弊模式下太陽數量始終為750
-    if (cheatmode) {
-        int addnum = 750 - Getsunnum();
-        Setsunnum(addnum);
-    }
-
-    // 更新太陽數量的顯示
-    int temp_sunnumber = Getsunnum();
-    for(int i = 0; i < 5;i++) {
-        int temp_number = temp_sunnumber % 10;
-        temp_sunnumber = temp_sunnumber / 10;
-        m_store_suns[i]->SetBackgroundImage("Sun_num/digit_"+std::to_string(temp_number));
-    }
-    //m_store_sun->SetBackgroundImage("Sun_num/num_"+std::to_string(Getsunnum()));
-    // 這裡要修
-
-
-    // 如果zombies空了的話，就判定關卡結束
-    if (zombies.size() == 0) {
-        m_stage1_3->SetZIndex(0);
-        m_stagebackground->SetZIndex(-1);
-        m_CurrentState = State::CHOOSE;
-
-        // 更新破關進度
-        if (!cheatmode && current_level > max_level_cleared) {
-            max_level_cleared = current_level;
+            int addnum = 750 - Getsunnum();
+            Setsunnum(addnum);
         }
 
-        // TODO: 把所有植物、豌豆、背景erase掉
-        clearall();
+        // 更新太陽數量的顯示
+        int temp_sunnumber = Getsunnum();
+        for(int i = 0; i < 5;i++) {
+            int temp_number = temp_sunnumber % 10;
+            temp_sunnumber = temp_sunnumber / 10;
+            m_store_suns[i]->SetBackgroundImage("Sun_num/digit_"+std::to_string(temp_number));
+        }
+
+
+        // 如果zombies空了的話，就判定關卡結束
+        if (zombies.size() == 0) {
+
+            m_CurrentState = State::CHOOSE;
+
+            // 更新破關進度
+            if (!cheatmode && current_level > max_level_cleared) {
+                max_level_cleared = current_level;
+            }
+
+            // TODO: 把所有植物、豌豆、背景erase掉
+            clearall();
+        }
     }
     /*
      * Do not touch the code below as they serve the purpose for
@@ -424,6 +394,130 @@ void App::Update() {
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
     }
+    m_Root.Update();
+}
+void App::Pause() {
+    //加一次就好
+    if (!pausedpageadded) {
+        m_Pausedpage = std::make_shared<BackgroundImage>();
+        m_Pausedpage->SetBackgroundImage("Setting");
+        m_Pausedpage->SetPivot({0,0});
+        m_Pausedpage->SetZIndex(10);
+        m_Root.AddChild(m_Pausedpage);
+
+        // 暫停殭屍
+        for (auto it = zombies.begin(); it != zombies.end();) {
+            auto zombie = *it;
+            zombie->SetPlaying(false);
+            zombie->SetLooping(false);
+            ++it;
+        }
+
+        // 暫停所有植物
+        for (auto it = plants.begin(); it != plants.end();) {
+            auto plant = *it;
+            plant->SetPlaying(false);
+            plant->SetLooping(false);
+            ++it;
+        }
+
+        // 豌豆暫停
+        for (auto it = peas.begin(); it != peas.end();) {
+            auto pea = *it;
+            pea->SetPlaying(false);
+            pea->SetLooping(false);
+            ++it;
+        }
+
+        // 雪豆暫停
+        for (auto it = snowpeas.begin(); it != snowpeas.end();) {
+            auto snowpea = *it;
+            snowpea->SetPlaying(false);
+            snowpea->SetLooping(false);
+            ++it;
+        }
+
+        // 太陽暫停
+        for (auto it = suns.begin(); it != suns.end();) {
+            auto sun = *it;
+            sun->SetPlaying(false);
+            sun->SetLooping(false);
+            ++it;
+        }
+        pausedpageadded = true;
+    }
+
+
+    if (m_menu_button.MouseClickDetect()) {
+        clearall();
+        m_CurrentState = State::CHOOSE;
+        m_Root.RemoveChild(m_Pausedpage);
+        m_Root.RemoveChild(m_Paused);
+        paused = false;
+    }
+    else if (m_continue_button.MouseClickDetect()) {
+        // 恢復殭屍
+        for (auto it = zombies.begin(); it != zombies.end();) {
+            auto zombie = *it;
+            zombie->SetPlaying(true);
+            zombie->SetLooping(true);
+            ++it;
+        }
+
+        // 恢復所有植物
+        for (auto it = plants.begin(); it != plants.end();) {
+            auto plant = *it;
+            plant->SetPlaying(true);
+            plant->SetLooping(true);
+            ++it;
+        }
+
+        // 恢復豌豆
+        for (auto it = peas.begin(); it != peas.end();) {
+            auto pea = *it;
+            pea->SetPlaying(true);
+            pea->SetLooping(true);
+            ++it;
+        }
+
+        // 恢復雪豆
+        for (auto it = snowpeas.begin(); it != snowpeas.end();) {
+            auto snowpea = *it;
+            snowpea->SetPlaying(true);
+            snowpea->SetLooping(true);
+            ++it;
+        }
+
+        // 恢復太陽
+        for (auto it = suns.begin(); it != suns.end();) {
+            auto sun = *it;
+            sun->SetPlaying(true);
+            sun->SetLooping(true);
+            ++it;
+        }
+        m_CurrentState = State::UPDATE;
+        m_Root.RemoveChild(m_Pausedpage);
+        paused = false;
+    }
+    else if (m_restart_button.MouseClickDetect()) {
+        clearall();
+        GameContext ctx{
+            m_Root, zombies, suns, peas, snowpeas, plants, storeplants, {}, grid_buttons,lawnmowers,
+            grid_buttons[1]->GetButtonPosition().x - grid_buttons[0]->GetButtonPosition().x,
+            grid_buttons[9]->GetButtonPosition().y - grid_buttons[0]->GetButtonPosition().y,
+            button_number
+        };
+        m_CurrentState = State::UPDATE;
+        SwitchToLevel(stage_to_enter,ctx);
+        m_Root.RemoveChild(m_Pausedpage);
+        m_Root.RemoveChild(m_Paused);
+        paused = false;
+    }
+
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
+        Util::Input::IfExit()) {
+        m_CurrentState = State::END;
+        }
     m_Root.Update();
 }
 

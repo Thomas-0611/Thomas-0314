@@ -61,7 +61,7 @@ void Potatomine::Update(GameContext& ctx) {
                 if (exploding_timer > 0) {
                     exploding_timer--;
                 } else {
-                    Settoexplore(ctx);  // 爆炸並造成傷害
+                    Explode(ctx);  // 爆炸並造成傷害
                 }
             }
         }
@@ -83,7 +83,7 @@ void Potatomine::Setreadymode() {
     ready = true;
 }
 
-void Potatomine::Settoexplore(GameContext& ctx) {
+void Potatomine::Explode(GameContext& ctx) {
     for (auto& zombie : ctx.zombies) {
         auto center = GetPosition();
         float w = ctx.grid_x;

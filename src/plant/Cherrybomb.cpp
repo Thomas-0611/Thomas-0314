@@ -18,6 +18,22 @@ Cherrybomb::Cherrybomb()
     SetAttackvalue(1500);
 }
 
+void Cherrybomb::Explode(GameContext& ctx) {
+    auto center = GetPosition();
+    float w = ctx.grid_x;
+    float h = ctx.grid_y;
+
+    for (auto& zombie : ctx.zombies) {
+        if (zombie->GetDead() || !zombie->Getontheground()) continue;
+        auto zpos = zombie->GetPosition();
+        if (std::abs(zpos.x - center.x) <= w * 1.5f && std::abs(zpos.y - center.y) <= h * 1.5f) {
+            zombie->Setlife(zombie->Getlife() - GetAttackvalue());
+            if (zombie->Getlife() <= 0) zombie->SetDead();
+        }
+    }
+}
+
+
 void Cherrybomb::Update(GameContext& ctx) {
     if (Getlife() > 0) {
         SetLooping(true);
@@ -26,22 +42,7 @@ void Cherrybomb::Update(GameContext& ctx) {
         int freq = GetAttackfreq();
         if (cur_freq >= freq) {
             //TODO:爆炸攻擊9宮格內的殭屍
-            auto center = GetPosition();
-            float w = ctx.grid_x;
-            float h = ctx.grid_y;
-
-            for (auto& zombie : ctx.zombies) {
-                if (zombie->GetDead()) continue;
-                if (!zombie->Getontheground()) continue;
-                auto zpos = zombie->GetPosition();
-                if (std::abs(zpos.x - center.x) <= w * 1.5f && std::abs(zpos.y - center.y) <= h * 1.5f) {
-                    zombie->Setlife(zombie->Getlife() - GetAttackvalue());
-                    if (zombie->Getlife() <= 0) {
-                        zombie->SetDead();
-                    }
-                }
-            }
-
+            Explode(ctx);
             Setlife(0); // 爆炸後自我銷毀
         }
         else {
