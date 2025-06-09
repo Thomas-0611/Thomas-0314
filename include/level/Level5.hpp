@@ -47,7 +47,7 @@ public:
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 670, 100, 3 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 670, 100, 4 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 820, 100, 1 });
-        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 820, 250, 5 });
+        /*spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 820, 250, 5 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1000, 100, 1 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1000, 100, 2 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1000, 100, 3 });
@@ -56,18 +56,18 @@ public:
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1120, 100, 2 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1120, 100, 3 });
         spawner.Spawn({ ZombieSpawner::Type::Regular,     2, 1120, 50, 4 });
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1120, 100, 5 });
+        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1120, 100, 5 });*/
         spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1220, 100, 1 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1220, 100, 2 });
         spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1220, 100, 3 });
-        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1270, 100, 3 });
+        //spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1270, 100, 3 });
         spawner.Spawn({ ZombieSpawner::Type::Regular,     2, 1220, 50, 5 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1370, 100, 1 });
         spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1370, 100, 2 });
-        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1420, 100, 2 });
-        spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1370, 100, 3 });
+        //spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1420, 100, 2 });
+        //spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1370, 100, 3 });
         spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1420, 100, 3 });
-        spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1370, 100, 4 });
+        //spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1370, 100, 4 });
         spawner.Spawn({ ZombieSpawner::Type::Conehead,     1, 1420, 100, 4 });
         spawner.Spawn({ ZombieSpawner::Type::Regular,     1, 1370, 100, 5 });
     }

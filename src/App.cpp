@@ -171,64 +171,53 @@ void App::Update() {
             Setworldfreq(Getworldfreq()+1);
         }
 
+    //放置植物
+    switch (choose) {
+        case ChoosePlant::PEASHOOTER:
+            PlacePlant<Peashooter>(100);
+            break;
+        case ChoosePlant::SUNFLOWER:
+            PlacePlant<Sunflower>(50);
+            break;
+        case ChoosePlant::WALLNUT:
+            PlacePlant<Wallnut>(50);
+            break;
+        case ChoosePlant::REPEATER:
+            PlacePlant<Repeater>(150);
+            break;
+        case ChoosePlant::SNOWPEASHOOTER:
+            PlacePlant<Snowpeashooter>(150);
+            break;
+        case ChoosePlant::CHERRYBOMB:
+            PlacePlant<Cherrybomb>(200);
+            break;
+        case ChoosePlant::POTATOMINE:
+            PlacePlant<Potatomine>(50);
+            break;
+        case ChoosePlant::CHOMPER:
+            PlacePlant<Chomper>(200);
+            break;
+    }
+    auto plant = std::make_shared<Sunflower>();
+    //選擇植物
+    ChoosePlant temp_choose = choose;
 
-        //放置植物
-        switch (choose) {
-            case ChoosePlant::PEASHOOTER:
-                PlacePlant<Peashooter>(100);
-                break;
-            case ChoosePlant::SUNFLOWER:
-                PlacePlant<Sunflower>(50);
-                break;
-            case ChoosePlant::WALLNUT:
-                PlacePlant<Wallnut>(50);
-                break;
-            case ChoosePlant::REPEATER:
-                PlacePlant<Repeater>(150);
-                break;
-            case ChoosePlant::SNOWPEASHOOTER:
-                PlacePlant<Snowpeashooter>(150);
-                break;
-            case ChoosePlant::CHERRYBOMB:
-                PlacePlant<Cherrybomb>(200);
-                break;
-            case ChoosePlant::POTATOMINE:
-                PlacePlant<Potatomine>(50);
-                break;
-            case ChoosePlant::CHOMPER:
-                PlacePlant<Chomper>(200);
-                break;
+    int max_index = std::min(stage_to_enter, 8); // 最多只處理前8個植物
+    bool clicked_same_button = false;
+
+    for (int i = 0; i < max_index; ++i) {
+        if (m_plant_buttons[i].MouseClickDetect()) {
+            if (Getsunnum() >= sun_cost[i]) {
+                choose = plant_types[i];
+                clicked_same_button = true;
+            }
         }
-        auto plant = std::make_shared<Sunflower>();
-        //選擇植物
-        ChoosePlant temp_choose = choose;
-        if (m_peashooters_button.MouseClickDetect() && Getsunnum()>=100) {
-            choose = ChoosePlant::PEASHOOTER;
-        }
-        if (m_sunflower_button.MouseClickDetect() && Getsunnum()>=50) {
-            choose = ChoosePlant::SUNFLOWER;
-        }
-        if (m_wallnut_button.MouseClickDetect() && Getsunnum()>=50) {
-            choose = ChoosePlant::WALLNUT;
-        }
-        if (m_repeater_button.MouseClickDetect() && Getsunnum()>=150) {
-            choose = ChoosePlant::REPEATER;
-        }
-        if (m_snowpeashooter_button.MouseClickDetect() && Getsunnum()>=150) {
-            choose = ChoosePlant::SNOWPEASHOOTER;
-        }
-        if (m_cherrybomb_button.MouseClickDetect() && Getsunnum()>=200) {
-            choose = ChoosePlant::CHERRYBOMB;
-        }
-        if (m_potatomine_button.MouseClickDetect() && Getsunnum()>=200) {
-            choose = ChoosePlant::POTATOMINE;
-        }
-        if (m_chomper_button.MouseClickDetect() && Getsunnum()>=200) {
-            choose = ChoosePlant::CHOMPER;
-        }
-        if(temp_choose == choose && (m_peashooters_button.MouseClickDetect() || m_sunflower_button.MouseClickDetect() || m_wallnut_button.MouseClickDetect() || m_repeater_button.MouseClickDetect() || m_snowpeashooter_button.MouseClickDetect())) {
-            choose = ChoosePlant::NONE;
-        }
+    }
+
+    // 若點擊了同一顆按鈕但沒更換植物，則取消選擇
+    if (temp_choose == choose && clicked_same_button) {
+        choose = ChoosePlant::NONE;
+    }
 
         GameContext ctx{
             m_Root, zombies, suns, peas, snowpeas, plants, storeplants, {}, grid_buttons,lawnmowers,
