@@ -9,15 +9,16 @@ include(FetchContent)
 set(FETCHCONTENT_QUIET FALSE)
 
 FetchContent_Declare(
-    ptsd
+        ptsd
 
-    URL         https://github.com/ntut-open-source-club/practical-tools-for-simple-design/archive/refs/tags/v0.2.zip
+        GIT_REPOSITORY  https://github.com/Tommy0313/practical-tools-for-simple-design.git
+        GIT_TAG         main  # 或你的目標分支/標籤/commit hash
 
-    # Or alternatively if you want to use a specific git commit instead of a release:
-    # GIT_REPOSITORY  https://github.com/ntut-open-source-club/practical-tools-for-simple-design.git
-    # GIT_TAG         <git_tag>
+        # Or alternatively if you want to use a specific git commit instead of a release:
+        # GIT_REPOSITORY  https://github.com/ntut-open-source-club/practical-tools-for-simple-design.git
+        # GIT_TAG         <git_tag>
 
-    SOURCE_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/PTSD
+        SOURCE_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/PTSD
 )
 
 FetchContent_MakeAvailable(ptsd)
