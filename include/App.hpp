@@ -167,11 +167,9 @@ public:
     void SwitchToLevel(int levelId, GameContext& ctx) {
         if (level.Getcurrentlevel()) {
             level.Getcurrentlevel()->RemoveStage(m_Root);
-            printf("fuck\n");
             level.Setlevlenull();
         }
         level.LoadLevel(levelId, ctx);
-        printf("in\n");
         // lawnmower = std::make_shared<Lawnmower>();
         // m_Root.AddChild(lawnmower);
         m_stagebackground->SetZIndex(-100);
@@ -261,14 +259,6 @@ private:
         ChoosePlant::POTATOMINE
     };
 
-    Button m_peashooters_button = Button(-565,-509,221,293);
-    Button m_sunflower_button = Button(-508,-452,221,293);
-    Button m_wallnut_button = Button(-451,-395,221,293);
-    Button m_repeater_button = Button(-394,-338,221,293);
-    Button m_snowpeashooter_button = Button(-337,-281,221,293);
-    Button m_chomper_button = Button(-280,-224,221,293);
-    Button m_cherrybomb_button = Button(-223,-167,221,293);
-    Button m_potatomine_button = Button(-166,-110,221,293);
     Button m_start_button = Button(28,340,79,155);
     Button m_placeable_button = Button(-435,285,-270,225);
 

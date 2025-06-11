@@ -26,7 +26,7 @@ struct GameContext {
     std::vector<std::shared_ptr<Pea>>& peas;
     std::vector<std::shared_ptr<Snowpea>>& snowpeas;
     std::vector<std::shared_ptr<Plant>>& plants;
-    std::vector<std::shared_ptr<BackgroundImage>> storeplants;
+    std::vector<std::shared_ptr<BackgroundImage>>& storeplants;
     std::vector<Plant*> to_remove_plants; // 延遲移除名單
     std::vector<std::shared_ptr<Button>>& grid_buttons;
     std::vector<std::shared_ptr<Lawnmower>>& lawnmowers;

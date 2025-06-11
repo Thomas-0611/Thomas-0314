@@ -1,6 +1,5 @@
 #include "App.hpp"
 
-#include "Util/Image.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
 #include "Util/Logger.hpp"
@@ -15,10 +14,6 @@
 #include "plant/Snowpeashooter.hpp"
 #include "plant/Sunflower.hpp"
 #include "plant/Wallnut.hpp"
-#include "zombie/Coneheadzombie.hpp"
-#include "zombie/Bucketheadzombie.hpp"
-#include "zombie/Flagzombie.hpp"
-#include "zombie/Polevaultingzombie.hpp"
 
 
 void App::Start() {
