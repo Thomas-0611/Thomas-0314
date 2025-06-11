@@ -53,6 +53,9 @@ public:
     void Setsunnum(int value) {
         sun_num += value;
     }
+    void Resetsunnum() {
+        sun_num = 750;
+    }
     int Getsunnum() {
         return sun_num;
     }

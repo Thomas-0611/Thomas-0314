@@ -16,7 +16,7 @@
 #include "Level7.hpp"
 #include "Level8.hpp"
 #include "Level9.hpp"
-// #include "Level2.hpp"  // 新增新關卡
+// 新增新關卡
 
 class LevelManager {
 public:

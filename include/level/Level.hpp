@@ -6,7 +6,6 @@
 #define LEVEL_HPP
 
 #include "ZombieSpawner.hpp"
-#include "Lawnmower.hpp"
 
 class Level {
 public:

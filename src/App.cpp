@@ -513,6 +513,7 @@ void App::Pause() {
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
         }
+    Resetsunnum();
     m_Root.Update();
 }
 

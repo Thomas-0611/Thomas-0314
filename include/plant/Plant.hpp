@@ -7,7 +7,6 @@
 
 #pragma once
 #include "AnimatedCharacter.hpp"
-#include "Util/Renderer.hpp"
 #include "zombie/Zombie.hpp"
 #include "GameContext.hpp"
 

@@ -9,7 +9,6 @@
 #include "plant/Plant.hpp"
 #include "plant/Pea.hpp"
 #include <vector>
-// #include "Util/Renderer.hpp"
 
 
 class Peashooter : public Plant {

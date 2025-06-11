@@ -41,7 +41,6 @@ public:
             ctx.storeplants.push_back(storeplant);
             ctx.m_Root.AddChild(storeplant);
         }
-        // shovel = std::make_shared<Shovel>();
 
         spawner.Spawn({ ZombieSpawner::Type::Regular,     3, 520, 100, 3 });
     }
@@ -50,7 +49,6 @@ public:
         // 檢查 zombies 中是否沒有第一階段的殭屍
         ZombieSpawner spawner(ctx.m_Root, ctx.zombies);
         if (!finalWaveSpawned && AllZombiesDead(ctx.zombies)) {
-            // spawner.Spawn({ ZombieSpawner::Type::Buckethead, 1, 520, 0, 3 });
             spawner.Spawn({ ZombieSpawner::Type::Flag,1, 520, 0, 3 });
             spawner.Spawn({ZombieSpawner::Type::Regular,1,570,0,3});
             finalWaveSpawned = true;
@@ -75,7 +73,6 @@ public:
 private:
     bool finalWaveSpawned = false;
     std::shared_ptr<Lawnmower> lawnmower;
-    // std::shared_ptr<Shovel> shovel;
 };
 
 #endif //LEVEL1_HPP
