@@ -61,10 +61,8 @@ void Lawnmower::Update(GameContext &ctx) {
                 for (auto& plant : ctx.plants) {
                     if (plant->GetPosition().y < -(cellHeight*(m_index-3)-cellHeight/2) && plant->GetPosition().y > -(cellHeight*(m_index-3)+cellHeight/2)) {
                         // 取得植物位置
-                        printf("fuck\n");
                         glm::vec2 plantPos = plant->GetPosition();
                         if (plantPos.x <= GetPosition().x) {
-                            printf("find\n");
                             // 找出該植物對應的 grid button（用最靠近的匹配）
                             for (auto& button : ctx.grid_buttons) {
                                 glm::vec2 btnPos = button->GetButtonPosition();
