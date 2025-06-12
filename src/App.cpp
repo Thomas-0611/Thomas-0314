@@ -379,6 +379,7 @@ void App::Update() {
 
             // TODO: 把所有植物、豌豆、背景erase掉
             clearall();
+            m_Root.RemoveChild(m_Paused);
         }
         else {
             for (auto zombie : zombies) {
@@ -517,13 +518,13 @@ void App::Pause() {
         SwitchToLevel(stage_to_enter,ctx);
         m_Root.RemoveChild(m_Pausedpage);
         paused = false;
+        Resetsunnum();
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
         }
-    Resetsunnum();
     m_Root.Update();
 }
 

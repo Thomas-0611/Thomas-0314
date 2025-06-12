@@ -54,7 +54,7 @@ public:
         sun_num += value;
     }
     void Resetsunnum() {
-        sun_num = 750;
+        sun_num = 200;
     }
     int Getsunnum() {
         return sun_num;
@@ -161,7 +161,7 @@ public:
             m_Root.RemoveChild(lm);
         }
         m_store_suns.clear();
-        Setsunnum(50);
+        Resetsunnum();
 
         //移除鏟子
         m_Root.RemoveChild(shovel);
@@ -275,7 +275,7 @@ private:
     Button m_continue_button = Button(-232,-10,-171,-129);
     Button m_restart_button = Button(-9,216,-171,-129);
     Button m_paused_button = Button(520,635,190,300);
-    int sun_num = 750;
+    int sun_num = 200;
     bool choosing_r = false;
     bool choosing_l = false;
     int move_bound = 0;
