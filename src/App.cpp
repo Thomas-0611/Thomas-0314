@@ -380,6 +380,17 @@ void App::Update() {
             // TODO: 把所有植物、豌豆、背景erase掉
             clearall();
         }
+        else {
+            for (auto zombie : zombies) {
+                auto xy = zombie->GetPosition();
+                if(xy.x < -625) {
+                    m_CurrentState = State::CHOOSE;
+                    clearall();
+                    m_Root.RemoveChild(m_Paused);
+                    break;
+                }
+            }
+        }
     }
     /*
      * Do not touch the code below as they serve the purpose for
@@ -505,7 +516,6 @@ void App::Pause() {
         m_CurrentState = State::UPDATE;
         SwitchToLevel(stage_to_enter,ctx);
         m_Root.RemoveChild(m_Pausedpage);
-        m_Root.RemoveChild(m_Paused);
         paused = false;
     }
 
