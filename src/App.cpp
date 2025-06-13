@@ -136,6 +136,18 @@ void App::Choose() {
             printf("Stage%d is locked! Clear previous stages first.\n", stage_to_enter);
         }
     }
+
+    // 作弊模式的開關為C
+    if (Util::Input::IsKeyUp(Util::Keycode::C)) {
+        cheatmode = !cheatmode;
+        if (cheatmode) {
+            printf("Cheat mode on\n");
+        }
+        else {
+            printf("Cheat mode off\n");
+        }
+    }
+
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
@@ -191,7 +203,7 @@ void App::Update() {
             PlacePlant<Cherrybomb>(200);
             break;
         case ChoosePlant::POTATOMINE:
-            PlacePlant<Potatomine>(50);
+            PlacePlant<Potatomine>(125);
             break;
         case ChoosePlant::CHOMPER:
             PlacePlant<Chomper>(200);
@@ -356,9 +368,9 @@ void App::Update() {
                 printf("Cheat mode off\n");
             }
         }
-        // 作弊模式下太陽數量始終為750
+        // 作弊模式下太陽數量始終為200
         if (cheatmode) {
-            int addnum = 750 - Getsunnum();
+            int addnum = 200 - Getsunnum();
             Setsunnum(addnum);
         }
 

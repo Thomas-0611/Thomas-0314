@@ -248,7 +248,7 @@ private:
         Button(-166,-110,221,293)  // POTATOMINE
     };
 
-    std::vector<int> sun_cost = {100, 50, 50, 150, 150, 200, 200, 200};
+    std::vector<int> sun_cost = {100, 50, 50, 150, 150, 200, 200, 125};
 
     // 植物對應的選擇枚舉（需與 ChoosePlant Enum 對應順序一致）
     std::vector<ChoosePlant> plant_types = {
