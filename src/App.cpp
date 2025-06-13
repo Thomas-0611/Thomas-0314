@@ -53,6 +53,10 @@ void App::Start() {
 
         m_CurrentState = State::CHOOSE;
     }
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
+        Util::Input::IfExit()) {
+        m_CurrentState = State::END;
+        }
     m_Root.Update();
 
 }

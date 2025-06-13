@@ -26,13 +26,7 @@ void Snowpeashooter::Update(GameContext& ctx) {
         int freq = GetAttackfreq();
         if (cur_freq >= freq) {
             //TODO:射出豌豆
-            std::vector<std::string> peaImages;
-            peaImages.emplace_back(RESOURCE_DIR"/Day/Plant/Snowpea/snowpea.png");
-
-            auto pea = std::make_shared<Snowpea>(peaImages, GetPosition()[0], GetPosition()[1]);
-            ctx.snowpeas.push_back(pea);
-            ctx.m_Root.AddChild(pea);
-            // printf("shoot\n");
+            Shoot(ctx);
             Setcurfreq(0);
         }
         else {
@@ -42,4 +36,13 @@ void Snowpeashooter::Update(GameContext& ctx) {
     else {
         SetDead();
     }
+}
+
+void Snowpeashooter::Shoot(GameContext& ctx) {
+    std::vector<std::string> peaImages;
+    peaImages.emplace_back(RESOURCE_DIR"/Day/Plant/Snowpea/snowpea.png");
+
+    auto pea = std::make_shared<Snowpea>(peaImages, GetPosition()[0], GetPosition()[1]);
+    ctx.snowpeas.push_back(pea);
+    ctx.m_Root.AddChild(pea);
 }

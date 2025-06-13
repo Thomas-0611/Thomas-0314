@@ -26,19 +26,7 @@ void Repeater::Update(GameContext& ctx) {
         int freq = GetAttackfreq();
         if (cur_freq >= freq) {
             //TODO:射出豌豆
-            std::vector<std::string> peaImages;
-            peaImages.emplace_back(RESOURCE_DIR"/Day/Plant/pea/pea.png");
-
-            auto pea = std::make_shared<Pea>(peaImages, GetPosition()[0], GetPosition()[1]);
-            ctx.peas.push_back(pea);
-            ctx.m_Root.AddChild(pea);
-            Addnum();
-            if (Getnum() == 1) {
-                Setcurfreq(cur_freq-10);
-            }
-            else {
-                Setcurfreq(0);
-            }
+            Shoot(ctx);
         }
         else {
             Setcurfreq(cur_freq+1);
@@ -46,5 +34,21 @@ void Repeater::Update(GameContext& ctx) {
     }
     else {
         SetDead();
+    }
+}
+
+void Repeater::Shoot(GameContext& ctx) {
+    std::vector<std::string> peaImages;
+    peaImages.emplace_back(RESOURCE_DIR"/Day/Plant/pea/pea.png");
+
+    auto pea = std::make_shared<Pea>(peaImages, GetPosition()[0], GetPosition()[1]);
+    ctx.peas.push_back(pea);
+    ctx.m_Root.AddChild(pea);
+
+    Addnum(); // 雙發邏輯
+    if (Getnum() == 1) {
+        Setcurfreq(cur_freq - 10);
+    } else {
+        Setcurfreq(0);
     }
 }

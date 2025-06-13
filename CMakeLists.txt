@@ -93,6 +93,7 @@ add_executable(${PROJECT_NAME}
         include/Shovel.hpp
         src/Shovel.cpp
         include/plant/IExplosive.hpp
+        include/plant/IShooter.hpp
 )
 
 if(MSVC)

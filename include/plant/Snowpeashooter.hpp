@@ -10,14 +10,13 @@
 #include "plant/Plant.hpp"
 #include "plant/Snowpea.hpp"
 #include <vector>
+#include "plant/IShooter.hpp"
 
-
-class Snowpeashooter : public Plant {
+class Snowpeashooter : public Plant, public IShooter{
 public:
     Snowpeashooter();
-    // Util::Renderer& Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Zombie>>& zombies) override;
-    // void Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Zombie>>& zombies) override;
     void Update(GameContext& ctx) override;
+    void Shoot(GameContext &ctx) override;
     void Setcurfreq(int value) {
         cur_freq = value;
     }

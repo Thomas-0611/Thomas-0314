@@ -9,14 +9,14 @@
 #include "plant/Plant.hpp"
 #include "plant/Pea.hpp"
 #include <vector>
+#include "plant/IShooter.hpp"
 
 
-class Repeater : public Plant {
+class Repeater : public Plant, public IShooter {
 public:
     Repeater();
-    // Util::Renderer& Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Zombie>>& zombies) override;
-    // void Update(Util::Renderer& m_Root,std::vector<std::shared_ptr<Zombie>>& zombies) override;
     void Update(GameContext& ctx) override;
+    void Shoot(GameContext &ctx) override;
     void Setcurfreq(int value) {
         cur_freq = value;
     }
